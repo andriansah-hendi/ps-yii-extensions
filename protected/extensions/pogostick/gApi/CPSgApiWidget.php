@@ -60,7 +60,7 @@ class CPSgApiWidget extends CPogostickWidget
 
 		foreach ( $this->m_arApisToLoad as $_sApi => $_sVersion )
 		{
-			$_sCode .= "google.load(\"{$_sApi}\", \"{$_sVersion}\");";
+//			$_sCode .= "google.load(\"{$_sApi}\", \"{$_sVersion}\");";
 		}
 
 		return( $_sCode );
@@ -77,7 +77,14 @@ class CPSgApiWidget extends CPogostickWidget
 		$_oCS = parent::registerClientScripts();
 
 		//	Register scripts necessary
-		$_oCS->registerScriptFile( "http://www.google.com/jsapi?key={$this->m_sApiKey}", CClientScript::POS_HEAD );
+//		$_oCS->registerScriptFile( "http://www.google.com/jsapi?key={$this->m_sApiKey}", CClientScript::POS_HEAD );
+
+		$_oCS->registerScriptFile( "http://maps.google.com/maps?file=api&v=2&key={$this->m_sApiKey}&sensor=false", CClientScript::POS_HEAD );
+//		$_oCS->registerScriptFile( 'http://gmaps-utility-library.googlecode.com/svn/trunk/markermanager/src/markermanager.js', CClientScript::POS_HEAD );
+		$_oCS->registerScriptFile( 'http://gmaps-utility-library.googlecode.com/svn/trunk/markermanager/1.1/src/markermanager.js', CClientScript::POS_HEAD );
+		$_oCS->registerScriptFile( 'http://gmaps-utility-library.googlecode.com/svn/trunk/progressbarcontrol/1.0/src/progressbarcontrol.js', CClientScript::POS_HEAD );
+
 		$_oCS->registerScript( "Yii.{$this->m_sClassName}.#.{$this->m_sId}", $this->generateJavascript(), CClientScript::POS_HEAD );
+		$_oCS->registerScript( "Yii.{$this->m_sClassName}.#.{$this->m_sId}.onLoad", "initialize();", CClientScript::POS_READY );
 	}
 }
