@@ -207,5 +207,4 @@ CODE;
 		return( str_replace( "'pagerId':'{$_sPagerId}'", "'pager': jQuery('#{$_sPagerId}')", parent::makeOptions() ) );
 	}
 
-
 }
