@@ -308,26 +308,29 @@ class CPogostickWidget extends CInputWidget
  	{
 		if ( ! empty( $arValidOptions ) && $this->m_bCheckOptions )
 		{
-         foreach ( $arOptions as $_sKey => $_oValue )
-         {
-			if ( ! array_key_exists( $_sKey, $arValidOptions ) )
-				throw new CException( Yii::t( $this->m_sClassName, '"{x}" is not a valid option', array( '{x}' => $_sKey ) ) );
+			foreach ( $arOptions as $_sKey => $_oValue )
+			{
+				if ( ! array_key_exists( $_sKey, $arValidOptions ) )
+					throw new CException( Yii::t( $this->m_sClassName, '"{x}" is not a valid option', array( '{x}' => $_sKey ) ) );
 
-            $_sType = gettype( $_oValue );
+				$_sType = gettype( $_oValue );
 
-			if ( ( ! is_array( $arValidOptions[ $_sKey ][ 'type' ] ) && ( $_sType != $arValidOptions[ $_sKey ][ 'type' ] ) ) || ( is_array( $arValidOptions[ $_sKey ][ 'type' ] ) && ! in_array( $_sType, $arValidOptions[ $_sKey ][ 'type' ] ) ) )
-				throw new CException( Yii::t( $this->m_sClassName, '"{x}" must be of type "{y}"', array( '{x}' => $_sKey, '{y}' => ( is_array( $arValidOptions[ $_sKey ][ 'type' ] ) ) ? implode( ', ', $arValidOptions[ $_sKey ][ 'type' ] ) : $arValidOptions[ $_sKey ][ 'type' ] ) ) );
+				if ( ( ! is_array( $arValidOptions[ $_sKey ][ 'type' ] ) && ( $_sType != $arValidOptions[ $_sKey ][ 'type' ] ) ) || ( is_array( $arValidOptions[ $_sKey ][ 'type' ] ) && ! in_array( $_sType, $arValidOptions[ $_sKey ][ 'type' ] ) ) )
+					throw new CException( Yii::t( $this->m_sClassName, '"{x}" must be of type "{y}"', array( '{x}' => $_sKey, '{y}' => ( is_array( $arValidOptions[ $_sKey ][ 'type' ] ) ) ? implode( ', ', $arValidOptions[ $_sKey ][ 'type' ] ) : $arValidOptions[ $_sKey ][ 'type' ] ) ) );
 
-            if ( array_key_exists( 'valid', $arValidOptions[ $_sKey ] ) )
-            {
-            	if ( ! in_array( $_oValue, $arValidOptions[ $_sKey ][ 'valid' ] ) )
-            		throw new CException( Yii::t( $this->m_sClassName, '"{x}" must be one of: "{y}"', array( '{x}' => $_sKey, '{y}' => implode( ', ', $arValidOptions[ $_sKey ][ 'valid' ] ) ) ) );
-            }
+				if ( array_key_exists( 'valid', $arValidOptions[ $_sKey ] ) )
+				{
+					if ( ! in_array( $_oValue, $arValidOptions[ $_sKey ][ 'valid' ] ) )
+						throw new CException( Yii::t( $this->m_sClassName, '"{x}" must be one of: "{y}"', array( '{x}' => $_sKey, '{y}' => implode( ', ', $arValidOptions[ $_sKey ][ 'valid' ] ) ) ) );
+				}
 
-            if ( ( $_sType == 'array' ) && array_key_exists( 'elements', $arValidOptions[ $_sKey ] ) )
-				$this->checkOptions( $_oValue, $arValidOptions[ $_sKey ][ 'elements' ] );
-		 }
-	  }
+				if ( ( $_sType == 'array' ) && array_key_exists( 'elements', $arValidOptions[ $_sKey ] ) )
+					$this->checkOptions( $_oValue, $arValidOptions[ $_sKey ][ 'elements' ] );
+			}
+
+			//	Now validate them...
+			$this->validateOptions();
+		}
    }
 
    /**
@@ -397,5 +400,22 @@ class CPogostickWidget extends CInputWidget
 	*/
 	protected function generateHtml( $arOptions = null )
 	{
+	}
+
+	/**
+	* Validates that required options have been specified...
+	*
+	*/
+	protected function validateOptions()
+	{
+		foreach ( $this->m_arOptions as $_sKey => $_oValue )
+		{
+			//	Is it a valid option?
+			if ( ! array_key_exists( $_sKey, $arValidOptions ) )
+				throw new CException( Yii::t( $this->m_sClassName, '"{x}" is not a valid option', array( '{x}' => $_sKey ) ) );
+
+			if ( isset( $this->m_arValidOptions[ $_sKey ][ 'required' ] ) && $this->m_arValidOptions[ $_sKey ][ 'required' ] && ( ! $this->arOptions[ $_sKey ] || empty( $this->arOptions[ $_sKey ] ) ) )
+				throw new CException( Yii::t( $this->m_sClassName, '"{x}" is a required option', array( '{x}' => $_sKey ) ) );
+		}
 	}
 }
