@@ -18,11 +18,25 @@
  * @package applications.extensions.pogostick
  * @since 1.0.3
  */
-class CPogostickWidget extends CInputWidget
+abstract class CPogostickWidget extends CInputWidget
 {
 	//********************************************************************************
 	//* Member Variables
 	//********************************************************************************
+
+	/**
+	* The generated HTML
+	*
+	* @var mixed
+	*/
+	protected $m_sHtml = '';
+
+	/**
+	* The generated script
+	*
+	* @var string
+	*/
+	protected $m_sScript = '';
 
 	/**
 	* The base url of the source library, if one is used
@@ -151,6 +165,18 @@ class CPogostickWidget extends CInputWidget
 	//********************************************************************************
 	//* Property Accessors
 	//********************************************************************************
+
+	//	Read only
+
+	/**
+	* Returns the generated Html
+	*/
+	public function getHtml() { return( $this->m_sHtml ); }
+
+	/**
+	* Returns the generated javascript
+	*/
+	public function getScript() { return( $this->m_sScript ); }
 
 	/**
 	* Get the BaseUrl property
@@ -365,7 +391,12 @@ class CPogostickWidget extends CInputWidget
 		$_sEncodedOptions = CJavaScript::encode( array_merge( $_arOptions, $this->m_arOptions ) );
 
 		foreach ( $this->m_arCallbacks as $_sKey => $_oValue )
-			$_sEncodedOptions = str_replace( "'cb_{$_sKey}':'{$_sKey}'", "'{$_sKey}': {$_oValue}", $_sEncodedOptions );
+		{
+			if ( 0 == strncasecmp( $_oValue, 'function(', 9 ) )
+				$_sEncodedOptions = str_replace( "'cb_{$_sKey}':'{$_sKey}'", "{$_sKey}:{$_oValue}", $_sEncodedOptions );
+			else
+				$_sEncodedOptions = str_replace( "'cb_{$_sKey}':'{$_sKey}'", "{$_sKey}:'{$_oValue}'", $_sEncodedOptions );
+		}
 
 		return( $_sEncodedOptions );
 	}
@@ -389,18 +420,14 @@ class CPogostickWidget extends CInputWidget
 	*
 	* @return string
 	*/
-	protected function generateJavascript( $arOptions = null )
-	{
-	}
+	abstract protected function generateJavascript();
 
 	/**
 	* Generates the javascript code for the widget
 	*
 	* @return string
 	*/
-	protected function generateHtml( $arOptions = null )
-	{
-	}
+	abstract protected function generateHtml();
 
 	/**
 	* Validates that required options have been specified...

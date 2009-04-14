@@ -31,7 +31,6 @@ class CPSgMapsWidget extends CPSgApiWidget
 			//	Method Options
 			'mapCenter' => array( 'type' => 'array' ),
 			'mapType' => array( 'type' => 'string' ),
-
 		);
 	}
 

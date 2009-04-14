@@ -81,6 +81,10 @@ class CPSjqGridWidget extends CPogostickWidget
 			'sortdescimg' => array( 'type' => 'string' ),
 			'sortname' => array( 'type' => 'string' ),
 			'sortorder' => array( 'type' => 'string' ),
+			'subGrid' => array( 'type' => 'boolean' ),
+			'subGridModel' => array( 'type' => 'array' ),
+			'subGridType' => array( 'type' => 'string' ),
+			'subGridUrl' => array( 'type' => 'string' ),
 			'theme' => array( 'type' => 'string', 'valid' => array( 'basic', 'coffee', 'green', 'sand', 'steel' ) ),
 			'toolbar' => array( 'type' => 'array' ),
 			'treeGrid' => array( 'type' => 'boolean' ),
@@ -106,6 +110,9 @@ class CPSjqGridWidget extends CPogostickWidget
 			'onSelectAll',
 			'onSelectRow',
 			'onSortCol',
+			'subGridRowExpanded',
+			'subGridRowCollapsed',
+			'subGridType',
 		);
 
 		parent::__construct( $arOptions );
@@ -167,15 +174,15 @@ class CPSjqGridWidget extends CPogostickWidget
 	*/
 	protected function generateJavascript()
 	{
-		$_sScript = parent::generateJavascript();
+		$this->m_sScript = parent::generateJavascript();
 
 		$_arOptions = $this->makeOptions();
 
-		$_sScript .=<<<CODE
+		$this->m_sScript .=<<<CODE
 jQuery("#{$this->m_sId}").jqGrid( {$_arOptions} );
 CODE;
 
-		return( $_sScript );
+		return( $this->m_sScript );
 	}
 
 	/**

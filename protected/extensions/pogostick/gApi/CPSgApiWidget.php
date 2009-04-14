@@ -56,20 +56,17 @@ class CPSgApiWidget extends CPogostickWidget
 
 	protected function generateJavascript()
 	{
-		$_sCode = parent::generateJavascript();
-
 		foreach ( $this->m_arApisToLoad as $_sApi => $_sVersion )
 		{
-//			$_sCode .= "google.load(\"{$_sApi}\", \"{$_sVersion}\");";
+//			$this->m_sScript .= "google.load(\"{$_sApi}\", \"{$_sVersion}\");";
 		}
 
-		return( $_sCode );
+		return( $this->m_sScript );
 	}
 
 	protected function generateHtml()
 	{
-		$_sHtml = parent::generateHtml();
-		return( $_sHtml );
+		return( null );
 	}
 
 	protected function registerClientScripts()
@@ -80,7 +77,8 @@ class CPSgApiWidget extends CPogostickWidget
 		$_oCS->registerScriptFile( "http://www.google.com/jsapi?key={$this->m_sApiKey}", CClientScript::POS_HEAD );
 		$_oCS->registerScriptFile( "http://maps.google.com/maps?file=api&v=2&key={$this->m_sApiKey}&sensor=false", CClientScript::POS_HEAD );
 		$_oCS->registerScriptFile( 'http://gmaps-utility-library.googlecode.com/svn/trunk/markermanager/1.1/src/markermanager.js', CClientScript::POS_HEAD );
-		$_oCS->registerScriptFile( 'http://gmaps-utility-library.googlecode.com/svn/trunk/tabbedmaxcontent/1.0/src/tabbedmaxcontent.js', CClientScript::POS_HEAD );
+//		$_oCS->registerScriptFile( 'http://gmaps-utility-library.googlecode.com/svn/trunk/tabbedmaxcontent/1.0/src/tabbedmaxcontent.js', CClientScript::POS_HEAD );
+		$_oCS->registerScriptFile( 'http://gmaps-utility-library.googlecode.com/svn/trunk/extinfowindow/release/src/extinfowindow.js', CClientScript::POS_HEAD );
 
 		$_oCS->registerScript( "Yii.{$this->m_sClassName}.#.{$this->m_sId}", $this->generateJavascript(), CClientScript::POS_HEAD );
 		$_oCS->registerScript( "Yii.{$this->m_sClassName}.#.{$this->m_sId}.onLoad", "initialize();", CClientScript::POS_READY );
