@@ -174,7 +174,7 @@ class CPSjqGridWidget extends CPogostickWidget
 	*/
 	protected function generateJavascript()
 	{
-		$this->m_sScript = parent::generateJavascript();
+		$this->m_sScript = '';
 
 		$_arOptions = $this->makeOptions();
 
@@ -192,7 +192,7 @@ CODE;
 	*/
 	protected function generateHtml()
 	{
-		$_sHtml = parent::generateHtml();
+		$_sHtml = '';
 		$_sPagerId = $this->getOption( 'pagerId' );
 
 		$_sHtml .=<<<CODE
