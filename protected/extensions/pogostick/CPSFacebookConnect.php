@@ -60,6 +60,11 @@ JSCRIPT;
 		return( $_sOut );
   	}
 
+  	protected function generateHtml()
+  	{
+  		return( '' );
+	}
+
 	/**
 	* Register the necessary Facebook Connect scripts...
 	*
