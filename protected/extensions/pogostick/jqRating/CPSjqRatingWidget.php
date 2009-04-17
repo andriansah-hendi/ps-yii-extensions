@@ -37,7 +37,6 @@ class CPSjqRatingWidget extends CPogostickWidget
 	protected $m_bHalf = false;
 	protected $m_iSplit = 1;
 	protected $m_arHoverTips = array();
-	protected $m_sUpdateElement;
 	protected $m_bReturnString = false;
 	protected $m_sHtml = '';
 	protected $m_sScript = '';
@@ -63,8 +62,6 @@ class CPSjqRatingWidget extends CPogostickWidget
 	public function setSplit( $sValue ) { $this->m_iSplit = $sValue; }
 	public function getHoverTips() { return( $this->m_arHoverTips ); }
 	public function setHoverTips( $sValue ) { $this->m_arHoverTips = $sValue; }
-	public function getUpdateElement() { return( $this->m_sUpdateElement ); }
-	public function setUpdateElement( $sValue ) { $this->m_sUpdateElement = $sValue; }
 	public function getReturnString() { return( $this->m_bReturnString ); }
 	public function setReturnString( $sValue ) { $this->m_bReturnString = $sValue; }
 	public function getAjaxCallback() { return( $this->m_sAjaxCallback ); }
@@ -87,8 +84,11 @@ class CPSjqRatingWidget extends CPogostickWidget
 	public function __construct( $arOptions = null )
 	{
 		$this->m_arValidOptions = array(
+			'cancel' => array( 'type' => 'string' ),
+			'cancelValue' => array( 'type' => 'string' ),
 			'readOnly' => array( 'type' => 'boolean' ),
 			'required' => array( 'type' => 'boolean' ),
+			'resetAll' => array( 'type' => 'boolean' ),
 		);
 
 		$this->m_arValidCallbacks = array(
@@ -97,6 +97,10 @@ class CPSjqRatingWidget extends CPogostickWidget
 			'blur',
 		);
 
+		//	Set our view name...
+		$this->viewName = __CLASS__ . 'View';
+
+		//	Call daddy...
 		parent::__construct( $arOptions );
 	}
 
@@ -108,12 +112,12 @@ class CPSjqRatingWidget extends CPogostickWidget
 	{
 		//	Validate baseUrl
 		if ( empty( $this->m_sBaseUrl ) )
-			throw new CHttpException( 500, 'CPSjqRatingWidget: baseUrl is required.');
+			throw new CHttpException( 500, $this->className . ': baseUrl is required.');
 
 		//	Register the scripts/css
 		$this->registerClientScripts();
 
-		$this->m_sHtml = $this->render( 'CPSjqRatingWidgetView',
+		$this->m_sHtml = $this->render( $this->viewName,
 				array( "options" => $this->m_arOptions ),
 				$this->m_bReturnString
 		);
@@ -139,7 +143,7 @@ class CPSjqRatingWidget extends CPogostickWidget
 		$_sScript = $this->generateJavascript();
 
 		if ( ! $this->m_bSupressScripts && ! $this->m_bReturnString )
-				$_oCS->registerScript( 'Yii.' . $this->m_sClassName . '#' . $this->m_sId, $_sScript, CClientScript::POS_READY );
+				$_oCS->registerScript( 'PS.' . $this->m_sClassName . '#' . $this->m_sId, $_sScript, CClientScript::POS_READY );
 
 		//	Register css files...
 		$_oCS->registerCssFile( "{$this->m_sBaseUrl}/jquery.rating.css", 'screen' );
@@ -156,26 +160,18 @@ class CPSjqRatingWidget extends CPogostickWidget
 	*/
 	protected function generateJavascript()
 	{
-		//	Update an element with value if required...
-		if ( ! isset( $this->m_arCallbacks[ 'callback' ] ) && ( $this->m_sUpdateElement != null || ! empty( $this->m_sAjaxCallback ) ) )
+		//	No callback set? then make the ajax callback
+		if ( ! isset( $this->m_arCallbacks[ 'callback' ] ) && ! empty( $this->m_sAjaxCallback ) )
 		{
-			if ( $this->m_sUpdateElement != null )
-				$this->m_arCallbacks[ 'callback' ] = 'function(value,link){document.getElementById(\''.$this->m_sUpdateElement.'\').value=value}';
-			else if ( ! empty( $this->m_sAjaxCallback ) )
-			{
-				$_arTemp = array(
-					'type' => 'GET',
-					'url' => Yii::app()->createUrl( $this->m_sAjaxCallback ),
-					'dataType' => 'html'
-				);
+			$_arTemp = array(
+				'type' => 'GET',
+				'url' => Yii::app()->createUrl( $this->m_sAjaxCallback ),
+				'dataType' => 'html'
+			);
 
-				$_sCBBody = 'function(value,link){var arTemp = ' . CJavaScript::encode( $_arTemp ) . '; arTemp[\'data\'] = \'value=\'+value+\'&link=\'+link; $.ajax(arTemp);';
-				if ( $this->m_sUpdateElement )
-					$_sCBBody .= " document.getElementById('{$this->m_sUpdateElement}').value=value;";
-				$_sCBBody .= '}';
+			$_sCBBody = 'function(value,link){var arTemp = ' . CJavaScript::encode( $_arTemp ) . '; arTemp[\'data\'] = \'value=\'+value+\'&link=\'+link; $.ajax(arTemp);}';
 
-				$this->m_arCallbacks[ 'callback' ] = $_sCBBody;
-			}
+			$this->m_arCallbacks[ 'callback' ] = $_sCBBody;
 		}
 
 		$_arOptions = $this->makeOptions();
@@ -229,4 +225,82 @@ class CPSjqRatingWidget extends CPogostickWidget
 
 		return( $_sHtml );
 	}
- }
+
+ 	/**
+	* Convenience function to create a star rating widget
+	*
+	* Available options:
+	*
+	* suppressScripts	boolean		If true, scripts will be stored in the member variable 'scripts' and not output
+	* returnString		boolean		If true, the output of this widget will be stored in a string and not echo'd. It is available through the member variable 'html'
+	* baseUrl			string		The location of the jqRating installation
+	* id				string		The HTML id of the widget. Defaults to null
+	* name				string		The HTML name of the widget. Defaults to rating{x}, x is incremented with each use.
+	* starClass			string		The HTML class name of the widget's output
+	* split				integer		The number of times to split each star. Allows for 1/2 and 1/4 ratings, etc. Default 0
+	* starCount			integer		The number of stars to display. Default 5
+	* selectValue		integer		The value to mark as 'preselected' when displaying
+	* readOnly			boolean		Makes the widget read-only, no input allowed.
+	* required			boolean		Disables the 'cancel' button so user can only select one of the specified values
+	* cancel			string		The tooltip text for the cancel button, defaults to 'Cancel Rating'
+	* cancelValue		string		The value assigned to the widget when the cancel button is selected
+	* ajaxCallback		function	The URL to call when a star is clicked. This URL is called via AJAX. Will be overriden by a value in 'callback' below...
+	*
+	* Available Callbacks
+	*
+	* callback			function	The Javascript function executed when a star is clicked
+	* blur				function	The Javascript function executed when stars are blurred
+	* focus				function	The Javascript function executed when stars are focused
+	*
+	* @param array $arOptions
+	* @returns CPSjqRatingWidget
+	*/
+	public static function createRating( $arOptions )
+	{
+		static $_iIdCount = 0;
+
+		$sBaseUrl = CAppHelpers::getOption( $arOptions, 'baseUrl' );
+		$sId = CAppHelpers::getOption( $arOptions, 'id', null );
+		$sName = CAppHelpers::getOption( $arOptions, 'name' );
+
+		//	Build the options...
+		$_arOptions = array(
+			'supressScripts' => CAppHelpers::getOption( $arOptions, 'supressScripts', false ),
+			'returnString' => CAppHelpers::getOption( $arOptions, 'returnString', false ),
+			'baseUrl' => Yii::app()->baseUrl . ( $sBaseUrl == null ? '/extra/jqRating' : $sBaseUrl ),
+			'name' => ( $sName == null ? 'rating' . $_iIdCount : $sName ),
+			'starClass' => CAppHelpers::getOption( $arOptions, 'starClass', 'star' ),
+			'split' => CAppHelpers::getOption( $arOptions, 'split', 1 ),
+			'starCount' => CAppHelpers::getOption( $arOptions, 'starCount', 5 ),
+			'selectValue' => CAppHelpers::getOption( $arOptions, 'selectValue', 0 ),
+			'ajaxCallback' => CAppHelpers::getOption( $arOptions, 'ajaxCallback' ),
+			'starTitles' => CAppHelpers::getOption( $arOptions, 'starTitles' ),
+			'starValues' => CAppHelpers::getOption( $arOptions, 'starValues' ),
+			'hoverTips' => CAppHelpers::getOption( $arOptions, 'hoverTips' ),
+			'options' => array(
+				'cancel' => CAppHelpers::getOption( $arOptions, 'cancel', 'Cancel Rating' ),
+				'cancelValue' => CAppHelpers::getOption( $arOptions, 'cancelValue', '' ),
+				'readOnly' => CAppHelpers::getOption( $arOptions, 'readOnly', Yii::app()->user->isGuest ),
+				'required' => CAppHelpers::getOption( $arOptions, 'required', false ),
+				'resetAll' => CAppHelpers::getOption( $arOptions, 'resetAll', false ),
+			),
+			'callbacks' => array(
+				'callback' => CAppHelpers::getOption( $arOptions, 'callback', null ),
+				'focus' => CAppHelpers::getOption( $arOptions, 'focus', null ),
+				'blur' => CAppHelpers::getOption( $arOptions, 'blur', null ),
+			),
+		);
+
+		//	Not logged in? No ratings for you!
+		if ( Yii::app()->user->isGuest )
+			unset( $_arOptions[ 'ajaxCallback' ] );
+
+		$_oWidget = Yii::app()->controller->widget(
+			'application.extensions.pogostick.jqRating.CPSjqRatingWidget',
+			$_arOptions
+		);
+
+		//	Return my created widget
+		return( $_oWidget );
+ 	}
+}

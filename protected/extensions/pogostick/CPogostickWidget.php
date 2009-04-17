@@ -102,6 +102,13 @@ abstract class CPogostickWidget extends CInputWidget
 	protected $m_sClassName = '';
 
 	/**
+	* The name of the view for this widget
+	*
+	* @var string
+	*/
+	protected $m_sViewName = '';
+
+	/**
 	* Name of widget
 	*
 	* @var string
@@ -136,7 +143,7 @@ abstract class CPogostickWidget extends CInputWidget
 			$this->m_arCallbacks = $arCallbacks;
 
 		//	Save class name for later
-		$this->m_sClassName = get_class( $this );
+		$this->m_sClassName = __CLASS__;
 	}
 
 	/**
@@ -302,6 +309,18 @@ abstract class CPogostickWidget extends CInputWidget
 		return( $this->m_arCallbacks );
 	}
 
+	/**
+	* Get View Name
+	*
+	*/
+	public function getViewName() { return( $this->m_sViewName ); }
+	/**
+	* Set View Name
+	*
+	* @param string $sValue
+	*/
+	public function setViewName( $sValue ) { $this->m_sViewName = $sValue; }
+
 	//********************************************************************************
 	//* Private methods
 	//********************************************************************************
@@ -386,16 +405,22 @@ abstract class CPogostickWidget extends CInputWidget
 		$_arOptions = array();
 
 		foreach ( $this->m_arCallbacks as $_sKey => $_oValue )
-			$_arOptions[ "cb_{$_sKey}" ] = $_sKey;
+		{
+			if ( ! empty( $_oValue ) )
+				$_arOptions[ "cb_{$_sKey}" ] = $_sKey;
+		}
 
 		$_sEncodedOptions = CJavaScript::encode( array_merge( $_arOptions, $this->m_arOptions ) );
 
 		foreach ( $this->m_arCallbacks as $_sKey => $_oValue )
 		{
-			if ( 0 == strncasecmp( $_oValue, 'function(', 9 ) )
-				$_sEncodedOptions = str_replace( "'cb_{$_sKey}':'{$_sKey}'", "{$_sKey}:{$_oValue}", $_sEncodedOptions );
-			else
-				$_sEncodedOptions = str_replace( "'cb_{$_sKey}':'{$_sKey}'", "{$_sKey}:'{$_oValue}'", $_sEncodedOptions );
+			if ( ! empty( $_oValue ) )
+			{
+				if ( 0 == strncasecmp( $_oValue, 'function(', 9 ) )
+					$_sEncodedOptions = str_replace( "'cb_{$_sKey}':'{$_sKey}'", "{$_sKey}:{$_oValue}", $_sEncodedOptions );
+				else
+					$_sEncodedOptions = str_replace( "'cb_{$_sKey}':'{$_sKey}'", "{$_sKey}:'{$_oValue}'", $_sEncodedOptions );
+			}
 		}
 
 		return( $_sEncodedOptions );
@@ -445,4 +470,5 @@ abstract class CPogostickWidget extends CInputWidget
 				throw new CException( Yii::t( $this->m_sClassName, '"{x}" is a required option', array( '{x}' => $_sKey ) ) );
 		}
 	}
+
 }
