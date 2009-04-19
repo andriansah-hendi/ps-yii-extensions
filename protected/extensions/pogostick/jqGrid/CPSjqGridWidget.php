@@ -10,14 +10,8 @@
 * Install in <yii_app_base>/extensions/pogostick/jqGrid
 */
 
-//********************************************************************************
-//* Include Files
-//********************************************************************************
-
-require_once( dirname( __FILE__ ) . '/../CPogostickWidget.php' );
-
 /**
-* The CPSjqGridWidgetallows the jqGrid (@link http://www.trirand.com/blog/) to be used in Yii.
+* The CPSjqGridWidget allows the jqGrid (@link http://www.trirand.com/blog/) to be used in Yii.
 * Thanks to MetaYii for some ideas on valid options and callbacks.
 *
 * @author Jerry Ablan <jablan@pogostick.com>
@@ -126,7 +120,7 @@ class CPSjqGridWidget extends CPSWidget
 	{
 		//	Validate baseUrl
 		if ( empty( $this->baseUrl ) )
-			throw new CHttpException( 500, 'CjqGridWidget: baseUrl is required.');
+			throw new CHttpException( 500, __CLASS__ . ': baseUrl is required.');
 
 		//	Register the scripts/css
 		$this->registerClientScripts();
@@ -147,7 +141,7 @@ class CPSjqGridWidget extends CPSWidget
 
 		//	If image path isn't specified, set to current theme path
 		if ( ! array_key_exists( 'imgpath', $this->options ) || empty( $this->options[ 'imgpath' ] ) )
-			$this->m_arOptions[ 'imgpath' ] = "{$this->baseUrl}/themes/{$this->options[ 'theme' ]}/images";
+			$this->options[ 'imgpath' ] = "{$this->baseUrl}/themes/{$this->options[ 'theme' ]}/images";
 
 		//	Register scripts necessary
 		$_oCS->registerScriptFile( "{$this->baseUrl}/jquery.jqGrid.js" );
@@ -174,15 +168,15 @@ class CPSjqGridWidget extends CPSWidget
 	*/
 	protected function generateJavascript()
 	{
-		$this->m_sScript = '';
+		$this->script = '';
 
 		$_arOptions = $this->makeOptions();
 
-		$this->m_sScript .=<<<CODE
-jQuery("#{$this->m_sId}").jqGrid( {$_arOptions} );
+		$this->script .=<<<CODE
+jQuery("#{$this->id}").jqGrid( {$_arOptions} );
 CODE;
 
-		return( $this->m_sScript );
+		return( $this->script );
 	}
 
 	/**
@@ -196,7 +190,7 @@ CODE;
 		$_sPagerId = $this->getOption( 'pagerId' );
 
 		$_sHtml .=<<<CODE
-<table id="{$this->m_sId}" class="scroll"></table>
+<table id="{$this->id}" class="scroll"></table>
 <div id="{$_sPagerId}" class="scroll" style="text-align:center;"></div>
 CODE;
 
@@ -207,11 +201,11 @@ CODE;
 	* Override of makeOptions to insert correct pager jQuery code
 	*
 	*/
-	protected function makeOptions()
+	protected function makeOptions( $arOptions = null )
 	{
 		//	Fix up the pager...
 		$_sPagerId = $this->getOption( 'pagerId' );
-		return( str_replace( "'pagerId':'{$_sPagerId}'", "'pager': jQuery('#{$_sPagerId}')", parent::makeOptions() ) );
+		return( str_replace( "'pagerId':'{$_sPagerId}'", "'pager': jQuery('#{$_sPagerId}')", parent::makeOptions( $arOptions ) ) );
 	}
 
 }

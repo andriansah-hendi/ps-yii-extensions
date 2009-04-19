@@ -18,67 +18,34 @@
  * @package applications.extensions.pogostick
  * @since 1.0.3
  */
-abstract class CPSComponent extends CComponent
+abstract class CPSComponent extends CApplicationComponent
 {
-	//********************************************************************************
-	//* Member Variables
-	//********************************************************************************
-
-	/**
-	* The base url of the source library, if one is used
-	*
-	* @var string
-	*/
-	protected $m_sBaseUrl = '';
-
-	/**
-	* Name of widget
-	*
-	* @var string
-	*/
-	protected $m_sName = '';
-
-	/**
-	* Id of widget
-	*
-	* @var mixed
-	*/
-	protected $m_sId = '';
-
 	//********************************************************************************
 	//* Methods
 	//********************************************************************************
 
 	public function __construct()
 	{
-		//	Attach this behavior
+		//	Attach this behavior before init is called...
 		$this->attachBehavior( 'psComponent', array( 'class' => 'application.extensions.pogostick.behaviors.CPSComponentBehavior' ) );
-
-		parent::__construct();
 	}
 
 	//********************************************************************************
-	//* Property Accessors
+	//* Property Accessor Methods
 	//********************************************************************************
 
 	/**
 	* Get the BaseUrl property
 	*
 	*/
-	public function getBaseUrl() { return( $this->m_sBaseUrl ); }
+	public function getBaseUrl() { return( $this->psComponent->baseUrl ); }
 
 	/**
 	* Set the BaseUrl property
 	*
 	* @param mixed $sUrl
 	*/
-	public function setBaseUrl( $sUrl ) { $this->m_sBaseUrl = $sUrl; }
-
-	public function getName() { return( $this->m_sName ); }
-	public function setName( $sValue ) { $this->m_sName = $sValue; }
-
-	public function getId() { return( $this->m_sId ); }
-	public function setId( $sValue ) { $this->m_sId = $sValue; }
+	public function setBaseUrl( $sUrl ) { $this->psComponent->baseUrl = $sUrl; }
 
 	/**
 	* Gets the CheckOptions option
@@ -162,10 +129,6 @@ abstract class CPSComponent extends CComponent
 	*
 	* @return array
 	*/
-	public function getCallbacks() { return( $this->m_arCallbacks ); }
-
-	//********************************************************************************
-	//* Private methods
-	//********************************************************************************
+	public function getCallbacks() { return( $this->psComponent->callbacks ); }
 
 }

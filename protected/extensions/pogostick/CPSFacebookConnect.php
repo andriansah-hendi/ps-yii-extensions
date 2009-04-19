@@ -14,17 +14,17 @@
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version $Id$
 
- * @since 1.0.0
+ * @since 1.0.4
  */
-class CPSFacebookConnect extends CPogostickWidget
+class CPSFacebookConnect extends CPSWidget
 {
 	/**
 	* Our constructor
 	*
 	*/
-	public function __construct( $arOptions = null )
+	public function init()
 	{
-		$this->m_arValidOptions = array(
+		$this->validOptions = array(
 			'appId' => array( 'type' => 'string' ),
 			'apiKey' => array( 'type' => 'string', 'required' => true ),
 			'secretKey' => array( 'type' => 'string', 'required' => true ),
@@ -32,7 +32,7 @@ class CPSFacebookConnect extends CPogostickWidget
 			'xdrUrl' => array( 'type' => 'string', 'required' => true ),
 		);
 
-		parent::__construct( $arOptions );
+		parent::init();
 	}
 
 	/***
@@ -74,6 +74,6 @@ JSCRIPT;
 		$_oCS = parent::registerClientScripts();
 		$_oCS->registerScriptFile( 'http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php', CClientScript::POS_HEAD );
 
-		$_oCS->registerScript( 'Yii.' . $this->m_sClassName . '#' . $this->m_sId, $this->generateJavascript(), CClientScript::POS_READY );
+		$_oCS->registerScript( 'Yii.' . __CLASS__ . '#' . $this->id, $this->generateJavascript(), CClientScript::POS_READY );
 	}
 }

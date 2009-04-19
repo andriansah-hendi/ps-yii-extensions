@@ -10,12 +10,6 @@
 * Install in <yii_app_base>/extensions/pogostick/jqRating
 */
 
-//********************************************************************************
-//* Include Files
-//********************************************************************************
-
-require_once( dirname( __FILE__ ) . '/../CPogostickWidget.php' );
-
 /**
 * The CPSjqRatingWidgetallows the JQ Rating (@link http://www.fyneworks.com/jquery/star-rating/) to be used in Yii.
 *
@@ -24,7 +18,7 @@ require_once( dirname( __FILE__ ) . '/../CPogostickWidget.php' );
 * @package applications.extensions.pogostick.jqRating
 * @since 1.0.3
 */
-class CPSjqRatingWidget extends CPogostickWidget
+class CPSjqRatingWidget extends CPSWidget
 {
 	//********************************************************************************
 	//* Members
@@ -38,8 +32,6 @@ class CPSjqRatingWidget extends CPogostickWidget
 	protected $m_iSplit = 1;
 	protected $m_arHoverTips = array();
 	protected $m_bReturnString = false;
-	protected $m_sHtml = '';
-	protected $m_sScript = '';
 	protected $m_sAjaxCallback = null;
 	protected $m_bSupressScripts = false;
 	protected $m_fSelectValue = 0;
@@ -79,11 +71,10 @@ class CPSjqRatingWidget extends CPogostickWidget
 	* Constructs a CPSjqRatingWidget
 	*
 	* @param array $arOptions
-	* @return CPSjqRatingWidget
 	*/
-	public function __construct( $arOptions = null )
+	public function init()
 	{
-		$this->m_arValidOptions = array(
+		$this->validOptions = array(
 			'cancel' => array( 'type' => 'string' ),
 			'cancelValue' => array( 'type' => 'string' ),
 			'readOnly' => array( 'type' => 'boolean' ),
@@ -91,7 +82,7 @@ class CPSjqRatingWidget extends CPogostickWidget
 			'resetAll' => array( 'type' => 'boolean' ),
 		);
 
-		$this->m_arValidCallbacks = array(
+		$this->validCallbacks = array(
 			'callback',
 			'focus',
 			'blur',
@@ -101,7 +92,7 @@ class CPSjqRatingWidget extends CPogostickWidget
 		$this->viewName = __CLASS__ . 'View';
 
 		//	Call daddy...
-		parent::__construct( $arOptions );
+		parent::init();
 	}
 
 	/***
@@ -111,18 +102,18 @@ class CPSjqRatingWidget extends CPogostickWidget
 	public function run()
 	{
 		//	Validate baseUrl
-		if ( empty( $this->m_sBaseUrl ) )
-			throw new CHttpException( 500, $this->className . ': baseUrl is required.');
+		if ( empty( $this->baseUrl ) )
+			throw new CHttpException( 500, __CLASS__ . ': baseUrl is required.');
 
 		//	Register the scripts/css
 		$this->registerClientScripts();
 
-		$this->m_sHtml = $this->render( $this->viewName,
-				array( "options" => $this->m_arOptions ),
-				$this->m_bReturnString
+		$this->html = $this->render( $this->viewName,
+				array( "options" => $this->options ),
+				$this->returnString
 		);
 
-		return( $this->m_sHtml );
+		return( $this->html );
 	}
 
 	/**
@@ -136,17 +127,17 @@ class CPSjqRatingWidget extends CPogostickWidget
 		$_oCS = parent::registerClientScripts();
 
 		//	Register scripts necessary
-		$_oCS->registerScriptFile( "{$this->m_sBaseUrl}/jquery.MetaData.js" );
-		$_oCS->registerScriptFile( "{$this->m_sBaseUrl}/jquery.rating.js" );
+		$_oCS->registerScriptFile( "{$this->baseUrl}/jquery.MetaData.js" );
+		$_oCS->registerScriptFile( "{$this->baseUrl}/jquery.rating.js" );
 
 		//	Get the javascript for this widget
 		$_sScript = $this->generateJavascript();
 
-		if ( ! $this->m_bSupressScripts && ! $this->m_bReturnString )
-				$_oCS->registerScript( 'PS.' . $this->m_sClassName . '#' . $this->m_sId, $_sScript, CClientScript::POS_READY );
+		if ( ! $this->supressScripts && ! $this->returnString )
+				$_oCS->registerScript( 'PS.' . __CLASS__ . '#' . $this->id, $_sScript, CClientScript::POS_READY );
 
 		//	Register css files...
-		$_oCS->registerCssFile( "{$this->m_sBaseUrl}/jquery.rating.css", 'screen' );
+		$_oCS->registerCssFile( "{$this->baseUrl}/jquery.rating.css", 'screen' );
 	}
 
 	//********************************************************************************
@@ -161,25 +152,25 @@ class CPSjqRatingWidget extends CPogostickWidget
 	protected function generateJavascript()
 	{
 		//	No callback set? then make the ajax callback
-		if ( ! isset( $this->m_arCallbacks[ 'callback' ] ) && ! empty( $this->m_sAjaxCallback ) )
+		if ( ! isset( $this->callbacks[ 'callback' ] ) && ! empty( $this->ajaxCallback ) )
 		{
 			$_arTemp = array(
 				'type' => 'GET',
-				'url' => Yii::app()->createUrl( $this->m_sAjaxCallback ),
+				'url' => Yii::app()->createUrl( $this->ajaxCallback ),
 				'dataType' => 'html'
 			);
 
 			$_sCBBody = 'function(value,link){var arTemp = ' . CJavaScript::encode( $_arTemp ) . '; arTemp[\'data\'] = \'value=\'+value+\'&link=\'+link; $.ajax(arTemp);}';
 
-			$this->m_arCallbacks[ 'callback' ] = $_sCBBody;
+			$this->callbacks[ 'callback' ] = $_sCBBody;
 		}
 
 		$_arOptions = $this->makeOptions();
 
 		//	Now rating apply...
-		$this->m_sScript .= '$(\'.' . $this->m_sStarClass . '\').rating(' . $_arOptions . '); ';
+		$this->script .= '$(\'.' . $this->starClass . '\').rating(' . $_arOptions . '); ';
 
-		return( $this->m_sScript );
+		return( $this->script );
 	}
 
 	/**
@@ -189,35 +180,35 @@ class CPSjqRatingWidget extends CPogostickWidget
 	*/
 	protected function generateHtml()
 	{
-		$_iMaxCount = $this->m_iStarCount;
+		$_iMaxCount = $this->starCount;
 
 		//	Handle multiple star outputs...
-		if ( $this->m_bHalf )
-			$this->m_iSplit = 2;
+		if ( $this->half )
+			$this->split = 2;
 
-		if ( $this->m_iSplit > 1 )
-			$_iMaxCount *= $this->m_iSplit;
+		if ( $this->split > 1 )
+			$_iMaxCount *= $this->split;
 
 		for ( $_i = 0; $_i < $_iMaxCount; $_i++ )
 		{
-			$_sHtml .= '<input type="radio" class="' . $this->m_sStarClass;
+			$_sHtml .= '<input type="radio" class="' . $this->starClass;
 
-			if ( $this->m_bHalf )
+			if ( $this->half )
 				$_sHtml .= ' {half:true}';
-			else if ( $this->m_iSplit > 1 )
-				$_sHtml .= ' {split:' . $this->m_iSplit . '}';
+			else if ( $this->split > 1 )
+				$_sHtml .= ' {split:' . $this->split . '}';
 
-			$_sHtml .= '" name="' . $this->m_sName . '" ';
+			$_sHtml .= '" name="' . $this->name . '" ';
 
-			if ( is_array( $this->m_arStarTitles ) && sizeof( $this->m_arStarTitles ) > 0 )
-				$_sHtml .= 'title="' . $this->m_arStarTitles[ $_i ] . '" ';
+			if ( is_array( $this->starTitles ) && sizeof( $this->starTitles ) > 0 )
+				$_sHtml .= 'title="' . $this->starTitles[ $_i ] . '" ';
 
-			if ( is_array( $this->m_arStarValues ) && sizeof( $this->m_arStarValues ) > 0 )
-				$_sHtml .= 'value="' . $this->m_arStarValues[ $_i ] . '" ';
+			if ( is_array( $this->starValues ) && sizeof( $this->starValues ) > 0 )
+				$_sHtml .= 'value="' . $this->starValues[ $_i ] . '" ';
 			else
 				$_sHtml .= 'value="' . ( $_i + 1 ) . '" ';
 
-			if ( $this->m_fSelectValue != 0 && ( $this->m_fSelectValue * $this->m_iSplit ) == ( $_i + 1 ) )
+			if ( $this->selectValue != 0 && ( $this->selectValue * $this->split ) == ( $_i + 1 ) )
 				$_sHtml .= 'checked="checked" ';
 
 			$_sHtml .= ' />';

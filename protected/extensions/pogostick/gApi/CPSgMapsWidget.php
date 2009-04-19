@@ -18,9 +18,9 @@
  */
 class CPSgMapsWidget extends CPSgApiWidget
 {
-	public function __construct()
+	public function init()
 	{
-		$this->m_arValidOptions = array(
+		$this->validOptions = array(
 			//	GMapOptions
 			'size' => array( 'type' => 'array' ),
 			'mapTypes' => array( 'type' => 'array' ),

@@ -23,6 +23,13 @@ class CPSComponentBehavior extends CBehavior
 	//********************************************************************************
 
 	/**
+	* The base url of the source library, if one is used
+	*
+	* @var string
+	*/
+	protected $m_sBaseUrl = '';
+
+	/**
 	* Indicates whether or not to validate options
 	*
 	* @var boolean
@@ -69,6 +76,19 @@ class CPSComponentBehavior extends CBehavior
 	//********************************************************************************
 
 	/**
+	* Get the BaseUrl property
+	*
+	*/
+	public function getBaseUrl() { return( $this->m_sBaseUrl ); }
+
+	/**
+	* Set the BaseUrl property
+	*
+	* @param mixed $sUrl
+	*/
+	public function setBaseUrl( $sUrl ) { $this->m_sBaseUrl = $sUrl; }
+
+	/**
 	* Options getter
 	*
 	* @returns array
@@ -100,7 +120,7 @@ class CPSComponentBehavior extends CBehavior
 		if ( ! is_array( $arOptions ) )
 			throw new CException( Yii::t( __CLASS__, 'options must be an array' ) );
 
-		$this->checkOptions( $arOptions, $this->m_arValidOptions );
+		$this->checkOptions( $arOptions, $this->validOptions );
 		$this->m_arOptions = $arOptions;
 	}
 
@@ -121,22 +141,43 @@ class CPSComponentBehavior extends CBehavior
 	*
 	*/
 	public function getValidOptions() { return( $this->m_arValidOptions ); }
+
+	/**
+	* ValidOption returns a single validOption
+	*
+	*/
+	public function getValidOption()
+	{
+		if ( isset( $this->validOptions[ $sName ] ) )
+			return( $this->validOptions[ $sName ] );
+
+		return( null );
+	}
+
 	/**
 	* ValidOptions setter
 	*
 	*/
-	public function setValidOptions( $arValue ) { $this->m_arValidOptions = $sValue; }
+	public function setValidOptions( $arValue )
+	{
+		if ( is_array( $arValue ) )
+			$this->m_arValidOptions = array_merge( $this->validOptions, $arValue ); }
 
 	/**
 	* ValidCallbacks getter
 	*
 	*/
 	public function getValidCallbacks() { return( $this->m_arValidCallbacks ); }
+
 	/**
 	* ValidCallbacks setter
 	*
 	*/
-	public function setValidCallbacks( $arValue ) { $this->m_arValidCallbacks = $arValue; }
+	public function setValidCallbacks( $arValue )
+	{
+		if ( is_array( $arValue ) )
+			$this->m_arValidCallbacks = array_merge( $this->validCallbacks, $arValue );
+	}
 
 	/**
 	* Setter
@@ -149,7 +190,7 @@ class CPSComponentBehavior extends CBehavior
 			throw new CException( Yii::t( __CLASS__, 'callbacks must be an associative array' ) );
 
 		$this->checkCallbacks( $arCallbacks );
-		$this->callbacks = $arCallbacks;
+		$this->callbacks = array_merge( $arCallbacks, $this->callbacks );
 	}
 
 	/**
@@ -173,7 +214,7 @@ class CPSComponentBehavior extends CBehavior
 		{
 			foreach ( $_arOptions as $_sKey => $_oValue )
 			{
-				if ( ! array_key_exists( $_sKey, $this->validOptions ) )
+				if ( is_array( $this->validOptions ) && ! array_key_exists( $_sKey, $this->validOptions ) )
 					throw new CException( Yii::t( __CLASS__, '"{x}" is not a valid option', array( '{x}' => $_sKey ) ) );
 
 				$_sType = gettype( $_oValue );
@@ -183,7 +224,7 @@ class CPSComponentBehavior extends CBehavior
 
 				if ( array_key_exists( 'valid', $this->validOptions[ $_sKey ] ) )
 				{
-					if ( ! in_array( $_oValue, $this->validOptions[ $_sKey ][ 'valid' ] ) )
+					if ( is_array( $this->validOptions[ $_sKey ][ 'valid' ] ) && ! in_array( $_oValue, $this->validOptions[ $_sKey ][ 'valid' ] ) )
 						throw new CException( Yii::t( __CLASS__, '"{x}" must be one of: "{y}"', array( '{x}' => $_sKey, '{y}' => implode( ', ', $this->validOptions[ $_sKey ][ 'valid' ] ) ) ) );
 				}
 
@@ -206,17 +247,17 @@ class CPSComponentBehavior extends CBehavior
 	{
 		$_arOptions = ( $arOptions == null ) ? array() : $arOptions;
 
-		foreach ( $this->m_arCallbacks as $_sKey => $_oValue )
+		foreach ( $this->callbacks as $_sKey => $_oValue )
 		{
 			if ( ! empty( $_oValue ) )
 				$_arOptions[ "cb_{$_sKey}" ] = $_sKey;
 		}
 
 		//	Get all the options merged...
-		$_sEncodedOptions = CJavaScript::encode( array_merge( $_arOptions, $this->m_arOptions ) );
+		$_sEncodedOptions = CJavaScript::encode( array_merge( $_arOptions, $this->options ) );
 
 		//	Fix up the callbacks...
-		foreach ( $this->m_arCallbacks as $_sKey => $_oValue )
+		foreach ( $this->callbacks as $_sKey => $_oValue )
 		{
 			if ( ! empty( $_oValue ) )
 			{

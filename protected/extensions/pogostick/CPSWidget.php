@@ -21,108 +21,13 @@
 abstract class CPSWidget extends CInputWidget
 {
 	//********************************************************************************
-	//* Member Variables
-	//********************************************************************************
-
-	/**
-	* The generated HTML
-	*
-	* @var mixed
-	*/
-	protected $m_sHtml = '';
-
-	/**
-	* The generated script
-	*
-	* @var string
-	*/
-	protected $m_sScript = '';
-
-	/**
-	* The base url of the source library, if one is used
-	*
-	* @var string
-	*/
-	protected $m_sBaseUrl = '';
-
-	/**
-	* Css file to override default style
-	*
-	* @var string
-	*/
-	protected $m_sCssFile = null;
-
-	/**
-	* The name of the view for this widget
-	*
-	* @var string
-	*/
-	protected $m_sViewName = '';
-
-	/**
-	* Name of widget
-	*
-	* @var string
-	*/
-	protected $m_sName = '';
-
-	/**
-	* Id of widget
-	*
-	* @var mixed
-	*/
-	protected $m_sId = '';
-
-	/**
-	* Indicates whether or not to validate options
-	*
-	* @var boolean
-	*/
-	protected $m_bCheckOptions = true;
-
-	/**
-	* Indicates whether or not to validate callbacks
-	*
-	* @var boolean
-	*/
-	protected $m_bCheckCallbacks = true;
-
-	/**
-	* Valid options for this widget
-	*
-	* @var array
-	*/
-	protected $m_arValidOptions = array();
-
-	/**
-	* Placeholder for widget options
-	*
-	* @var array
-	*/
-	public $m_arOptions = array();
-
-	/**
-	* The valid callbacks for this widget
-	*
-	* @var mixed
-	*/
-	protected $m_arValidCallbacks = array();
-
-	/**
-	* Placeholder for callbacks
-	*
-	* @var array
-	*/
-	protected $m_arCallbacks = array();
-
-	//********************************************************************************
 	//* Methods
 	//********************************************************************************
 
 	public function __construct()
 	{
 		//	Attach this behavior
-		$this->attachBehavior( 'psComponent', array( 'class' => 'application.extensions.pogostick.behaviors.CPSComponentBehavior' ) );
+		$this->attachBehavior( 'psWidget', array( 'class' => 'application.extensions.pogostick.behaviors.CPSWidgetBehavior' ) );
 	}
 
 	/**
@@ -132,7 +37,7 @@ abstract class CPSWidget extends CInputWidget
 	public function init()
 	{
 		//	Get the id/name of this widget
-		list( $this->m_sName, $this->m_sId ) = $this->resolveNameID();
+		list( $this->name, $this->id ) = $this->resolveNameID();
 
 		//	Call daddy
 		parent::init();
@@ -152,87 +57,95 @@ abstract class CPSWidget extends CInputWidget
 	//* Property Accessors
 	//********************************************************************************
 
-	//	Read only
+	/**
+	* Returns the generated Html
+	*/
+	public function getHtml() { return( $this->psWidget->html ); }
 
 	/**
 	* Returns the generated Html
 	*/
-	public function getHtml() { return( $this->m_sHtml ); }
+	protected function setHtml( $sValue ) { $this->psWidget->html = $sValue; }
 
 	/**
 	* Returns the generated javascript
 	*/
-	public function getScript() { return( $this->m_sScript ); }
+	public function getScript() { return( $this->psWidget->script ); }
+
+	/**
+	* Sets the generated javascript
+	*/
+	protected function setScript( $sScript ) { $this->psWidget->script = $sScript; }
 
 	/**
 	* Get the BaseUrl property
 	*
 	*/
-	public function getBaseUrl() { return( $this->m_sBaseUrl ); }
+	public function getBaseUrl() { return( $this->psWidget->baseUrl ); }
 
 	/**
 	* Set the BaseUrl property
 	*
 	* @param mixed $sUrl
 	*/
-	public function setBaseUrl( $sUrl ) { $this->m_sBaseUrl = $sUrl; }
+	public function setBaseUrl( $sUrl ) { $this->psWidget->baseUrl = $sUrl; }
 
 	/***
 	* Get the Css File
 	*
 	*/
-	public function getCssFile() { return( $this->m_sCssFile ); }
+	public function getCssFile() { return( $this->psWidget->cssFile ); }
 
 	/***
 	* Set the Css file
 	*
 	* @param mixed $_sFile
 	*/
-	public function setCssFile( $_sFile ) { $this->m_sCssFile = $_sFile; }
+	public function setCssFile( $_sFile ) { $this->psWidget->cssFile = $_sFile; }
 
 	/**
 	* Get View Name
 	*
 	*/
-	public function getViewName() { return( $this->m_sViewName ); }
+	public function getViewName() { return( $this->psWidget->viewName ); }
 	/**
 	* Set View Name
 	*
 	* @param string $sValue
 	*/
-	public function setViewName( $sValue ) { $this->m_sViewName = $sValue; }
+	public function setViewName( $sValue ) { $this->psWidget->viewName = $sValue; }
 
 	/**
 	* Gets the CheckOptions option
 	*
 	*/
-	public function getCheckOptions() { return( $this->psComponent->checkOptions ); }
+	public function getCheckOptions() { return( $this->psWidget->checkOptions ); }
 	/**
 	* Sets the CheckOptions option
 	*
 	* @param boolean $bValue
 	*/
-	public function setCheckOptions( $sValue ) { $this->psComponent->checkOptions = $sValue; }
+	public function setCheckOptions( $sValue ) { $this->psWidget->checkOptions = $sValue; }
 
 	/**
 	* Gets the CheckCallbacks option
 	*
 	*/
-	public function getCheckCallbacks() { return( $this->psComponent->checkCallbacks ); }
+	public function getCheckCallbacks() { return( $this->psWidget->checkCallbacks ); }
 
 	/***
 	* Sets the CheckCallbacks option
 	*
 	* @param mixed $_bValue
 	*/
-	public function setCheckCallbacks( $bValue ) { $this->psComponent->checkCallbacks = $bValue; }
+	public function setCheckCallbacks( $bValue ) { $this->psWidget->checkCallbacks = $bValue; }
 
 	/**
 	* Options getter
 	*
 	* @returns array
 	*/
-	public function getOptions() { return( $this->psComponent->options ); }
+	public function getOptions() { return( $this->psWidget->options ); }
 
 	/**
 	* Returns an element from an array if it exists, otherwise returns $sDefault value
@@ -241,89 +154,54 @@ abstract class CPSWidget extends CInputWidget
 	* @param string $sName
 	* @return mixed
 	*/
-	public function getOption( $sName, $sDefault = null )
-	{
-		return( $this->psComponent->getOption( $sName, $sDefault ) );
-	}
+	public function getOption( $sName, $sDefault = null ) { return( $this->psWidget->getOption( $sName, $sDefault ) ); }
 
 	/**
     * Setter
     *
     * @var array $value options
     */
-	public function setOptions( $arOptions )
-	{
-		if ( ! is_array( $arOptions ) )
-			throw new CException( Yii::t( __CLASS__, 'options must be an array' ) );
-
-		$this->psComponent->checkOptions( $arOptions );
-		$this->psComponent->options = $arOptions;
-	}
+	public function setOptions( $arOptions ) { $this->psWidget->setOptions( $arOptions ); }
 
 	/**
 	* ValidOptions getter
 	*
 	*/
-	public function getValidOptions() { return( $this->psComponent->validOptions ); }
+	public function getValidOptions() { return( $this->psWidget->validOptions ); }
 	/**
 	* ValidOptions setter
 	*
 	*/
-	public function setValidOptions( $arValue ) { $this->psComponent->validOptions = $sValue; }
+	public function setValidOptions( $arValue ) { $this->psWidget->validOptions = $sValue; }
 
 	/**
 	* ValidCallbacks getter
 	*
 	*/
-	public function getValidCallbacks() { return( $this->psComponent->validCallbacks ); }
+	public function getValidCallbacks() { return( $this->psWidget->validCallbacks ); }
 	/**
 	* ValidCallbacks setter
 	*
 	*/
-	public function setValidCallbacks( $arValue ) { $this->psComponent->validCallbacks = $arValue; }
+	public function setValidCallbacks( $arValue ) { $this->psWidget->validCallbacks = $arValue; }
 
 	/**
 	* Setter
 	*
 	* @param array $value callbacks
 	*/
-	public function setCallbacks( $arCallbacks )
-	{
-		if ( ! is_array( $arCallbacks ) )
-			throw new CException( Yii::t( __CLASS__, 'callbacks must be an associative array' ) );
-
-		$this->psComponent->checkCallbacks( $arCallbacks );
-		$this->psComponent->callbacks = $arCallbacks;
-	}
+	public function setCallbacks( $arCallbacks ) { $this->psWidget->setCallbacks( $arCallbacks ); }
 
 	/**
 	* Getter
 	*
 	* @return array
 	*/
-	public function getCallbacks() { return( $this->psComponent->callbacks ); }
+	public function getCallbacks() { return( $this->psWidget->callbacks ); }
 
 	//********************************************************************************
 	//* Private methods
 	//********************************************************************************
-
-	/**
-	* Registers the needed CSS and JavaScript.
-	*
-	* @param string $sId
-	*/
-	protected function registerClientScripts()
-	{
-		//	Get the clientScript
-		$_oCS = Yii::app()->getClientScript();
-
-		//	Register a special CSS file if we have one...
-		if ( ! empty( $this->m_sCssFile ) )
-			$_oCS->registerCssFile( Yii::app()->baseUrl . "{$this->cssFile}", 'screen' );
-
-		//	Send upstream for convenience
-		return( $_oCS );
-	}
 
 	/**
 	* Generates the javascript code for the widget
