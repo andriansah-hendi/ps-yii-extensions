@@ -18,7 +18,7 @@
  * @package applications.extensions.pogostick
  * @since 1.0.4
  */
-class CPSComponent extends CComponent
+class CPSComponent extends CApplicationComponent
 {
 	//********************************************************************************
 	//* Member Variables
@@ -65,8 +65,9 @@ class CPSComponent extends CComponent
 		$this->checkOptions( $this->m_arOptions, $this->m_arValidOptions );
 
 		//	Fill my data up...
-		foreach ( $arOptions as $_sKey => $_oValue )
-			$this->{$_sKey} = $_oValue;
+		if ( is_array( $this->m_arOptions ) )
+			foreach ( $this->m_arOptions as $_sKey => $_oValue )
+				$this->{$_sKey} = $_oValue;
 	}
 
 	//********************************************************************************
@@ -78,9 +79,21 @@ class CPSComponent extends CComponent
 	*
 	* @returns array
 	*/
-	public function getOptions()
+	public function getOptions() { return( $this->m_arOptions ); }
+
+	/**
+	* Returns an element from an array if it exists, otherwise returns $sDefault value
+	*
+	* @param array $arOptions
+	* @param string $sName
+	* @return mixed
+	*/
+	public function getOption( $sName, $sDefault = null )
 	{
-		return( $this->m_arOptions );
+		if ( isset( $this->m_arOptions[ $sName ] ) )
+			return( $this->m_arOptions[ $sName ] );
+
+		return( $sDefault );
 	}
 
 	/**
@@ -101,20 +114,13 @@ class CPSComponent extends CComponent
 	* Gets the CheckOptions option
 	*
 	*/
-	public function getCheckOptions()
-	{
-		return( $this->m_bCheckOptions );
-	}
-
+	public function getCheckOptions() { return( $this->m_bCheckOptions ); }
 	/**
 	* Sets the CheckOptions option
 	*
 	* @param boolean $bValue
 	*/
-	public function setCheckOptions( $bValue )
-	{
-		$this->m_bCheckOptions = $bValue;
-	}
+	public function setCheckOptions( $sValue ) { $this->m_bCheckOptions = $sValue; }
 
 	//********************************************************************************
 	//* Private methods
@@ -164,20 +170,6 @@ class CPSComponent extends CComponent
 	protected function makeOptions( $arOptions = null )
 	{
 		return( CJavaScript::encode( ( $arOptions == null ) ? $this->m_arOptions : array_merge( $arOptions, $this->m_arOptions ) ) );
-	}
-
-	/**
-	* Gets a single option's value from the option array
-	*
-	* @param string $sKey
-	* @return mixed
-	*/
-	protected function getOption( $sKey )
-	{
-		if ( array_key_exists( $sKey, $this->m_arOptions ) )
-			return( $this->m_arOptions[ $sKey ] );
-
-		return( null );
 	}
 
 	/**
