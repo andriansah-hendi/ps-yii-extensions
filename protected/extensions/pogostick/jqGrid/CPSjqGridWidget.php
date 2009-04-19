@@ -25,7 +25,7 @@ require_once( dirname( __FILE__ ) . '/../CPogostickWidget.php' );
 * @package applications.extensions.pogostick.jqGrid
 * @since 1.0.3
 */
-class CPSjqGridWidget extends CPogostickWidget
+class CPSjqGridWidget extends CPSWidget
 {
 	//********************************************************************************
 	//* Methods
@@ -37,10 +37,10 @@ class CPSjqGridWidget extends CPogostickWidget
 	* @param array $arOptions
 	* @return CPSjqGridWidget
 	*/
-	public function __construct( $arOptions = null )
+	public function init()
 	{
 		//	Set the valid options for this widget
-		$this->m_arValidOptions = array(
+		$this->validOptions = array(
 			'altRows' => array( 'type' => 'boolean' ),
 			'caption' => array( 'type' => 'string' ),
 			'cellEdit' => array( 'type' => 'boolean' ),
@@ -97,7 +97,7 @@ class CPSjqGridWidget extends CPogostickWidget
 		);
 
 		//	Set the valid callbacks
-		$this->m_arValidCallbacks = array(
+		$this->validCallbacks = array(
 			'afterInsertRow',
 			'gridComplete',
 			'loadBeforeSend',
@@ -115,7 +115,7 @@ class CPSjqGridWidget extends CPogostickWidget
 			'subGridType',
 		);
 
-		parent::__construct( $arOptions );
+		parent::init();
 	}
 
 	/***
@@ -125,7 +125,7 @@ class CPSjqGridWidget extends CPogostickWidget
 	public function run()
 	{
 		//	Validate baseUrl
-		if ( empty( $this->m_sBaseUrl ) )
+		if ( empty( $this->baseUrl ) )
 			throw new CHttpException( 500, 'CjqGridWidget: baseUrl is required.');
 
 		//	Register the scripts/css
@@ -146,21 +146,21 @@ class CPSjqGridWidget extends CPogostickWidget
 		$_oCS = parent::registerClientScripts();
 
 		//	If image path isn't specified, set to current theme path
-		if ( ! array_key_exists( 'imgpath', $this->m_arOptions ) || empty( $this->m_arOptions[ 'imgpath' ] ) )
-			$this->m_arOptions[ 'imgpath' ] = "{$this->m_sBaseUrl}/themes/{$this->m_arOptions[ 'theme' ]}/images";
+		if ( ! array_key_exists( 'imgpath', $this->options ) || empty( $this->options[ 'imgpath' ] ) )
+			$this->m_arOptions[ 'imgpath' ] = "{$this->baseUrl}/themes/{$this->options[ 'theme' ]}/images";
 
 		//	Register scripts necessary
-		$_oCS->registerScriptFile( "{$this->m_sBaseUrl}/jquery.jqGrid.js" );
-		$_oCS->registerScriptFile( "{$this->m_sBaseUrl}/js/jqModal.js" );
-		$_oCS->registerScriptFile( "{$this->m_sBaseUrl}/js/jqDnR.js" );
+		$_oCS->registerScriptFile( "{$this->baseUrl}/jquery.jqGrid.js" );
+		$_oCS->registerScriptFile( "{$this->baseUrl}/js/jqModal.js" );
+		$_oCS->registerScriptFile( "{$this->baseUrl}/js/jqDnR.js" );
 
 		//	Get the javascript for this widget
 		$_sScript = $this->generateJavascript();
-		$_oCS->registerScript( 'Yii.' . $this->m_sClassName . '#' . $this->m_sId, $_sScript, CClientScript::POS_READY );
+		$_oCS->registerScript( 'Yii.' . __CLASS__ . '#' . $this->id, $_sScript, CClientScript::POS_READY );
 
 		//	Register css files...
-		$_oCS->registerCssFile( "{$this->m_sBaseUrl}/themes/{$this->getOption( 'theme' )}/grid.css", 'screen' );
-		$_oCS->registerCssFile( "{$this->m_sBaseUrl}/themes/jqModal.css", 'screen' );
+		$_oCS->registerCssFile( "{$this->baseUrl}/themes/{$this->getOption( 'theme' )}/grid.css", 'screen' );
+		$_oCS->registerCssFile( "{$this->baseUrl}/themes/jqModal.css", 'screen' );
 	}
 
 	//********************************************************************************
