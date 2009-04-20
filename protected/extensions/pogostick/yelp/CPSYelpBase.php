@@ -184,10 +184,11 @@ abstract class CPSYelpBase extends CPSComponent
 			'userAgent' => array( 'type' => 'string' ),
 			'format' => array( 'type' => 'string', 'valid' => array( 'array', 'xml', 'json' ) ),
 			'baseUrl' => array( 'type' => 'string' ),
+			'apiBaseUrl' => array( 'type' => 'string' ),
+			'apiSubUrls' => array( 'type' => 'array' ),
 			'apiToUse' => array( 'type' => 'string', 'valid' => array( 'review', 'phone', 'neighborhood' ), 'required' => true ),
 			'requestData' => array( 'type' => 'array' ),
 			'requestMap' => array( 'type' => 'array' ),
-			'apiSubUrls' => array( 'type' => 'array' ),
 		);
 
 		//	Call daddy...
@@ -236,35 +237,35 @@ abstract class CPSYelpBase extends CPSComponent
 	protected function makeRequest( $sSubType, $arRequestData = null )
 	{
 		//	Default...
-		$_arRequestData = $this->m_arRequestData;
+		$_arRequestData = $this->requestData;
 
 		//	Check data...
 		if ( null != $arRequestData )
 			$_arRequestData = array_merge( $_arRequestData, $arRequestData );
 
 		//	Check subtype...
-		if ( ! array_key_exists( $sSubType, $this->m_arRequestMap[ $this->m_sApiToUse ] ) )
+		if ( ! array_key_exists( $sSubType, $this->requestMap[ $this->apiToUse ] ) )
 		{
 			throw new CException(
 				Yii::t(
 					__CLASS__,
 					'Invalid API SubType specified for "{apiToUse}". Valid subtypes are "{subTypes}"',
 					array(
-						'{apiToUse}' => $this->m_sApiToUse,
-						'{subTypes}' => implode( ', ', $this->m_arRequestMap[ $this->m_sApiToUse ] )
+						'{apiToUse}' => $this->apiToUse,
+						'{subTypes}' => implode( ', ', array_keys( $this->requestMap[ $this->apiToUse ] ) )
 					)
 				)
 			);
 		}
 
 		//	First build the url...
-		$_sUrl = $this->m_sApiBaseUrl . ( substr( $this->m_sApiBaseUrl, strlen( $this->m_sApiBaseUrl ) - 1, 1 ) != '/' ? '/' : '' ) . $this->m_arApiSubUrls[ $this->m_sApiToUse ];
+		$_sUrl = $this->apiBaseUrl . ( substr( $this->apiBaseUrl, strlen( $this->apiBaseUrl ) - 1, 1 ) != '/' ? '/' : '' ) . $this->apiSubUrls[ $this->apiToUse ];
 
 		//	Add the API key...
-		$_sQuery = 'ywsid=' . $this->m_sApiKey;
+		$_sQuery = 'ywsid=' . $this->apiKey;
 
 		//	Add the request data to the Url...
-		foreach ( $this->m_arRequestMap[ $this->m_sApiToUse ][ $sSubType ] as $_sKey => $_arInfo )
+		foreach ( $this->requestMap[ $this->apiToUse ][ $sSubType ] as $_sKey => $_arInfo )
 		{
 			if ( isset( $_arInfo[ 'required' ] ) && $_arInfo[ 'required' ] && ! array_key_exists( $_sKey, $_arRequestData ) )
 			{
@@ -287,13 +288,13 @@ abstract class CPSYelpBase extends CPSComponent
 		$this->beforeAPICall( $_sUrl, $_sQuery );
 
 		//	Ok, we've build our request, now let's get the results...
-		$_sResults = CAppHelpers::getRequest( $_sUrl, $_sQuery, $this->m_sUserAgent );
+		$_sResults = CAppHelpers::getRequest( $_sUrl, $_sQuery, $this->userAgent );
 
 		//	Honor events...
 		$this->afterAPICall( $_sUrl, $_sQuery, $_sResults );
 
 		//	If user doesn't want JSON output, then reformat
-		switch ( $this->m_sFormat )
+		switch ( $this->format )
 		{
 			case 'xml':
 				$_sResults = CAppHelpers::arrayToXml( json_decode( $_sResults, true ), 'Results' );
