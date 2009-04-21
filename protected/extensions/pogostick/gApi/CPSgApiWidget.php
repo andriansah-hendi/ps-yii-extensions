@@ -18,9 +18,23 @@
  */
 class CPSgApiWidget extends CPSWidget
 {
+	/**
+	* Your API Key
+	*
+	* @var mixed
+	*/
 	protected $m_sApiKey = '';
+	/**
+	* The Google APIs to load
+	*
+	* @var array
+	*/
 	protected $m_arApisToLoad = array();
 
+	/**
+	* Initializes the component
+	*
+	*/
 	public function init()
 	{
 		$this->validOptions = array(

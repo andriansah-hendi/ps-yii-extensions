@@ -20,8 +20,96 @@
  * @package
  * @since 1.0.4
  */
-class CPSYelpAPI extends CPSYelpBase
+class CPSYelpAPI extends CPSBaseAPI
 {
+	//********************************************************************************
+	//* Constants
+	//********************************************************************************
+
+	const YELP_REVIEW_API = 'review';
+	const YELP_PHONE_API = 'phone';
+	const YELP_NEIGHBORHOOD_API = 'neighborhood';
+
+	//********************************************************************************
+	//* Public Methods
+	//********************************************************************************
+
+	/**
+	* Initialize the component
+	*
+	*/
+	public function init()
+	{
+		//	The valid Yelp APIs to call
+		$this->apiSubUrls =
+			array(
+				self::YELP_REVIEW_API => 'business_review_search',
+				self::YELP_PHONE_API => 'phone_search',
+				self::YELP_NEIGHBORHOOD_API => 'neighborhood_search',
+			);
+
+		//	The Yelp API request mapping. This array holds the mapping for the object names to API parameters
+		$this->requestMap = array(
+			//	Business Review API
+			self::YELP_REVIEW_API => array(
+				'boundingBox' => array(
+					'searchTerm' => array( 'name' => 'term', 'required' => false ),
+					'maxResults' => array( 'name' => 'num_biz_requested', 'required' => false ),
+					'topLeftLatitude' => array( 'name' => 'tl_lat', 'required' => true ),
+					'topLeftLongitude' => array( 'name' => 'tl_long', 'required' => true ),
+					'bottomRightLatitude' => array( 'name' => 'br_lat', 'required' => true ),
+					'bottomRightLongitude' => array( 'name' => 'br_long', 'required' => true ),
+					'category' => array( 'name' => 'category', 'required' => false ),
+				),
+
+				'point' => array(
+					'searchTerm' => array( 'name' => 'term', 'required' => false ),
+					'maxResults' => array( 'name' => 'num_biz_requested', 'required' => false ),
+					'latitude' => array( 'name' => 'lat', 'required' => true ),
+					'longitude' => array( 'name' => 'long', 'required' => true ),
+					'radius' => array( 'name' => 'radius', 'required' => false ),
+					'category' => array( 'name' => 'category', 'required' => false ),
+				),
+
+				'location' => array(
+					'searchTerm' => array( 'name' => 'term', 'required' => false ),
+					'maxResults' => array( 'name' => 'num_biz_requested', 'required' => false ),
+					'location' => array( 'name' => 'location', 'required' => true ),
+					'countryCode' => array( 'name' => 'cc', 'required' => false ),
+					'radius' => array( 'name' => 'radius', 'required' => false ),
+					'category' => array( 'name' => 'category', 'required' => false ),
+				),
+			),
+
+			//	Phone Search API
+			self::YELP_PHONE_API => array(
+				'number' => array(
+					'phoneNumber' => array( 'name' => 'phone', 'required' => true ),
+					'countryCode' => array( 'name' => 'cc', 'required' => false ),
+					'category' => array( 'name' => 'category', 'required' => false ),
+				),
+			),
+
+			//	Neighborhood API
+			self::YELP_NEIGHBORHOOD_API => array(
+				'point' => array(
+					'latitude' => array( 'name' => 'lat', 'required' => true ),
+					'longitude' => array( 'name' => 'long', 'required' => true ),
+					'category' => array( 'name' => 'category', 'required' => false ),
+				),
+
+				'location' => array(
+					'location' => array( 'name' => 'location', 'required' => true ),
+					'countryCode' => array( 'name' => 'cc', 'required' => false ),
+					'category' => array( 'name' => 'category', 'required' => false ),
+				),
+			),
+		);
+
+		//	Call daddy...
+		parent::init();
+	}
+
 	/**
 	* Calls the Yelp API and retrieves reviews by bounding rectancle.
 	*
@@ -200,5 +288,4 @@ class CPSYelpAPI extends CPSYelpBase
 
 		return( $this->makeRequest( 'location', $_arReqData ) );
 	}
-
 }

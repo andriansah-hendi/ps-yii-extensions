@@ -44,7 +44,8 @@ class CPSComponentBehavior extends CBehavior
 	protected $m_arValidOptions = array();
 
 	/**
-	* Placeholder for widget options
+	* Placeholder for widget options, do not include member variables as options. Member variables are
+	* to be used by the component for configuration. These options are sent to the actual component.
 	*
 	* @var array
 	*/

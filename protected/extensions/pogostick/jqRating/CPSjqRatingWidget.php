@@ -294,4 +294,109 @@ class CPSjqRatingWidget extends CPSWidget
 		//	Return my created widget
 		return( $_oWidget );
  	}
+
+	/**
+	* Handles and formats the query and Xml output for a jqGrid
+	*
+	* @param CModel $oModel The model to use for the query
+	* @param CDbCriteria|string $oCriteria Can be a full CDbCriteria object or a comma separated list of columns to "SELECT"
+	* @param array $arQSElems The query string elements in array format. Must be in PAGE, ROWS, SORTCOLUMN, SORTORDER. Defaults to 'page', 'rows', 'sidx', 'sord'
+	* @return string The Xml data for the grid
+	*/
+	public static function asjqGridXmlData( $oModel, $oCriteria = null, $arQSElems = null, $bReturnString = false )
+	{
+		//	Defaults...
+		$_iPage = 1;
+		$_iLimit = 25;
+		$_iSortCol = 1;
+		$_sSortOrder = 'asc';
+		$_arArgs = array( 'page', 'rows', 'sidx', 'sord' );
+		$_bHaveDBC = ( is_object( $oCriteria ) && ( get_class( $oCriteria ) == 'CDbCriteria' || is_subclass_of( $oCriteria, 'CDbCriteria' ) ) );
+
+		//	Use user argument naames?
+		if ( $arQSElems )
+		{
+			unset( $_arArgs );
+			$_arArgs = $arQSElems;
+		}
+
+		//	Get any passed in arguments
+		if ( isset( $_REQUEST[ $_arArgs[ 0 ] ] ) )
+			$_iPage = $_REQUEST[ $_arArgs[ 0 ] ];
+
+		if ( isset( $_REQUEST[ $_arArgs[ 1 ] ] ) )
+			$_iLimit = $_REQUEST[ $_arArgs[ 1 ] ];
+
+		if ( isset( $_REQUEST[ $_arArgs[ 2 ] ] ) )
+			$_iSortCol = $_REQUEST[ $_arArgs[ 2 ] ];
+
+		if ( isset( $_REQUEST[ $_arArgs[ 3 ] ] ) )
+			$_sSortOrder = $_REQUEST[ $_arArgs[ 3 ] ];
+
+		//	Get a count of rows for this result set
+		$_iRowCount = $oModel->count( ( $_bHaveDBC ) ? $oCriteria : null );
+
+		//	Calculate paging info
+		if ( $_iRowCount > 0 )
+			$_iTotalPages = ceil( $_iRowCount / $_iLimit );
+		else
+			$_iTotalPages = 0;
+
+		//	Sanity checks
+		if ( $_iPage > $_iTotalPages )
+			$_iPage = $_iTotalPages;
+
+		if ( $_iPage < 1 )
+			$_iPage = 1;
+
+		//	Calculate starting offset
+		$_iStart = $_iLimit * $_iPage - $_iLimit;
+
+		//	Sanity check
+		if ( $_iStart < 0 )
+			$_iStart = 0;
+
+		//	Adjust the criteria for the actual query...
+		$_dbc = new CDbCriteria();
+
+		if ( $_bHaveDBC )
+		{
+			unset( $_dbc );
+			$_dbc = $oCriteria;
+		}
+		else if ( gettype( $oCriteria ) == 'string' )
+		{
+			$_dbc->select = $oCriteria;
+		}
+
+		$_dbc->order = "{$_iSortCol} {$_sSortOrder}";
+		$_dbc->limit = $_iLimit;
+		$_dbc->offset = $_iStart;
+		$_oRows = $oModel->findAll( $_dbc );
+
+		//	Set appropriate content type
+		if ( stristr( $_SERVER[ 'HTTP_ACCEPT' ], "application/xhtml+xml" ) )
+			header( "Content-type: application/xhtml+xml;charset=utf-8" );
+		else
+			header( "Content-type: text/xml;charset=utf-8" );
+
+		//	Now create the Xml...
+		$_sOut = CAppHelpers::asXml(
+			$_oRows,
+			array(
+				'jqGrid' => true,
+				'innerElements' => array(
+					array( 'name' => 'page', 'type' => 'integer', 'value' => $_iPage ),
+					array( 'name' => 'total', 'type' => 'integer', 'value' => $_iTotalPages ),
+					array( 'name' => 'records', 'type' => 'integer', 'value' => $_iRowCount ),
+				),
+			)
+		);
+
+		//	Spit it out...
+		if ( ! $bReturnString )
+			echo "<?xml version='1.0' encoding='utf-8'?>" . $_sOut;
+		else
+			return( "<?xml version='1.0' encoding='utf-8'?>" . $_sOut );
+	}
 }
