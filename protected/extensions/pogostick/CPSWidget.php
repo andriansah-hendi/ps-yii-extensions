@@ -24,13 +24,10 @@ abstract class CPSWidget extends CInputWidget
 	//* Methods
 	//********************************************************************************
 
-	public function __construct()
+	public function preinit()
 	{
 		//	Attach this behavior
 		$this->attachBehavior( 'psWidget', array( 'class' => 'application.extensions.pogostick.behaviors.CPSWidgetBehavior' ) );
-
-		//	Call daddy...
-		parent::__construct();
 	}
 
 	/**
