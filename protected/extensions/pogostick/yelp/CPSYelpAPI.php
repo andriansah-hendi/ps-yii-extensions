@@ -1,6 +1,6 @@
 <?php
 /**
- * CPSYelpAPI class file.
+ * CPSYelpApi class file.
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @link http://www.pogostick.com/
@@ -9,14 +9,14 @@
  */
 
 /**
- * CPSYelpAPI provides access to the Yelp Business Reviews API
+ * CPSYelpApi provides access to the Yelp Business Reviews API
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version $Id$
  * @package
  * @since 1.0.4
  */
-class CPSYelpAPI extends CPSAPIComponent
+class CPSYelpApi extends CPSApiComponent
 {
 	//********************************************************************************
 	//* Constants
@@ -36,9 +36,6 @@ class CPSYelpAPI extends CPSAPIComponent
 	*/
 	public function init()
 	{
-		//	Call daddy...
-		parent::init();
-
 		//	The valid Yelp APIs to call
 		$this->apiSubUrls =
 			array(
@@ -105,6 +102,9 @@ class CPSYelpAPI extends CPSAPIComponent
 				),
 			),
 		);
+
+		//	Call daddy...
+		parent::init();
 	}
 
 	/**

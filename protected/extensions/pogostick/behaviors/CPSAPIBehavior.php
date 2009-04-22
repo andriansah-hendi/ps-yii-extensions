@@ -1,6 +1,6 @@
 <?php
 /**
- * CPSAPIBehavior class file.
+ * CPSApiBehavior class file.
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @link http://www.pogostick.com/
@@ -9,14 +9,14 @@
  */
 
 /**
- * CPSAPIBehavior provides a behavior to classes for making API calls
+ * CPSApiBehavior provides a behavior to classes for making API calls
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version $Id$
  * @package
  * @since 1.0.4
  */
-class CPSAPIBehavior extends CPSComponentBehavior
+class CPSApiBehavior extends CPSComponentBehavior
 {
 	//********************************************************************************
 	//* Constants
@@ -139,39 +139,46 @@ class CPSAPIBehavior extends CPSComponentBehavior
 	//* Public Methods
 	//********************************************************************************
 
-	public function init()
-	{
-		//	Call daddy...
-		parent::init();
-
-		//	Attach my event handlers...
-		$this->attachEventHandlers(
-			array_merge(
-				parent::events(),
-				array(
-					'beforeAPICall' => array( $this, 'onBeforeAPICall' ),
-					'afterAPICall' => array( $this, 'onAfterAPICall' ),
-				)
-			)
-		);
-	}
-
 	/**
 	* Called before the API call has been made
 	*
-	* @param CPSAPIEvent $oEvent
+	* @param CPSApiEvent $oEvent
 	*/
-	public function onBeforeAPICall( $oEvent )
+	public function beforeApiCall( $oEvent )
 	{
+		return( $this->onBeforeApiCall( $oEvent ) );
+	}
+
+	/**
+	* This event is raised before the API call is made
+	*
+	* @param CPSApiEvent $oEvent
+	*/
+	public function onBeforeApiCall( $oEvent )
+	{
+		Yii::trace( Yii::t( 'psApiBehavior', 'Event "beforeApiCall" raised' ) );
+		return( $this->raiseEvent( 'onBeforeApiCall', $oEvent ) );
 	}
 
 	/**
 	* Called after the API call has been made
 	*
-	* @param CPSAPIEvent $oEvent
+	* @param CPSApiEvent $oEvent
 	*/
-	public function onAfterAPICall( $oEvent )
+	public function afterApiCall( $oEvent )
 	{
+		return( $this->onBeforeApiCall( $oEvent ) );
+	}
+
+	/**
+	* This event is raised after the API call is made
+	*
+	* @param CPSApiEvent $oEvent
+	*/
+	public function onAfterApiCall( $oEvent )
+	{
+		Yii::trace( Yii::t( 'psApiBehavior', 'Event "afterApiCall" raised' ) );
+		return( $this->raiseEvent( 'onAfterApiCall', $oEvent ) );
 	}
 
 	//********************************************************************************
@@ -247,13 +254,13 @@ class CPSAPIBehavior extends CPSComponentBehavior
 		}
 
 		//	Honor events...
-		$this->raiseEvent( 'onBeforeAPICall', new CPSAPIEvent( $_sUrl, $_sQuery, null, $this ) );
+		$this->beforeApiCall( new CPSApiEvent( $_sUrl, $_sQuery, null, $this ) );
 
 		//	Ok, we've build our request, now let's get the results...
 		$_sResults = self::makeHttpRequest( $_sUrl, $_sQuery, 'GET', $this->userAgent );
 
 		//	Honor events...
-		$this->raiseEvent( 'onAfterAPICall', new CPSAPIEvent( $_sUrl, $_sQuery, $_sResults, $this ) );
+		$this->afterApiCall( new CPSApiEvent( $_sUrl, $_sQuery, $_sResults, $this ) );
 
 		//	If user doesn't want JSON output, then reformat
 		switch ( $this->format )

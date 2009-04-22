@@ -28,7 +28,7 @@ abstract class CPSComponent extends CApplicationComponent
 	* Constructor
 	*
 	*/
-	public function __construct()
+	public function preinit()
 	{
 		$this->attachBehaviors(
         	array(
