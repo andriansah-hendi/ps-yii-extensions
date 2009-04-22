@@ -285,4 +285,5 @@ class CPSYelpApi extends CPSApiComponent
 
 		return( $this->makeRequest( 'location', $_arReqData ) );
 	}
+
 }

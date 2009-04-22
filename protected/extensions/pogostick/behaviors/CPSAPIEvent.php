@@ -50,6 +50,7 @@ class CPSAPIEvent extends CEvent
 	public function getUrl() { return( $this->m_sUrl ); }
 	public function getQuery() { return( $this->m_sQuery ); }
 	public function getUrlResults() { return( $this->m_sResults ); }
+	public function setUrlResults( $sValue ) { $this->m_sResults = $sValue; }
 
 	//********************************************************************************
 	//* Public Methods

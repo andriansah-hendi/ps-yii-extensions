@@ -140,24 +140,30 @@ class CPSApiBehavior extends CPSComponentBehavior
 	//********************************************************************************
 
 	/**
+	 * Declares events and the corresponding event handler methods.
+	 * @return array events (array keys) and the corresponding event handler methods (array values).
+	 * @see CBehavior::events
+	 */
+	public function events()
+	{
+		return(
+			array_merge(
+				parent::events(),
+				array(
+					'onBeforeApiCall' => 'beforeApiCall',
+					'onAfterApiCall' => 'afterApiCall',
+				)
+			)
+		);
+	}
+
+	/**
 	* Called before the API call has been made
 	*
 	* @param CPSApiEvent $oEvent
 	*/
 	public function beforeApiCall( $oEvent )
 	{
-		return( $this->onBeforeApiCall( $oEvent ) );
-	}
-
-	/**
-	* This event is raised before the API call is made
-	*
-	* @param CPSApiEvent $oEvent
-	*/
-	public function onBeforeApiCall( $oEvent )
-	{
-		Yii::trace( Yii::t( 'psApiBehavior', 'Event "beforeApiCall" raised' ) );
-		return( $this->raiseEvent( 'onBeforeApiCall', $oEvent ) );
 	}
 
 	/**
@@ -167,115 +173,6 @@ class CPSApiBehavior extends CPSComponentBehavior
 	*/
 	public function afterApiCall( $oEvent )
 	{
-		return( $this->onBeforeApiCall( $oEvent ) );
-	}
-
-	/**
-	* This event is raised after the API call is made
-	*
-	* @param CPSApiEvent $oEvent
-	*/
-	public function onAfterApiCall( $oEvent )
-	{
-		Yii::trace( Yii::t( 'psApiBehavior', 'Event "afterApiCall" raised' ) );
-		return( $this->raiseEvent( 'onAfterApiCall', $oEvent ) );
-	}
-
-	//********************************************************************************
-	//* Private Methods
-	//********************************************************************************
-
-	protected function makeRequest( $sSubType = null, $arRequestData = null )
-	{
-		//	Default...
-		$_arRequestData = $this->requestData;
-
-		//	Check data...
-		if ( null != $arRequestData )
-			$_arRequestData = array_merge( $_arRequestData, $arRequestData );
-
-		//	Check subtype...
-		if ( ! empty( $sSubType ) && is_array( $this->requestMap ) )
-		{
-			if ( ! array_key_exists( $sSubType, $this->requestMap[ $this->apiToUse ] ) )
-			{
-				throw new CException(
-					Yii::t(
-						__CLASS__,
-						'Invalid API SubType specified for "{apiToUse}". Valid subtypes are "{subTypes}"',
-						array(
-							'{apiToUse}' => $this->apiToUse,
-							'{subTypes}' => implode( ', ', array_keys( $this->requestMap[ $this->apiToUse ] ) )
-						)
-					)
-				);
-			}
-		}
-
-		//	First build the url...
-		$_sUrl = $this->apiBaseUrl .
-			( substr( $this->apiBaseUrl, strlen( $this->apiBaseUrl ) - 1, 1 ) != '/' ? '/' : '' ) .
-			( isset( $this->apiSubUrls[ $this->apiToUse ] ) ? $this->apiSubUrls[ $this->apiToUse ] : '' );
-
-		//	Add the API key...
-		if ( ! empty( $this->apiQueryName ) )
-			$_sQuery = $this->apiQueryName . '=' . $this->apiKey;
-
-		//	Add the request data to the Url...
-		if ( is_array( $this->requestMap ) && ! empty( $sSubType ) )
-		{
-			foreach ( $this->requestMap[ $this->apiToUse ][ $sSubType ] as $_sKey => $_arInfo )
-			{
-				if ( isset( $_arInfo[ 'required' ] ) && $_arInfo[ 'required' ] && ! array_key_exists( $_sKey, $_arRequestData ) )
-				{
-					throw new CException(
-						Yii::t(
-							__CLASS__,
-							'Required parameter {param} was not included in requestData',
-							array(
-								'{param}' => $_sKey,
-							)
-						)
-					);
-				}
-
-				if ( isset( $_arRequestData[ $_sKey ] ) )
-					$_sQuery .= '&' . $_arInfo[ 'name' ] . '=' . urlencode( $_arRequestData[ $_sKey ] );
-			}
-		}
-		//	Handle non-requestMap call...
-		else if ( is_array( $_arRequestData ) )
-		{
-			foreach ( $this->requestData as $_sKey => $_oValue )
-			{
-				if ( isset( $_arRequestData[ $_sKey ] ) )
-					$_sQuery .= '&' . $_sKey . '=' . urlencode( $_arRequestData[ $_sKey ] );
-			}
-		}
-
-		//	Honor events...
-		$this->beforeApiCall( new CPSApiEvent( $_sUrl, $_sQuery, null, $this ) );
-
-		//	Ok, we've build our request, now let's get the results...
-		$_sResults = self::makeHttpRequest( $_sUrl, $_sQuery, 'GET', $this->userAgent );
-
-		//	Honor events...
-		$this->afterApiCall( new CPSApiEvent( $_sUrl, $_sQuery, $_sResults, $this ) );
-
-		//	If user doesn't want JSON output, then reformat
-		switch ( $this->format )
-		{
-			case 'xml':
-				$_sResults = CAppHelpers::arrayToXml( json_decode( $_sResults, true ), 'Results' );
-				break;
-
-			case 'array':
-				$_sResults = json_decode( $_sResults, true );
-				break;
-		}
-
-		//	Return results...
-		return( $_sResults );
 	}
 
 	 /**
