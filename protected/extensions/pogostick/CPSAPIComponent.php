@@ -37,10 +37,13 @@ class CPSApiComponent extends CPSComponent
 		);
 	}
 
-	//********************************************************************************
-	//* Private Methods
-	//********************************************************************************
-
+	/**
+	* Makes the actual HTTP request based on settings
+	*
+	* @param string $sSubType
+	* @param array $arRequestData
+	* @return string
+	*/
 	protected function makeRequest( $sSubType = null, $arRequestData = null )
 	{
 		//	Default...
@@ -141,26 +144,6 @@ class CPSApiComponent extends CPSComponent
 	//********************************************************************************
 
 	/**
-	* Call to raise the onAfterApiCall event
-	*
-	* @param CPSApiEvent $oEvent
-	*/
-	public function afterApiCall( $oEvent )
-	{
-		$this->onAfterApiCall( $oEvent );
-	}
-
-	/**
-	* Called after the API call has been made
-	*
-	* @param CPSApiEvent $oEvent
-	*/
-	public function onAfterApiCall( $oEvent )
-	{
-		$this->raiseEvent( 'onAfterApiCall', $oEvent );
-	}
-
-	/**
 	* Call to raise the onBeforeApiCall event
 	*
 	* @param CPSApiEvent $oEvent
@@ -171,11 +154,31 @@ class CPSApiComponent extends CPSComponent
 	}
 
 	/**
-	* Called before the API call has been made
+	* Raises the onBeforeApiCall event
 	*
 	* @param CPSApiEvent $oEvent
 	*/
 	public function onBeforeApiCall( $oEvent )
+	{
+		$this->raiseEvent( 'onBeforeApiCall', $oEvent );
+	}
+
+	/**
+	* Call to raise the onAfterApiCall event
+	*
+	* @param CPSApiEvent $oEvent
+	*/
+	public function afterApiCall( $oEvent )
+	{
+		$this->onAfterApiCall( $oEvent );
+	}
+
+	/**
+	* Raises the onAfterApiCall event
+	*
+	* @param CPSApiEvent $oEvent
+	*/
+	public function onAfterApiCall( $oEvent )
 	{
 		$this->raiseEvent( 'onBeforeApiCall', $oEvent );
 	}

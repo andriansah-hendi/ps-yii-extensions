@@ -158,7 +158,7 @@ class CPSApiBehavior extends CPSComponentBehavior
 	}
 
 	/**
-	* Called before the API call has been made
+	* beforeApiCall event
 	*
 	* @param CPSApiEvent $oEvent
 	*/
@@ -167,7 +167,7 @@ class CPSApiBehavior extends CPSComponentBehavior
 	}
 
 	/**
-	* Called after the API call has been made
+	* afterApiCall event
 	*
 	* @param CPSApiEvent $oEvent
 	*/
@@ -219,4 +219,5 @@ class CPSApiBehavior extends CPSComponentBehavior
 
 		return( $_sResult );
 	}
+
 }
