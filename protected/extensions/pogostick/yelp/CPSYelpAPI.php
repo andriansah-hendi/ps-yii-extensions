@@ -8,10 +8,6 @@
  * @license http://www.pogostick.com/license/
  */
 
-//********************************************************************************
-//* Include Files
-//********************************************************************************
-
 /**
  * CPSYelpAPI provides access to the Yelp Business Reviews API
  *
@@ -20,7 +16,7 @@
  * @package
  * @since 1.0.4
  */
-class CPSYelpAPI extends CPSBaseAPI
+class CPSYelpAPI extends CPSAPIComponent
 {
 	//********************************************************************************
 	//* Constants
@@ -40,6 +36,9 @@ class CPSYelpAPI extends CPSBaseAPI
 	*/
 	public function init()
 	{
+		//	Call daddy...
+		parent::init();
+
 		//	The valid Yelp APIs to call
 		$this->apiSubUrls =
 			array(
@@ -50,6 +49,7 @@ class CPSYelpAPI extends CPSBaseAPI
 
 		//	The Yelp API request mapping. This array holds the mapping for the object names to API parameters
 		$this->requestMap = array(
+
 			//	Business Review API
 			self::YELP_REVIEW_API => array(
 				'boundingBox' => array(
@@ -105,9 +105,6 @@ class CPSYelpAPI extends CPSBaseAPI
 				),
 			),
 		);
-
-		//	Call daddy...
-		parent::init();
 	}
 
 	/**
@@ -126,7 +123,7 @@ class CPSYelpAPI extends CPSBaseAPI
 	{
 		$this->apiToUse = self::YELP_REVIEW_API;
 
-		$_arReqData = array(
+		$this->requestData = array(
 			'topLeftLatitude' => $fTLLat,
 			'topLeftLongitude' => $fTLLong,
 			'bottomRightLatitude' => $fBRLat,
@@ -135,12 +132,12 @@ class CPSYelpAPI extends CPSBaseAPI
 		);
 
 		if ( $sSearchTerm != null )
-			$_arReqData[ 'searchTerm' ] = $sSearchTerm;
+			$this->requestData[ 'searchTerm' ] = $sSearchTerm;
 
 		if ( $sCategories != null )
-			$_arReqData[ 'category' ] = $sCategories;
+			$this->requestData[ 'category' ] = $sCategories;
 
-		return( $this->makeRequest( 'boundingBox', $_arReqData ) );
+		return( $this->makeRequest( 'boundingBox' ) );
 	}
 
 	/**

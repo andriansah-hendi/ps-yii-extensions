@@ -24,9 +24,16 @@ abstract class CPSComponent extends CApplicationComponent
 	//* Methods
 	//********************************************************************************
 
-	public function preinit()
+	/**
+	* Constructor
+	*
+	*/
+	public function __construct()
 	{
-		//	Attach this behavior before init is called...
-		$this->attachBehavior( 'psComponent', array( 'class' => 'application.extensions.pogostick.behaviors.CPSComponentBehavior' ) );
+		$this->attachBehaviors(
+        	array(
+        		'psComponent' => 'application.extensions.pogostick.behaviors.CPSComponentBehavior',
+        	)
+        );
 	}
 }

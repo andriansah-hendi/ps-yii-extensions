@@ -30,6 +30,16 @@ class CPSAPIBehavior extends CPSComponentBehavior
 	//********************************************************************************
 
 	/**
+	* The secondary remote API key (if applicable) (i.e. Facebook's Secret Key
+	*
+	* @var string
+	*/
+	protected $m_sAltApiKey = null;
+	/**
+	* The API base url to use
+	*/
+	protected $m_sApiBaseUrl = null;
+	/**
 	* The remote API key (if applicable)
 	*
 	* @var string
@@ -41,12 +51,6 @@ class CPSAPIBehavior extends CPSComponentBehavior
 	* @var string
 	*/
 	protected $m_sApiQueryName = null;
-	/**
-	* The secondary remote API key (if applicable) (i.e. Facebook's Secret Key
-	*
-	* @var string
-	*/
-	protected $m_sAltApiKey = null;
 	/**
 	* The API user name ( if applicatble )
 	*
@@ -60,11 +64,15 @@ class CPSAPIBehavior extends CPSComponentBehavior
 	*/
 	protected $m_sApiPassword = null;
 	/**
-	* The user agent string to use
-	*
-	* @var string
+	* The sub API call to make (if applicable)
 	*/
-	protected $m_sUserAgent = 'Pogostick Components for Yii; (+http://www.pogostick.com/yii)';
+	protected $m_sApiToUse = null;
+	/**
+	* Sub urls for automated API usage
+	*
+	* @var array
+	*/
+	protected $m_arApiSubUrls = array();
 	/***
 	* The way returned data is formatted if appropriate. Valid options should be array, json, or xml.
 	*
@@ -72,19 +80,11 @@ class CPSAPIBehavior extends CPSComponentBehavior
 	*/
 	protected $m_sFormat = 'array';
 	/**
-	* The API base url to use
-	*/
-	protected $m_sApiBaseUrl = null;
-	/**
-	* The sub API call to make (if applicable)
-	*/
-	protected $m_sApiToUse = null;
-	/**
-	* The map of API calls. This is an optional
+	* The HTTP method to use when making calls...
 	*
-	* @var array
+	* @var string Use the CPSBaseAPI constants (i.e. CPSBaseAPI::GET)
 	*/
-	protected $m_arRequestData = array();
+	protected $m_sHttpMethod = self::HTTP_GET;
 	/**
 	* The data to pass to the API for the request
 	*
@@ -92,11 +92,17 @@ class CPSAPIBehavior extends CPSComponentBehavior
 	*/
 	protected $m_arRequestData = array();
 	/**
-	* The HTTP method to use when making calls...
+	* The map of API calls. This is an optional
 	*
-	* @var string Use the CPSBaseAPI constants (i.e. CPSBaseAPI::GET)
+	* @var array
 	*/
-	protected $m_eHttpMethod = self::HTTP_fGET;
+	protected $m_arRequestMap = array();
+	/**
+	* The user agent string to use
+	*
+	* @var string
+	*/
+	protected $m_sUserAgent = 'Pogostick Components for Yii; (+http://www.pogostick.com/yii)';
 
 	//********************************************************************************
 	//* Property Access Methods
@@ -120,8 +126,8 @@ class CPSAPIBehavior extends CPSComponentBehavior
 	public function setApiSubUrls( $arValue ) { $this->m_arApiSubUrls = $arValue; }
 	public function getFormat() { return( $this->m_sFormat ); }
 	public function setFormat( $sValue ) { $this->m_sFormat = $sValue; }
-	public function getHttpMethod() { return( $this->m_eHttpMethod ); }
-	public function setHttpMethod( $eValue ) { $this->m_eHttpMethod = $eValue; }
+	public function getHttpMethod() { return( $this->m_sHttpMethod ); }
+	public function setHttpMethod( $sValue ) { $this->m_sHttpMethod = $sValue; }
 	public function getRequestData() { return( $this->m_arRequestData ); }
 	public function setRequestData( $arValue ) { $this->m_arRequestData = $arValue; }
 	public function getRequestMap() { return( $this->m_arRequestMap ); }
@@ -133,16 +139,19 @@ class CPSAPIBehavior extends CPSComponentBehavior
 	//* Public Methods
 	//********************************************************************************
 
-	/**
-	 * Declares events and the corresponding event handler methods.
-	 * @see CBehavior::events
-	 */
-	public function events()
+	public function init()
 	{
-		return(
-			array(
-				'onBeforeAPICall' => 'beforeAPICall',
-				'onAfterAPICall' => 'afterAPICall',
+		//	Call daddy...
+		parent::init();
+
+		//	Attach my event handlers...
+		$this->attachEventHandlers(
+			array_merge(
+				parent::events(),
+				array(
+					'beforeAPICall' => array( $this, 'onBeforeAPICall' ),
+					'afterAPICall' => array( $this, 'onAfterAPICall' ),
+				)
 			)
 		);
 	}
@@ -150,21 +159,18 @@ class CPSAPIBehavior extends CPSComponentBehavior
 	/**
 	* Called before the API call has been made
 	*
-	* @param string $sUrl The url called
-	* @param string $sQuery The query string used
+	* @param CPSAPIEvent $oEvent
 	*/
-	public function beforeAPICall( $sUrl, $sQuery )
+	public function onBeforeAPICall( $oEvent )
 	{
 	}
 
 	/**
 	* Called after the API call has been made
 	*
-	* @param string $sUrl The url called
-	* @param string $sQuery The query string used
-	* @param string $sResults The raw results of the call
+	* @param CPSAPIEvent $oEvent
 	*/
-	public function afterAPICall( $sUrl, $sQuery, $sResults )
+	public function onAfterAPICall( $oEvent )
 	{
 	}
 
@@ -241,13 +247,13 @@ class CPSAPIBehavior extends CPSComponentBehavior
 		}
 
 		//	Honor events...
-		$this->beforeAPICall( $_sUrl, $_sQuery );
+		$this->raiseEvent( 'onBeforeAPICall', new CPSAPIEvent( $_sUrl, $_sQuery, null, $this ) );
 
 		//	Ok, we've build our request, now let's get the results...
 		$_sResults = self::makeHttpRequest( $_sUrl, $_sQuery, 'GET', $this->userAgent );
 
 		//	Honor events...
-		$this->afterAPICall( $_sUrl, $_sQuery, $_sResults );
+		$this->raiseEvent( 'onAfterAPICall', new CPSAPIEvent( $_sUrl, $_sQuery, $_sResults, $this ) );
 
 		//	If user doesn't want JSON output, then reformat
 		switch ( $this->format )
@@ -291,7 +297,7 @@ class CPSAPIBehavior extends CPSComponentBehavior
 			curl_setopt( $_oCurl, CURLOPT_USERAGENT, $_sAgent );
 			curl_setopt( $_oCurl, CURLOPT_TIMEOUT, 60 );
 			curl_setopt( $_oCurl, CURLOPT_FOLLOWLOCATION, true );
-			curl_setopt( $_oCurl, CURLOPT_URL, $sUrl . ( 'GET' == $sMethod  ? ( $sQueryString != '' ? "?" . $sQueryString : '' ) ) );
+			curl_setopt( $_oCurl, CURLOPT_URL, $sUrl . ( 'GET' == $sMethod  ? ( ! empty( $sQueryString ) ? '?' . $sQueryString : '' ) : '' ) );
 
 			//	If this is a post, we have to put the post data in another field...
 			if ( 'POST' == $sMethod )

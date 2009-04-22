@@ -24,10 +24,20 @@ abstract class CPSWidget extends CInputWidget
 	//* Methods
 	//********************************************************************************
 
-	public function preinit()
+	/**
+	* Attach behaviors during construction...
+	*
+	* @param CBaseController $oOwner
+	*/
+	public function __construct( $oOwner = null )
 	{
-		//	Attach this behavior
-		$this->attachBehavior( 'psWidget', array( 'class' => 'application.extensions.pogostick.behaviors.CPSWidgetBehavior' ) );
+		parent::__construct( $oOwner );
+
+		$this->attachBehaviors(
+        	array(
+        		'psWidget' => 'application.extensions.pogostick.behaviors.CPSWidgetBehavior',
+        	)
+        );
 	}
 
 	/**
@@ -36,11 +46,11 @@ abstract class CPSWidget extends CInputWidget
 	*/
 	public function init()
 	{
-		//	Get the id/name of this widget
-		list( $this->name, $this->id ) = $this->resolveNameID();
-
 		//	Call daddy
 		parent::init();
+
+		//	Get the id/name of this widget
+		list( $this->name, $this->id ) = $this->resolveNameID();
 	}
 
 	/***
