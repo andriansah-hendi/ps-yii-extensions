@@ -16,32 +16,21 @@
 
  * @since 1.0.4
  */
-class CPSFacebookConnect extends CPSWidget
+class CPSFacebookConnect extends CPSApiWidget
 {
-	public function __construct()
-	{
-		//	Phone home
-		parent::__construct();
-
-		//	Attach the API behavior...
-		$this->attachBehavior( 'api', 'application.extensions.pogostick.behaviors.CPSAPIBehavior' );
-	}
-
 	/**
 	* Our constructor
 	*
 	*/
 	public function init()
 	{
-		$this->validOptions = array(
+		parent::init();
+
+		$this->validWidgetOptions = array(
 			'appId' => array( 'type' => 'string' ),
-			'apiKey' => array( 'type' => 'string', 'required' => true ),
-			'altApiKey' => array( 'type' => 'string', 'required' => true ),
 			'callbackUrl' => array( 'type' => 'string', 'required' => true ),
 			'xdrUrl' => array( 'type' => 'string', 'required' => true ),
 		);
-
-		parent::init();
 	}
 
 	/***
@@ -57,7 +46,7 @@ class CPSFacebookConnect extends CPSWidget
 	protected function generateJavascript()
 	{
 		$_sOut =<<<JSCRIPT
-FB.init('{$this->getOption( 'apiKey' )}', '{$this->getOption( 'xdrUrl' )}' );
+FB.init('{$this->apiKey}', '{$this->xdrUrl}' );
 FB.ensureInit(
 	function()
 	{
