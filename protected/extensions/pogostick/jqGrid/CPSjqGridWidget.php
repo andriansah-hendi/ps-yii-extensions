@@ -34,7 +34,7 @@ class CPSjqGridWidget extends CPSWidget
 	public function init()
 	{
 		//	Set the valid options for this widget
-		$this->validOptions = array(
+		$this->validWidgetOptions = array(
 			'altRows' => array( 'type' => 'boolean' ),
 			'caption' => array( 'type' => 'string' ),
 			'cellEdit' => array( 'type' => 'boolean' ),
@@ -91,7 +91,7 @@ class CPSjqGridWidget extends CPSWidget
 		);
 
 		//	Set the valid callbacks
-		$this->validCallbacks = array(
+		$this->validWidgetCallbacks = array(
 			'afterInsertRow',
 			'gridComplete',
 			'loadBeforeSend',
