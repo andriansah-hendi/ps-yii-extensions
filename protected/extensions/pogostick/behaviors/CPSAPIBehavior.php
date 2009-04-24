@@ -37,19 +37,19 @@ class CPSApiBehavior extends CPSComponentBehavior
 	{
 		parent::__construct();
 
-		$this->settings->add( 'altApiKey', null );
-		$this->settings->add( 'apiBaseUrl', null );
-		$this->settings->add( 'apiKey', null );
-		$this->settings->add( 'apiQueryName', null );
-		$this->settings->add( 'apiUserName', null );
-		$this->settings->add( 'apiPassword', null );
-		$this->settings->add( 'apiToUse', null );
-		$this->settings->add( 'apiSubUrls', array() );
-		$this->settings->add( 'format', 'array' );
-		$this->settings->add( 'httpMethod', self::HTTP_GET );
-		$this->settings->add( 'requestData', array() );
-		$this->settings->add( 'requestMap', array() );
-		$this->settings->add( 'userAgent', 'Pogostick Components for Yii; (+http://www.pogostick.com/yii)' );
+		$this->getSettings()->add( 'altApiKey', null );
+		$this->getSettings()->add( 'apiBaseUrl', null );
+		$this->getSettings()->add( 'apiKey', null );
+		$this->getSettings()->add( 'apiQueryName', null );
+		$this->getSettings()->add( 'apiUserName', null );
+		$this->getSettings()->add( 'apiPassword', null );
+		$this->getSettings()->add( 'apiToUse', null );
+		$this->getSettings()->add( 'apiSubUrls', array() );
+		$this->getSettings()->add( 'format', 'array' );
+		$this->getSettings()->add( 'httpMethod', self::HTTP_GET );
+		$this->getSettings()->add( 'requestData', array() );
+		$this->getSettings()->add( 'requestMap', array() );
+		$this->getSettings()->add( 'userAgent', 'Pogostick Components for Yii; (+http://www.pogostick.com/yii)' );
 	}
 
 	//********************************************************************************
