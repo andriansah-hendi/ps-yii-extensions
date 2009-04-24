@@ -1,6 +1,6 @@
 <?php
 /**
- * CPSAPIEvent class file.
+ * CPSApiEvent class file.
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @link http://www.pogostick.com/
@@ -9,14 +9,14 @@
  */
 
 /**
- * CPSAPIEvent provides specialized events for CPSAPIBehavior
+ * CPSApiEvent provides specialized events for CPSApiBehavior
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version $Id$
  * @package application.extensions.pogostick.behaviors
  * @since 1.0.4
  */
-class CPSAPIEvent extends CEvent
+class CPSApiEvent extends CEvent
 {
 	//********************************************************************************
 	//* Members
@@ -60,7 +60,7 @@ class CPSAPIEvent extends CEvent
 	* Constructor
 	*
 	* @param mixed $sender
-	* @return CPSAPIEvent
+	* @return CPSApiEvent
 	*/
 	public function __construct( $sUrl = null, $sQuery = null, $sResults = null, $oSender = null )
 	{
