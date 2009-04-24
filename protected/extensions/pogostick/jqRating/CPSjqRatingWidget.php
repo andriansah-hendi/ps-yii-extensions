@@ -74,7 +74,10 @@ class CPSjqRatingWidget extends CPSWidget
 	*/
 	public function init()
 	{
-		$this->validOptions = array(
+		//	Call daddy...
+		parent::init();
+		
+		$this->validWidgetOptions = array(
 			'cancel' => array( 'type' => 'string' ),
 			'cancelValue' => array( 'type' => 'string' ),
 			'readOnly' => array( 'type' => 'boolean' ),
@@ -82,7 +85,7 @@ class CPSjqRatingWidget extends CPSWidget
 			'resetAll' => array( 'type' => 'boolean' ),
 		);
 
-		$this->validCallbacks = array(
+		$this->validWidgetsCallbacks = array(
 			'callback',
 			'focus',
 			'blur',
@@ -90,9 +93,6 @@ class CPSjqRatingWidget extends CPSWidget
 
 		//	Set our view name...
 		$this->viewName = __CLASS__ . 'View';
-
-		//	Call daddy...
-		parent::init();
 	}
 
 	/***
