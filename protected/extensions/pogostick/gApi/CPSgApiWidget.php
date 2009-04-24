@@ -16,64 +16,41 @@
  * @package application.extensions.pogostick.gApi
  * @since 1.0.3
  */
-class CPSgApiWidget extends CPSWidget
+class CPSgApiWidget extends CPSApiWidget
 {
 	/**
-	* Your API Key
-	*
-	* @var mixed
-	*/
-	protected $m_sApiKey = '';
-	/**
-	* The Google APIs to load
-	*
-	* @var array
-	*/
-	protected $m_arApisToLoad = array();
-
-	/**
-	* Initializes the component
+	* Constructor
 	*
 	*/
-	public function init()
+	public function __construct()
 	{
-		$this->validOptions = array(
-			'apiKey' => array( 'type' => 'string' ),
-			'apisToLoad' => array( 'type' => 'array', 'valid' => array( 'maps', 'search', 'feeds', 'language', 'gdata', 'earth', 'visualization' ) ),
+		parent::__construct();
+
+		//	Our object settings
+		$this->settings->widgetOptions = array_merge( ( is_array( $this->settings->widgetOptions ) ? $this->settings->widgetOptions : array() ),
+			array(
+				'apisToLoad',
+			)
 		);
 
-		parent::init();
+		//	Validation
+		$this->settings->validWidgetOptions = array_merge( ( is_array( $this->settings->validWidgetOptions ) ? $this->settings->validWidgetOptions : array() ),
+			array(
+				'apisToLoad' => array( 'type' => 'array', 'valid' => array( 'maps', 'search', 'feeds', 'language', 'gdata', 'earth', 'visualization' ) ),
+			)
+		);
 	}
 
 	public function run()
 	{
 		parent::run();
+		$this->registerClientScripts();
 		echo $this->generateHtml();
-	}
-
-	public function getApiKey()
-	{
-		return( $this->m_sApiKey );
-	}
-
-	public function setApiKey( $sKey )
-	{
-		$this->m_sApiKey = $sKey;
-	}
-
-	public function getApisToLoad()
-	{
-		return( $this->m_arApisToLoad );
-	}
-
-	public function setApisToLoad( $arApis )
-	{
-		$this->m_arApisToLoad = $arApis;
 	}
 
 	protected function generateJavascript()
 	{
-		foreach ( $this->apisToLoad as $_sApi => $_sVersion )
+		foreach ( $this->widgetOptions[ 'apisToLoad' ] as $_sApi => $_sVersion )
 		{
 //			$this->m_sScript .= "google.load(\"{$_sApi}\", \"{$_sVersion}\");";
 		}
@@ -86,13 +63,15 @@ class CPSgApiWidget extends CPSWidget
 		return( null );
 	}
 
-	protected function registerClientScripts()
+	public function registerClientScripts()
 	{
 		$_oCS = parent::registerClientScripts();
 
+		$_sApiKey = $this->apiKey;
+
 		//	Register scripts necessary
-		$_oCS->registerScriptFile( "http://www.google.com/jsapi?key={$this->apiKey}", CClientScript::POS_HEAD );
-		$_oCS->registerScriptFile( "http://maps.google.com/maps?file=api&v=2&key={$this->apiKey}&sensor=false", CClientScript::POS_HEAD );
+		$_oCS->registerScriptFile( "http://www.google.com/jsapi?key={$_sApiKey}", CClientScript::POS_HEAD );
+		$_oCS->registerScriptFile( "http://maps.google.com/maps?file=api&v=2&key={$_sApiKey}&sensor=false", CClientScript::POS_HEAD );
 		$_oCS->registerScriptFile( 'http://gmaps-utility-library.googlecode.com/svn/trunk/markermanager/1.1/src/markermanager.js', CClientScript::POS_HEAD );
 //		$_oCS->registerScriptFile( 'http://gmaps-utility-library.googlecode.com/svn/trunk/tabbedmaxcontent/1.0/src/tabbedmaxcontent.js', CClientScript::POS_HEAD );
 		$_oCS->registerScriptFile( 'http://gmaps-utility-library.googlecode.com/svn/trunk/extinfowindow/release/src/extinfowindow.js', CClientScript::POS_HEAD );

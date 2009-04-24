@@ -20,7 +20,7 @@ class CPSgMapsWidget extends CPSgApiWidget
 {
 	public function init()
 	{
-		$this->validOptions = array(
+		$this->validWidgetOptions = array(
 			//	GMapOptions
 			'size' => array( 'type' => 'array' ),
 			'mapTypes' => array( 'type' => 'array' ),
@@ -36,6 +36,6 @@ class CPSgMapsWidget extends CPSgApiWidget
 
 	public function generateJavascript()
 	{
-		$_sCode = "var map = new GMap2(document.getElementById(\"{$this->m_sId}\"));";
+		$_sCode = "var map = new GMap2(document.getElementById(\"{$this->id}\"));";
 	}
 }
