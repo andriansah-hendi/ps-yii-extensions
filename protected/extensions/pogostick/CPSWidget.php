@@ -54,31 +54,70 @@ abstract class CPSWidget extends CInputWidget
 	}
 
 	/***
-	* Runs this widget
+	* Handles registration of scripts
 	*
 	*/
-	public function run()
+	public function registerClientScripts()
 	{
 		//	Register the scripts/css
-		$this->registerClientScripts();
+		return( Yii::app()->clientScript );
 	}
 
-	//********************************************************************************
-	//* Private methods
-	//********************************************************************************
+	/**
+	* Returns a property from an attached behavior or throws an exception which can be caught
+	*
+	* @param string $sName
+	* @returns mixed
+	*/
+	public function getBehaviorProperty( $sName )
+	{
+		try
+		{
+			return( parent::getBehaviorProperty( $sName, $oValue ) );
+		}
+		catch ( Exception $_ex )
+		{
+			//	Try setting through "settings" of behaviors...
+			$_oBehave = $this->asa( 'psWidget' );
+			if ( $_oBehave && $_oBehave->hasMethod( 'getSettings' ) && $_oBehave->getSettings()->contains( $sName ) )
+				try { return( $_oBehave->getSettings()->{$sName} ); } catch ( Exception $_ex ) {}
+
+			$_oBehave = $this->asa( 'psApi' );
+			if ( $_oBehave && $_oBehave->hasMethod( 'getSettings' ) && $_oBehave->getSettings()->contains( $sName ) )
+				try { return( $_oBehave->getSettings()->{$sName} ); } catch ( Exception $_ex ) {}
+		}
+
+		//	This exception won't really get seen because it is ignored upstream...
+		throw new CException( Yii::t( 'yii', 'Behavior Property "{class}.{property}" is not defined.', array( '{class}' => get_class( $this ), '{property}' => $sName ) ) );
+	}
 
 	/**
-	* Generates the javascript code for the widget
+	* Sets a property in an attached behavior if it exists or throws a catchable exception. Overrides CComponent::setBehaviorProperty
 	*
-	* @return string
+	* @param string $sName
+	* @param mixed $oValue
 	*/
-	abstract protected function generateJavascript();
+	public function setBehaviorProperty( $sName, $oValue )
+	{
+		try
+		{
+			parent::setBehaviorProperty( $sName, $oValue );
+			return;
+		}
+		catch ( Exception $_ex )
+		{
+			//	Try setting through "settings" of behaviors...
+			$_oBehave = $this->asa( 'psWidget' );
+			if ( $_oBehave && $_oBehave->hasMethod( 'getSettings' ) && $_oBehave->getSettings()->contains( $sName ) )
+				try { $_oBehave->getSettings()->{$sName} = $oValue; if ( $_oBehave->getSettings()->{$sName} == $oValue ) return; } catch ( Exception $_ex ) {}
 
-	/**
-	* Generates the javascript code for the widget
-	*
-	* @return string
-	*/
-	abstract protected function generateHtml();
+			$_oBehave = $this->asa( 'psApi' );
+			if ( $_oBehave && $_oBehave->hasMethod( 'getSettings' ) && $_oBehave->getSettings()->contains( $sName ) )
+				try { $_oBehave->getSettings()->{$sName} = $oValue; if ( $_oBehave->getSettings()->{$sName} == $oValue ) return; } catch ( Exception $_ex ) {}
+		}
+
+		//	This exception won't really get seen because it is ignored upstream...
+		throw new CException( Yii::t( 'yii', 'Behavior Property "{class}.{property}" is not defined.', array( '{class}' => get_class( $this ), '{property}' => $sName ) ) );
+	}
 
 }
