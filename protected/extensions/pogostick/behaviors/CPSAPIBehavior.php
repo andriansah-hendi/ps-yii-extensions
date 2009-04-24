@@ -14,7 +14,7 @@
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version $Id$
  * @package
- * @since 1.0.4
+ * @since 1.0.5
  */
 class CPSApiBehavior extends CPSComponentBehavior
 {
@@ -22,7 +22,13 @@ class CPSApiBehavior extends CPSComponentBehavior
 	//* Constants
 	//********************************************************************************
 
+	/**
+	* 'GET' Http method
+	*/
 	const HTTP_GET = 'GET';
+	/**
+	* 'PUT' Http method
+	*/
 	const HTTP_POST = 'POST';
 
 	//********************************************************************************
@@ -33,24 +39,28 @@ class CPSApiBehavior extends CPSComponentBehavior
 	//* Member Variables
 	//********************************************************************************
 
+	/***
+	* Constructor
+	*
+	*/
 	public function __construct()
 	{
-		parent::__construct();
+		//	Add ours...
+		$this->addOption( 'altApiKey', array( 'value' => '', 'check' => array( 'type' => 'string' ) ) );
+		$this->addOption( 'apiBaseUrl', array( 'value' => '', 'check' => array( 'type' => 'string' ) ) );
+		$this->addOption( 'apiKey', array( 'value' => '', 'check' => array( 'type' => 'string' ) ) );
+		$this->addOption( 'apiQueryName', array( 'value' => '', 'check' => array( 'type' => 'string' ) ) );
+		$this->addOption( 'apiToUse', array( 'value' => '', 'check' => array( 'type' => 'string' ) ) );
+		$this->addOption( 'apiSubUrls', array( 'value' => array(), 'check' => array( 'type' => 'array' ) ) );
+		$this->addOption( 'format', array( 'value' => 'array', 'check' => array( 'type' => 'string' ) ) );
+		$this->addOption( 'httpMethod', array( 'value' => self::HTTP_GET, 'check' => array( 'type' => 'string' ) ) );
+		$this->addOption( 'requestData', array( 'value' => array(), 'check' => array( 'type' => 'array' ) ) );
+		$this->addOption( 'requestMap', array( 'value' => array(), 'check' => array( 'type' => 'array' ) ) );
+		$this->addOption( 'userAgent', array( 'value' => 'Pogostick Components for Yii; (+http://www.pogostick.com/yii)', 'check' => array( 'type' => 'string' ) ) );
 
-		$this->getSettings()->add( 'altApiKey', null );
-		$this->getSettings()->add( 'apiBaseUrl', null );
-		$this->getSettings()->add( 'apiKey', null );
-		$this->getSettings()->add( 'apiQueryName', null );
-		$this->getSettings()->add( 'apiUserName', null );
-		$this->getSettings()->add( 'apiPassword', null );
-		$this->getSettings()->add( 'apiToUse', null );
-		$this->getSettings()->add( 'apiSubUrls', array() );
-		$this->getSettings()->add( 'format', 'array' );
-		$this->getSettings()->add( 'httpMethod', self::HTTP_GET );
-		$this->getSettings()->add( 'requestData', array() );
-		$this->getSettings()->add( 'requestMap', array() );
-		$this->getSettings()->add( 'userAgent', 'Pogostick Components for Yii; (+http://www.pogostick.com/yii)' );
-	}
+		//	Get dad's options...
+		parent::__construct();
+    }
 
 	//********************************************************************************
 	//* Public Methods
