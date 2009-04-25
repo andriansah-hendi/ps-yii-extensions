@@ -16,7 +16,7 @@
  * @package
  * @since 1.0.5
  */
-class CPSApiBehavior extends CPSComponentBehavior
+class CPSApiBehavior extends CPSOptionsBehavior
 {
 	//********************************************************************************
 	//* Constants
@@ -45,22 +45,35 @@ class CPSApiBehavior extends CPSComponentBehavior
 	*/
 	public function __construct()
 	{
-		//	Add ours...
-		$this->addOption( 'altApiKey', array( 'value' => '', 'check' => array( 'type' => 'string' ) ) );
-		$this->addOption( 'apiBaseUrl', array( 'value' => '', 'check' => array( 'type' => 'string' ) ) );
-		$this->addOption( 'apiKey', array( 'value' => '', 'check' => array( 'type' => 'string' ) ) );
-		$this->addOption( 'apiQueryName', array( 'value' => '', 'check' => array( 'type' => 'string' ) ) );
-		$this->addOption( 'apiToUse', array( 'value' => '', 'check' => array( 'type' => 'string' ) ) );
-		$this->addOption( 'apiSubUrls', array( 'value' => array(), 'check' => array( 'type' => 'array' ) ) );
-		$this->addOption( 'format', array( 'value' => 'array', 'check' => array( 'type' => 'string' ) ) );
-		$this->addOption( 'httpMethod', array( 'value' => self::HTTP_GET, 'check' => array( 'type' => 'string' ) ) );
-		$this->addOption( 'requestData', array( 'value' => array(), 'check' => array( 'type' => 'array' ) ) );
-		$this->addOption( 'requestMap', array( 'value' => array(), 'check' => array( 'type' => 'array' ) ) );
-		$this->addOption( 'userAgent', array( 'value' => 'Pogostick Components for Yii; (+http://www.pogostick.com/yii)', 'check' => array( 'type' => 'string' ) ) );
+		//	Log
+		Yii::log( 'constructed psApiBehavior object for [' . get_parent_class() . ']' );
 
-		//	Get dad's options...
-		parent::__construct();
+		//	Add ours...
+		$this->addOptions( self::getBaseOptions() );
     }
+
+	/**
+	* Allows for single behaviors
+	*
+	*/
+	private function getBaseOptions()
+	{
+		return(
+			array(
+				'altApiKey' => array( 'value' => '', 'type' => 'string' ),
+				'apiBaseUrl' => array( 'value' => '', 'type' => 'string' ),
+				'apiKey' => array( 'value' => '', 'type' => 'string' ),
+				'apiQueryName' => array( 'value' => '', 'type' => 'string' ),
+				'apiToUse' => array( 'value' => '', 'type' => 'string' ),
+				'apiSubUrls' => array( 'value' => array(), 'type' => 'array' ),
+				'format' => array( 'value' => 'array', 'type' => 'string' ),
+				'httpMethod' => array( 'value' => self::HTTP_GET, 'type' => 'string' ),
+				'requestData' => array( 'value' => array(), 'type' => 'array' ),
+				'requestMap' => array( 'value' => array(), 'type' => 'array' ),
+				'userAgent' => array( 'value' => 'Pogostick Components for Yii; (+http://www.pogostick.com/yii)', 'type' => 'string' ),
+			)
+		);
+	}
 
 	//********************************************************************************
 	//* Public Methods
@@ -79,6 +92,7 @@ class CPSApiBehavior extends CPSComponentBehavior
 				array(
 					'onBeforeApiCall' => 'beforeApiCall',
 					'onAfterApiCall' => 'afterApiCall',
+					'onRequestComplete' => 'requestComplete',
 				)
 			)
 		);
@@ -102,6 +116,19 @@ class CPSApiBehavior extends CPSComponentBehavior
 	{
 	}
 
+	/**
+	* requestComplete event
+	*
+	* @param CPSApiEvent $oEvent
+	*/
+	public function requestComplete( $oEvent )
+	{
+	}
+
+	//********************************************************************************
+	//* Private Methods
+	//********************************************************************************
+
 	 /**
 	 * Make an HTTP request
 	 *
@@ -109,9 +136,11 @@ class CPSApiBehavior extends CPSComponentBehavior
 	 * @param string $sQueryString The query string to attach
 	 * @param string $sMethod The HTTP method to use. Can be 'GET' or 'SET'
 	 * @param integer $iTimeOut The number of seconds to wait for a response. Defaults to 60 seconds
+	 * @param function|array $oHeaderCallback The callback function to call after the header has been read. Accepts function reference or array( object, method )
+	 * @param function|array $oReadCallback The callback function to call after the body has been read. Accepts function reference or array( object, method )
 	 * @return mixed The data returned from the HTTP request or null for no data
 	 */
-	protected function makeHttpRequest( $sUrl, $sQueryString = null, $sMethod = 'GET', $sUserAgent = null, $iTimeOut = 60 )
+	protected function makeHttpRequest( $sUrl, $sQueryString = null, $sMethod = 'GET', $sUserAgent = null, $iTimeOut = 60, $oHeaderCallback = null, $oReaderCallback = null )
 	{
 		//	Our user-agent string
 		$_sAgent = ( null != $sUserAgent ) ? $sUserAgent : 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; .NET CLR 2.0.50727; .NET CLR 3.0.04506; InfoPath.3)';
@@ -119,16 +148,23 @@ class CPSApiBehavior extends CPSComponentBehavior
 		//	Our return results
 		$_sResult = null;
 
-		// Use CURL if installed...
+		// Use cURL
 		if ( function_exists( 'curl_init' ) )
 		{
 			$_oCurl = curl_init();
+
 			curl_setopt( $_oCurl, CURLOPT_RETURNTRANSFER, true );
 			curl_setopt( $_oCurl, CURLOPT_FAILONERROR, true );
 			curl_setopt( $_oCurl, CURLOPT_USERAGENT, $_sAgent );
 			curl_setopt( $_oCurl, CURLOPT_TIMEOUT, 60 );
 			curl_setopt( $_oCurl, CURLOPT_FOLLOWLOCATION, true );
 			curl_setopt( $_oCurl, CURLOPT_URL, $sUrl . ( 'GET' == $sMethod  ? ( ! empty( $sQueryString ) ? '?' . $sQueryString : '' ) : '' ) );
+
+			if ( null != $oHeaderCallback )
+				cur_setopt( $_oCurl, CURLOPT_HEADERFUNCTION, $oHeaderCallback );
+
+			if ( null != $oHeaderCallback )
+				cur_setopt( $_oCurl, CURLOPT_READFUNCTION, $oReadCallback );
 
 			//	If this is a post, we have to put the post data in another field...
 			if ( 'POST' == $sMethod )
@@ -142,7 +178,7 @@ class CPSApiBehavior extends CPSComponentBehavior
 			curl_close( $_oCurl );
 		}
 		else
-			throw new Exception( '"libcurl" is required to use this functionality. Please reconfigure your php.ini to include "libcurl".' );
+			throw new CException( '"libcurl" is required to use this functionality. Please reconfigure your php.ini to include "libcurl".' );
 
 		return( $_sResult );
 	}

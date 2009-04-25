@@ -76,8 +76,8 @@ class CPSjqRatingWidget extends CPSWidget
 	{
 		//	Call daddy...
 		parent::init();
-		
-		$this->validWidgetOptions = array(
+
+		$this->validOptions = array(
 			'cancel' => array( 'type' => 'string' ),
 			'cancelValue' => array( 'type' => 'string' ),
 			'readOnly' => array( 'type' => 'boolean' ),
@@ -85,7 +85,7 @@ class CPSjqRatingWidget extends CPSWidget
 			'resetAll' => array( 'type' => 'boolean' ),
 		);
 
-		$this->validWidgetsCallbacks = array(
+		$this->validCallbacks = array(
 			'callback',
 			'focus',
 			'blur',

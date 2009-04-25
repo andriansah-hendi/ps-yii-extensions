@@ -32,19 +32,31 @@ class CPSComponentBehavior extends CPSOptionsBehavior
 	*/
 	public function __construct()
 	{
+		//	Log
+		Yii::log( 'constructed psComponentBehavior object for [' . get_parent_class() . ']' );
+
 		//	Set up our base settings
-		$this->addOption( 'baseUrl', array( 'value' => '', 'check' => array( 'type' => 'string' ) ) );
-		$this->addOption( 'checkOptions', array( 'value' => true, 'check' => array( 'type' => 'boolean' ) ) );
-		$this->addOption( 'validOptions', array( 'value' => array(), 'check' => array( 'type' => 'array' ) ) );
-		$this->addOption( 'options', array( 'value' => array(), 'check' => array( 'type' => 'array' ) ) );
-		$this->addOption( 'checkCallbacks', array( 'value' => true, 'check' => array( 'type' => 'boolean' ) ) );
-		$this->addOption( 'validCallbacks', array( 'value' => array(), 'check' => array( 'type' => 'array' ) ) );
-		$this->addOption( 'callbacks', array( 'value' => array(), 'check' => array( 'type' => 'array' ) ) );
+		$this->addOptions( self::getBaseOptions() );
 	}
 
-	//********************************************************************************
-	//* Property Accessors
-	//********************************************************************************
+	/**
+	* Allows for single behaviors
+	*
+	*/
+	protected function getBaseOptions()
+	{
+		return(
+			array(
+				'baseUrl' => array( 'value' => '', 'type' => 'string' ),
+				'checkOptions' => array( 'value' => true, 'type' => 'boolean' ),
+				'validOptions' => array( 'value' => array(), 'type' => 'array' ),
+				'options' => array( 'value' => array(), 'type' => 'array' ),
+				'checkCallbacks' => array( 'value' => true, 'type' => 'boolean' ),
+				'validCallbacks' => array( 'value' => array(), 'type' => 'array' ),
+				'callbacks' => array( 'value' => array(), 'type' => 'array' ),
+			)
+		);
+	}
 
 	//********************************************************************************
 	//* Public Methods
@@ -56,13 +68,13 @@ class CPSComponentBehavior extends CPSOptionsBehavior
     * @param array $value user's options
     * @param array $validOptions valid options
     */
-	protected function checkOptions( $arOptions = null, $arValidOptions = null )
+	protected function checkOptions( array $arOptions = null, array $arValidOptions = null )
  	{
 		if ( ! isset( $arValidOptions ) )
-			$arValidOptions = $this->getOption( 'validOptions.value' );
+			$arValidOptions = $this->validOptions;
 
 		if ( ! isset( $arOptions ) )
-			$arOptions = $this->getOption( 'options.value' );
+			$arOptions = $this->options;
 
 		foreach ( $arOptions as $_sKey => $_oValue )
 		{
@@ -88,7 +100,7 @@ class CPSComponentBehavior extends CPSOptionsBehavior
 		}
 
 		//	Now validate them...
-		$this->validateOptions( $arOptions, $arValidOptions );
+		return( $this->validateOptions( $arOptions, $arValidOptions ) );
 	}
 
 	/**
@@ -97,7 +109,7 @@ class CPSComponentBehavior extends CPSOptionsBehavior
 	* @param array $arOptions
 	* @return string
 	*/
-	protected function makeOptions( $arOptions = null )
+	protected function makeOptions( array $arOptions = null )
 	{
 		$_arOptions = ( $arOptions == null ) ? $this->getOption( 'options.value' ) : $arOptions;
 
@@ -112,6 +124,7 @@ class CPSComponentBehavior extends CPSOptionsBehavior
 
 		foreach( $_arOptions as $_oOption )
 		{
+			//	Ignore private options
 			if ( isset( $_oOption[ 'private' ] ) && true == $_oOption[ 'private' ] )
 				continue;
 
@@ -138,8 +151,10 @@ class CPSComponentBehavior extends CPSOptionsBehavior
 	/**
 	* Validates that required options have been specified...
 	*
+	* @param mixed $arOptions
+	* @param mixed $arValidOptions
 	*/
-	protected function validateOptions( $arOptions , $arValidOptions )
+	protected function validateOptions( array $arOptions , array $arValidOptions )
 	{
 		foreach ( $arOptions as $_sKey => $_oValue )
 		{
@@ -147,9 +162,14 @@ class CPSComponentBehavior extends CPSOptionsBehavior
 			if ( ! array_key_exists( $_sKey, $arValidOptions ) )
 				throw new CException( Yii::t( __CLASS__, '"{x}" is not a valid option', array( '{x}' => $_sKey ) ) );
 
-			if ( isset( $arValidOptions[ $_sKey ][ 'required' ] ) && $arValidOptions[ $_sKey ][ 'required' ] && ( ! $arOptions[ $_sKey ] || empty( $arOptions[ $_sKey ] ) ) )
+			$_oCurOption = $arOptions[ $_sKey ];
+			$_oCurValidOption = $arValidOptions[ $_sKey ];
+
+			if ( isset( $_oCurValidOption[ 'required' ] ) && $_oCurValidOption[ 'required' ] && ( ! $_oCurOption || empty( $_oCurOption ) ) )
 				throw new CException( Yii::t( __CLASS__, '"{x}" is a required option', array( '{x}' => $_sKey ) ) );
 		}
+
+		return( true );
 	}
 
    /**
@@ -157,7 +177,7 @@ class CPSComponentBehavior extends CPSOptionsBehavior
     * @param array $value user's callbacks
     * @param array $validCallbacks valid callbacks
     */
-	protected function checkCallbacks( $arCallbacks = null, $arValidCallbacks = null )
+	protected function checkCallbacks( array $arCallbacks = null, array $arValidCallbacks = null )
 	{
 		if ( ! empty( $arValidCallbacks ) && is_array( $arValidCallbacks ) )
 		{

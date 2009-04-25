@@ -20,17 +20,19 @@ class CPSgMapsWidget extends CPSgApiWidget
 {
 	public function init()
 	{
-		$this->validWidgetOptions = array(
-			//	GMapOptions
-			'size' => array( 'type' => 'array' ),
-			'mapTypes' => array( 'type' => 'array' ),
-			'draggableCursor' => array( 'type' => 'string' ),
-			'draggingCursor' => array( 'type' => 'string' ),
-			'googleBarOptions' => array( 'type' => 'array' ),
-			'backgroundColor' => array( 'type' => 'string' ),
-			//	Method Options
-			'mapCenter' => array( 'type' => 'array' ),
-			'mapType' => array( 'type' => 'string' ),
+		$this->setOption( 'options.value',
+			array(
+				//	GMapOptions
+				'size' => array( 'type' => 'array' ),
+				'mapTypes' => array( 'type' => 'array' ),
+				'draggableCursor' => array( 'type' => 'string' ),
+				'draggingCursor' => array( 'type' => 'string' ),
+				'googleBarOptions' => array( 'type' => 'array' ),
+				'backgroundColor' => array( 'type' => 'string' ),
+				//	Method Options
+				'mapCenter' => array( 'type' => 'array' ),
+				'mapType' => array( 'type' => 'string' ),
+			)
 		);
 	}
 

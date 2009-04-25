@@ -31,6 +31,9 @@ abstract class CPSWidget extends CInputWidget
 	*/
 	public function __construct( $oOwner = null )
 	{
+		//	Log
+		Yii::log( 'constructed psWidget object for [' . get_parent_class() . ']' );
+
 		parent::__construct( $oOwner );
 
 		$this->attachBehaviors(
@@ -54,70 +57,19 @@ abstract class CPSWidget extends CInputWidget
 	}
 
 	/***
-	* Handles registration of scripts
+	* Handles registration of scripts & css files...
 	*
 	*/
 	public function registerClientScripts()
 	{
-		//	Register the scripts/css
-		return( Yii::app()->clientScript );
+		//	Get the clientScript
+		$_oCS = Yii::app()->getClientScript();
+
+		//	Register a special CSS file if we have one...
+		if ( ! empty( $this->cssFile ) )
+			$_oCS->registerCssFile( Yii::app()->baseUrl . "{$this->cssFile}", 'screen' );
+
+		//	Send upstream for convenience
+		return( $_oCS );
 	}
-
-	/**
-	* Returns a property from an attached behavior or throws an exception which can be caught
-	*
-	* @param string $sName
-	* @returns mixed
-	*/
-	public function getBehaviorProperty( $sName )
-	{
-		try
-		{
-			return( parent::getBehaviorProperty( $sName, $oValue ) );
-		}
-		catch ( Exception $_ex )
-		{
-			//	Try setting through "settings" of behaviors...
-			$_oBehave = $this->asa( 'psWidget' );
-			if ( $_oBehave && $_oBehave->hasMethod( 'getSettings' ) && $_oBehave->getSettings()->contains( $sName ) )
-				try { return( $_oBehave->getSettings()->{$sName} ); } catch ( Exception $_ex ) {}
-
-			$_oBehave = $this->asa( 'psApi' );
-			if ( $_oBehave && $_oBehave->hasMethod( 'getSettings' ) && $_oBehave->getSettings()->contains( $sName ) )
-				try { return( $_oBehave->getSettings()->{$sName} ); } catch ( Exception $_ex ) {}
-		}
-
-		//	This exception won't really get seen because it is ignored upstream...
-		throw new CException( Yii::t( 'yii', 'Behavior Property "{class}.{property}" is not defined.', array( '{class}' => get_class( $this ), '{property}' => $sName ) ) );
-	}
-
-	/**
-	* Sets a property in an attached behavior if it exists or throws a catchable exception. Overrides CComponent::setBehaviorProperty
-	*
-	* @param string $sName
-	* @param mixed $oValue
-	*/
-	public function setBehaviorProperty( $sName, $oValue )
-	{
-		try
-		{
-			parent::setBehaviorProperty( $sName, $oValue );
-			return;
-		}
-		catch ( Exception $_ex )
-		{
-			//	Try setting through "settings" of behaviors...
-			$_oBehave = $this->asa( 'psWidget' );
-			if ( $_oBehave && $_oBehave->hasMethod( 'getSettings' ) && $_oBehave->getSettings()->contains( $sName ) )
-				try { $_oBehave->getSettings()->{$sName} = $oValue; if ( $_oBehave->getSettings()->{$sName} == $oValue ) return; } catch ( Exception $_ex ) {}
-
-			$_oBehave = $this->asa( 'psApi' );
-			if ( $_oBehave && $_oBehave->hasMethod( 'getSettings' ) && $_oBehave->getSettings()->contains( $sName ) )
-				try { $_oBehave->getSettings()->{$sName} = $oValue; if ( $_oBehave->getSettings()->{$sName} == $oValue ) return; } catch ( Exception $_ex ) {}
-		}
-
-		//	This exception won't really get seen because it is ignored upstream...
-		throw new CException( Yii::t( 'yii', 'Behavior Property "{class}.{property}" is not defined.', array( '{class}' => get_class( $this ), '{property}' => $sName ) ) );
-	}
-
 }

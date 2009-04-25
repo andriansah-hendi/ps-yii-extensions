@@ -31,11 +31,14 @@ abstract class CPSApiWidget extends CPSWidget
 	*/
 	public function __construct( $oOwner = null )
 	{
+		//	Log
+		Yii::log( 'constructed psApiWidget object for [' . get_parent_class() . ']' );
+
+		//	Call daddy...
 		parent::__construct( $oOwner );
 
 		$this->attachBehaviors(
         	array(
-        		'psWidget' => 'application.extensions.pogostick.behaviors.CPSWidgetBehavior',
         		'psApi' => 'application.extensions.pogostick.behaviors.CPSApiBehavior',
         	)
         );
@@ -52,16 +55,6 @@ abstract class CPSApiWidget extends CPSWidget
 
 		//	Get the id/name of this widget
 		list( $this->name, $this->id ) = $this->resolveNameID();
-	}
-
-	/***
-	* Handles registration of scripts
-	*
-	*/
-	public function registerClientScripts()
-	{
-		//	Register the scripts/css
-		return( Yii::app()->clientScript );
 	}
 
 	//********************************************************************************
@@ -117,13 +110,33 @@ abstract class CPSApiWidget extends CPSWidget
 	}
 
 	/**
-	* Raises the onAfterApiCall event
+	* Raises the onAfterApiCall event. $oEvent contains "raw" return data
 	*
 	* @param CPSApiEvent $oEvent
 	*/
 	public function onAfterApiCall( $oEvent )
 	{
 		$this->raiseEvent( 'onBeforeApiCall', $oEvent );
+	}
+
+	/**
+	* Call to raise the onRequestComplete event
+	*
+	* @param CPSApiEvent $oEvent
+	*/
+	public function requestComplete( $oEvent )
+	{
+		$this->onRequestComplete( $oEvent );
+	}
+
+	/**
+	* Raises the onRequestComplete event. $oEvent contains "processed" return data (if applicable)
+	*
+	* @param CPSApiEvent $oEvent
+	*/
+	public function onRequestComplete( $oEvent )
+	{
+		$this->raiseEvent( 'onRequestComplete', $oEvent );
 	}
 
 }

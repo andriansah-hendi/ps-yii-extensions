@@ -26,7 +26,7 @@ class CPSFacebookConnect extends CPSApiWidget
 	{
 		parent::init();
 
-		$this->validWidgetOptions = array(
+		$this->validOptions = array(
 			'appId' => array( 'type' => 'string' ),
 			'callbackUrl' => array( 'type' => 'string', 'required' => true ),
 			'xdrUrl' => array( 'type' => 'string', 'required' => true ),

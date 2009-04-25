@@ -24,19 +24,17 @@ class CPSgApiWidget extends CPSApiWidget
 	*/
 	public function __construct()
 	{
+		//	Log
+		Yii::log( 'constructed CPSgApiWidget object for [' . get_parent_class() . ']' );
+
 		parent::__construct();
 
 		//	Our object settings
-		$this->settings->widgetOptions = array_merge( ( is_array( $this->settings->widgetOptions ) ? $this->settings->widgetOptions : array() ),
+		$this->addOption( 'apisToLoad',
 			array(
-				'apisToLoad',
-			)
-		);
-
-		//	Validation
-		$this->settings->validWidgetOptions = array_merge( ( is_array( $this->settings->validWidgetOptions ) ? $this->settings->validWidgetOptions : array() ),
-			array(
-				'apisToLoad' => array( 'type' => 'array', 'valid' => array( 'maps', 'search', 'feeds', 'language', 'gdata', 'earth', 'visualization' ) ),
+				'value' => array(),
+				'type' => 'array',
+				'valid' => array( 'maps', 'search', 'feeds', 'language', 'gdata', 'earth', 'visualization' ),
 			)
 		);
 	}
@@ -50,10 +48,8 @@ class CPSgApiWidget extends CPSApiWidget
 
 	protected function generateJavascript()
 	{
-		foreach ( $this->widgetOptions[ 'apisToLoad' ] as $_sApi => $_sVersion )
-		{
-//			$this->m_sScript .= "google.load(\"{$_sApi}\", \"{$_sVersion}\");";
-		}
+//		foreach ( $this->apisToLoad as $_sApi => $_sVersion )
+//			$this->script .= "google.load(\"{$_sApi}\", \"{$_sVersion}\");";
 
 		return( $this->script );
 	}

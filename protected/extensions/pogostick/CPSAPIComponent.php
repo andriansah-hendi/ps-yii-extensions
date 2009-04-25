@@ -23,12 +23,16 @@ class CPSApiComponent extends CPSComponent
 	//********************************************************************************
 
 	/**
-	* The behaviors for this class. Only return this classes behaviors.
+	* Constructors
 	*
 	*/
-	public function preinit()
+	public function __constructor()
 	{
-		parent::preinit();
+		//	Log
+		Yii::log( 'constructed psApiComponent object for [' . get_parent_class() . ']' );
+
+		//	Call daddy
+		parent::__construct();
 
 		$this->attachBehaviors(
 			array(
@@ -135,52 +139,12 @@ class CPSApiComponent extends CPSComponent
 				break;
 		}
 
+		//	Raise our completion event...
+		$_oEvent->setUrlResults( $_sResults );
+		$this->requestComplete( $_oEvent );
+
 		//	Return results...
 		return( $_sResults );
-	}
-
-	//********************************************************************************
-	//* Event Handlers
-	//********************************************************************************
-
-	/**
-	* Call to raise the onBeforeApiCall event
-	*
-	* @param CPSApiEvent $oEvent
-	*/
-	public function beforeApiCall( $oEvent )
-	{
-		$this->onBeforeApiCall( $oEvent );
-	}
-
-	/**
-	* Raises the onBeforeApiCall event
-	*
-	* @param CPSApiEvent $oEvent
-	*/
-	public function onBeforeApiCall( $oEvent )
-	{
-		$this->raiseEvent( 'onBeforeApiCall', $oEvent );
-	}
-
-	/**
-	* Call to raise the onAfterApiCall event
-	*
-	* @param CPSApiEvent $oEvent
-	*/
-	public function afterApiCall( $oEvent )
-	{
-		$this->onAfterApiCall( $oEvent );
-	}
-
-	/**
-	* Raises the onAfterApiCall event
-	*
-	* @param CPSApiEvent $oEvent
-	*/
-	public function onAfterApiCall( $oEvent )
-	{
-		$this->raiseEvent( 'onBeforeApiCall', $oEvent );
 	}
 
 }

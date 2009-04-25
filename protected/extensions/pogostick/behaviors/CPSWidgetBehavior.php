@@ -24,34 +24,29 @@ class CPSWidgetBehavior extends CPSComponentBehavior
 
 	public function __construct()
 	{
-		//	Call daddy...
+		//	Log
+		Yii::log( 'constructed CPSWidgetBehavior object for [' . get_parent_class() . ']' );
+
 		parent::__construct();
 
 		//	Add our settings to this
-		$this->getSettings()->add( 'html', '' );
-		$this->getSettings()->add( 'script', '' );
-		$this->getSettings()->add( 'cssFile', '' );
-		$this->getSettings()->add( 'viewName', '' );
+		$this->addOptions( self::getBaseOptions() );
 	}
 
-	//********************************************************************************
-	//* Public Methods
-	//********************************************************************************
-
 	/**
-	* Registers the needed CSS and JavaScript.
+	* Allows for single behaviors
+	*
 	*/
-	public function registerClientScripts()
+	protected function getBaseOptions()
 	{
-		//	Get the clientScript
-		$_oCS = Yii::app()->getClientScript();
-
-		//	Register a special CSS file if we have one...
-		if ( ! empty( $this->cssFile ) )
-			$_oCS->registerCssFile( Yii::app()->baseUrl . "{$this->cssFile}", 'screen' );
-
-		//	Send upstream for convenience
-		return( $_oCS );
+		return(
+			array(
+				'html' => array( 'value' => '', 'type' => 'string' ),
+				'script' => array( 'value' => '', 'type' => 'string' ),
+				'cssFile' => array( 'value' => '', 'type' => 'string' ),
+				'viewName' => array( 'value' => '', 'type' => 'string' ),
+			)
+		);
 	}
 
 }
