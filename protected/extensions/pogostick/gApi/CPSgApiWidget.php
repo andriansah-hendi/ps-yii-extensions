@@ -72,7 +72,7 @@ class CPSgApiWidget extends CPSApiWidget
 //		$_oCS->registerScriptFile( 'http://gmaps-utility-library.googlecode.com/svn/trunk/tabbedmaxcontent/1.0/src/tabbedmaxcontent.js', CClientScript::POS_HEAD );
 		$_oCS->registerScriptFile( 'http://gmaps-utility-library.googlecode.com/svn/trunk/extinfowindow/release/src/extinfowindow.js', CClientScript::POS_HEAD );
 
-		$_oCS->registerScript( "Yii.{__CLASS__}.#.{$this->id}", $this->generateJavascript(), CClientScript::POS_HEAD );
+		$_oCS->registerScript( "Yii.{__CLASS__}.#.{$this->id}", $this->generateJavascript(), CClientScript::POS_READY );
 		$_oCS->registerScript( "Yii.{__CLASS__}.#.{$this->id}.onLoad", "initialize();", CClientScript::POS_READY );
 	}
 }

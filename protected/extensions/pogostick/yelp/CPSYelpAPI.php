@@ -30,14 +30,12 @@ class CPSYelpApi extends CPSApiComponent
 	//* Public Methods
 	//********************************************************************************
 
-	/**
-	* Initialize the component
-	*
-	*/
-	public function init()
+	function __construct()
 	{
+		Yii::log( 'construct PSYelpApi object' );
+
 		//	Call daddy...
-		parent::init();
+		parent::__construct();
 
 		//	The valid Yelp APIs to call
 		$this->apiSubUrls =

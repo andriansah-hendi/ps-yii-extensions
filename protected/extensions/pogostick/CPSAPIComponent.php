@@ -26,19 +26,19 @@ class CPSApiComponent extends CPSComponent
 	* Constructors
 	*
 	*/
-	public function __constructor()
+	public function __construct()
 	{
 		//	Log
 		Yii::log( 'constructed psApiComponent object for [' . get_parent_class() . ']' );
-
-		//	Call daddy
-		parent::__construct();
 
 		$this->attachBehaviors(
 			array(
         		'psApi' => 'application.extensions.pogostick.behaviors.CPSApiBehavior',
         	)
 		);
+
+		//	Call daddy
+		parent::__construct();
 	}
 
 	/**
@@ -145,6 +145,70 @@ class CPSApiComponent extends CPSComponent
 
 		//	Return results...
 		return( $_sResults );
+	}
+
+	//********************************************************************************
+	//* Event Handlers
+	//********************************************************************************
+
+	/**
+	* Call to raise the onBeforeApiCall event
+	*
+	* @param CPSApiEvent $oEvent
+	*/
+	public function beforeApiCall( $oEvent )
+	{
+		$this->onBeforeApiCall( $oEvent );
+	}
+
+	/**
+	* Raises the onBeforeApiCall event
+	*
+	* @param CPSApiEvent $oEvent
+	*/
+	public function onBeforeApiCall( $oEvent )
+	{
+		$this->raiseEvent( 'onBeforeApiCall', $oEvent );
+	}
+
+	/**
+	* Call to raise the onAfterApiCall event
+	*
+	* @param CPSApiEvent $oEvent
+	*/
+	public function afterApiCall( $oEvent )
+	{
+		$this->onAfterApiCall( $oEvent );
+	}
+
+	/**
+	* Raises the onAfterApiCall event. $oEvent contains "raw" return data
+	*
+	* @param CPSApiEvent $oEvent
+	*/
+	public function onAfterApiCall( $oEvent )
+	{
+		$this->raiseEvent( 'onBeforeApiCall', $oEvent );
+	}
+
+	/**
+	* Call to raise the onRequestComplete event
+	*
+	* @param CPSApiEvent $oEvent
+	*/
+	public function requestComplete( $oEvent )
+	{
+		$this->onRequestComplete( $oEvent );
+	}
+
+	/**
+	* Raises the onRequestComplete event. $oEvent contains "processed" return data (if applicable)
+	*
+	* @param CPSApiEvent $oEvent
+	*/
+	public function onRequestComplete( $oEvent )
+	{
+		$this->raiseEvent( 'onRequestComplete', $oEvent );
 	}
 
 }

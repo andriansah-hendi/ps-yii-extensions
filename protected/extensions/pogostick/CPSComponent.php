@@ -18,7 +18,7 @@
  * @package applications.extensions.pogostick
  * @since 1.0.3
  */
-abstract class CPSComponent extends CApplicationComponent
+class CPSComponent extends CApplicationComponent
 {
 	//********************************************************************************
 	//* Methods
