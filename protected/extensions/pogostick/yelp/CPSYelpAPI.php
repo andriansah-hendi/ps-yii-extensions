@@ -32,7 +32,8 @@ class CPSYelpApi extends CPSApiComponent
 
 	function __construct()
 	{
-		Yii::log( 'construct PSYelpApi object' );
+		//	Log it and check for issues...
+		$this->psLog( '{class} constructor called' );
 
 		//	Call daddy...
 		parent::__construct();
@@ -46,38 +47,41 @@ class CPSYelpApi extends CPSApiComponent
 			);
 
 		//	The Yelp API request mapping. This array holds the mapping for the object names to API parameters
-		$this->requestMap = array(
+		$this->makeMapArray( self::YELP_REVIEW_API, 'boundingBox',
+			array(
+				$this->makeMapItem( 'searchTerm', 'term' ),
+				$this->makeMapItem( 'maxResults', 'num_biz_requested' ),
+				$this->makeMapItem( 'topLeftLatitude', 'tl_lat', true ),
+				$this->makeMapItem( 'topLeftLongitude', 'tl_long', true ),
+				$this->makeMapItem( 'bottomRightLatitude', 'br_lat', true ),
+				$this->makeMapItem( 'bottomRightLongitude', 'br_long', true ),
+				$this->makeMapItem( 'category' ),
+			)
+		);
 
-			//	Business Review API
-			self::YELP_REVIEW_API => array(
-				'boundingBox' => array(
-					'searchTerm' => array( 'name' => 'term', 'required' => false ),
-					'maxResults' => array( 'name' => 'num_biz_requested', 'required' => false ),
-					'topLeftLatitude' => array( 'name' => 'tl_lat', 'required' => true ),
-					'topLeftLongitude' => array( 'name' => 'tl_long', 'required' => true ),
-					'bottomRightLatitude' => array( 'name' => 'br_lat', 'required' => true ),
-					'bottomRightLongitude' => array( 'name' => 'br_long', 'required' => true ),
-					'category' => array( 'name' => 'category', 'required' => false ),
-				),
+		$this->makeMapArray( self::YELP_REVIEW_API, 'point',
+			array(
+				$this->makeMapItem( 'searchTerm', 'term' ),
+				$this->makeMapItem( 'maxResults', 'num_biz_requested' ),
+				$this->makeMapItem( 'topLeftLatitude', 'lat', true ),
+				$this->makeMapItem( 'topLeftLongitude', 'long', true ),
+				$this->makeMapItem( 'radius' ),
+				$this->makeMapItem( 'category' ),
+			)
+		);
 
-				'point' => array(
-					'searchTerm' => array( 'name' => 'term', 'required' => false ),
-					'maxResults' => array( 'name' => 'num_biz_requested', 'required' => false ),
-					'latitude' => array( 'name' => 'lat', 'required' => true ),
-					'longitude' => array( 'name' => 'long', 'required' => true ),
-					'radius' => array( 'name' => 'radius', 'required' => false ),
-					'category' => array( 'name' => 'category', 'required' => false ),
-				),
+		$this->makeMapArray( self::YELP_REVIEW_API, 'location',
+			array(
+				$this->makeMapItem( 'searchTerm', 'term' ),
+				$this->makeMapItem( 'maxResults', 'num_biz_requested' ),
+				$this->makeMapItem( 'location', 'location', true ),
+				$this->makeMapItem( 'countryCode', 'cc' ),
+				$this->makeMapItem( 'radius' ),
+				$this->makeMapItem( 'category' ),
+			)
+		);
 
-				'location' => array(
-					'searchTerm' => array( 'name' => 'term', 'required' => false ),
-					'maxResults' => array( 'name' => 'num_biz_requested', 'required' => false ),
-					'location' => array( 'name' => 'location', 'required' => true ),
-					'countryCode' => array( 'name' => 'cc', 'required' => false ),
-					'radius' => array( 'name' => 'radius', 'required' => false ),
-					'category' => array( 'name' => 'category', 'required' => false ),
-				),
-			),
+		$this->requestMap = array_merge( $this->requestMap, array(
 
 			//	Phone Search API
 			self::YELP_PHONE_API => array(

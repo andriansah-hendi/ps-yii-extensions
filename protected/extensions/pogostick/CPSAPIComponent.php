@@ -28,8 +28,8 @@ class CPSApiComponent extends CPSComponent
 	*/
 	public function __construct()
 	{
-		//	Log
-		Yii::log( 'constructed psApiComponent object for [' . get_parent_class() . ']' );
+		//	Log it and check for issues...
+		$this->psLog( '{class} constructor called' );
 
 		$this->attachBehaviors(
 			array(
@@ -40,6 +40,37 @@ class CPSApiComponent extends CPSComponent
 		//	Call daddy
 		parent::__construct();
 	}
+
+	/**
+	* Creates an entry for requestMap and inserts it into the array.
+	*
+	* @param string $sLabel The label or friendly name of this map item
+	* @param string $sParamName The actual parameter name to send to API. If not specified, will default to $sLabel
+	* @param bool $bRequired Set to true if the parameter is required
+	* @param array $arOptions If supplied, will merge with generated options
+	* @param array $arTargetArray If supplied, will insert into array
+	* @returns array Returns the constructed array item ready to insert into your requestMap
+	*/
+	public function makeMapItem( string $sLabel, $sParamName = null, $bRequired = false, array $arOptions = null, array $arTargetArray = null )
+	{
+		//	Build default settings
+		$_arMapOptions = array( 'name' => ( null != $sParamName ) ? $sParamName : $sLabel, 'required' => $bRequired );
+
+		//	Add on supplied options
+		if ( null != $arOptions )
+			$_arMapOptions = array_merge( $_arMapOptions, $arOptions );
+
+		//	Insert for caller if requested
+		if ( null != $arTargetArray )
+			$arTargetArray[ $sLabel ] = $_arMapOptions;
+
+		//	Return our array
+		return( $_arMapOptions );
+	}
+
+	//********************************************************************************
+	//* Private Methods
+	//********************************************************************************
 
 	/**
 	* Makes the actual HTTP request based on settings

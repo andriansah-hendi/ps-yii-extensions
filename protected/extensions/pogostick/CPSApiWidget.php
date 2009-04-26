@@ -32,11 +32,12 @@ abstract class CPSApiWidget extends CPSWidget
 	public function __construct( $oOwner = null )
 	{
 		//	Log
-		Yii::log( 'constructed psApiWidget object for [' . get_parent_class() . ']' );
+		$this->psLog( '{class} constructor called' );
 
 		//	Call daddy...
 		parent::__construct( $oOwner );
 
+		//	Attache our api behavior
 		$this->attachBehaviors(
         	array(
         		'psApi' => 'application.extensions.pogostick.behaviors.CPSApiBehavior',
@@ -55,6 +56,65 @@ abstract class CPSApiWidget extends CPSWidget
 
 		//	Get the id/name of this widget
 		list( $this->name, $this->id ) = $this->resolveNameID();
+	}
+
+	/**
+	* Creates an array for requestMap
+	*
+	* @param array $arMap The map of items to insert into the array. Format is the same as (@link makeMapItem)
+	* @param bool $bSetRequestMap If false, will NOT insert constructed array into (@link requestMap)
+	* @returns array Returns the constructed array item ready to insert into your requestMap
+	* @see makeMapItem
+	*/
+	protected function makeMapArray( $sApiName, $sSubApiName = null, array $arMap, $bSetRequestMap = true )
+	{
+		$_arFinal = array();
+
+		foreach ( $arMap as $_sKey => $_oValue )
+		{
+			$_arTemp = $this->makeMapItem(
+				( in_array( 'label', $_oValue ) ) ? $_oValue[ 'name' ] : $_oValue[ 'label' ],
+				$_oValue[ 'name' ],
+				( in_array( 'required', $_oValue ) ) ? $_oValue[ 'required' ] : false,
+				( in_array( 'options', $_oValue ) ) ? $_oValue[ 'options' ] : null
+			);
+
+			$_arTemp = ( $sSubApiName != null ) ? array( $sSubApiName => $_arTemp ) : array( $_sKey, $_arTemp );
+
+			if ( $bSetRequestMap )
+				$this->requestMap[ $sApiName ] = $_arTemp;
+
+			array_merge( $_arFinal[ $sApiName ], $_arTemp );
+		}
+
+		return( $_arFinal );
+	}
+
+	/**                                                   S
+	* Creates an entry for requestMap and inserts it into the array.
+	*
+	* @param string $sLabel The label or friendly name of this map item
+	* @param string $sParamName The actual parameter name to send to API. If not specified, will default to $sLabel
+	* @param bool $bRequired Set to true if the parameter is required
+	* @param array $arOptions If supplied, will merge with generated options
+	* @param array $arTargetArray If supplied, will insert into array
+	* @returns array Returns the constructed array item ready to insert into your requestMap
+	*/
+	protected function makeMapItem( $sLabel, $sParamName = null, $bRequired = false, array $arOptions = null, array $arTargetArray = null )
+	{
+		//	Build default settings
+		$_arMapOptions = array( 'name' => ( null != $sParamName ) ? $sParamName : $sLabel, 'required' => $bRequired );
+
+		//	Add on supplied options
+		if ( null != $arOptions )
+			$_arMapOptions = array_merge( $_arMapOptions, $arOptions );
+
+		//	Insert for caller if requested
+		if ( null != $arTargetArray )
+			$arTargetArray[ $sLabel ] = $_arMapOptions;
+
+		//	Return our array
+		return( $_arMapOptions );
 	}
 
 	//********************************************************************************
