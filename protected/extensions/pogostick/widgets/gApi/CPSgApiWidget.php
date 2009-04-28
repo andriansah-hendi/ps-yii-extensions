@@ -3,7 +3,7 @@
  * CPSgApiWidget class file.
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @link http://www.pogostick.com/
+ * @link http://ps-yii-extensions.googlecode.com
  * @copyright Copyright &copy; 2009 Pogostick, LLC
  * @license http://www.pogostick.com/license/
  */
@@ -12,8 +12,8 @@
  * CPSgApiWidget provides access to the Google AJAX API
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @version $Id$
- * @package application.extensions.pogostick.gApi
+ * @version SVN: $Id$
+ * @package application.extensions.pogostick.base.widgets.gApi
  * @since 1.0.3
  */
 class CPSgApiWidget extends CPSApiWidget
