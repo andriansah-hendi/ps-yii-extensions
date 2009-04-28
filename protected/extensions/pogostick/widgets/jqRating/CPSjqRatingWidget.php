@@ -3,7 +3,7 @@
 * CPSjqRatingWidget class file.
 *
 * @author Jerry Ablan <jablan@pogostick.com>
-* @link http://www.pogostick.com/
+* @link http://ps-yii-extensions.googlecode.com
 * @copyright Copyright &copy; 2009 Pogostick, LLC
 * @license http://www.gnu.org/licenses/gpl.html
 *
@@ -14,8 +14,8 @@
 * The CPSjqRatingWidgetallows the JQ Rating (@link http://www.fyneworks.com/jquery/star-rating/) to be used in Yii.
 *
 * @author Jerry Ablan <jablan@pogostick.com>
-* @version $Id$
-* @package applications.extensions.pogostick.jqRating
+* @version SVN: $Id$
+* @package applications.extensions.pogostick.base.widgets.jqRating
 * @since 1.0.3
 */
 class CPSjqRatingWidget extends CPSWidget
