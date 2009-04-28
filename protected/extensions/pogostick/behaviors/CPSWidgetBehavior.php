@@ -3,7 +3,7 @@
  * <name> class file.
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @link http://www.pogostick.com/
+ * @link http://ps-yii-extensions.googlecode.com
  * @copyright Copyright &copy; 2009 Pogostick, LLC
  * @license http://www.pogostick.com/license/
  */
@@ -12,8 +12,8 @@
  * <name> provides
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @version $Id$
- * @package
+ * @version SVN: $Id$
+ * @package application.extensions.pogostick.behaviors
  * @since 1.0.4
  */
 class CPSWidgetBehavior extends CPSComponentBehavior
@@ -22,7 +22,7 @@ class CPSWidgetBehavior extends CPSComponentBehavior
 	//* Member Variables
 	//********************************************************************************
 
-	public function __construct()
+	public function __construct( $arClassOptions = null )
 	{
 		//	Log
 		Yii::log( 'constructed CPSWidgetBehavior object for [' . get_parent_class() . ']' );
@@ -37,7 +37,7 @@ class CPSWidgetBehavior extends CPSComponentBehavior
 	* Allows for single behaviors
 	*
 	*/
-	protected function getBaseOptions()
+	private function getBaseOptions()
 	{
 		return(
 			array(

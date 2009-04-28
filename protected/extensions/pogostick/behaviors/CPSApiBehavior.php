@@ -16,7 +16,7 @@
  * @package
  * @since 1.0.5
  */
-class CPSApiBehavior extends CPSOptionsBehavior
+class CPSApiBehavior extends CPSComponentBehavior
 {
 	//********************************************************************************
 	//* Constants
@@ -47,6 +47,9 @@ class CPSApiBehavior extends CPSOptionsBehavior
 	{
 		//	Log
 		Yii::log( 'constructed psApiBehavior object for [' . get_parent_class() . ']' );
+
+		//	Call daddy...
+		parent::__construct();
 
 		//	Add ours...
 		$this->addOptions( self::getBaseOptions() );
@@ -183,4 +186,111 @@ class CPSApiBehavior extends CPSOptionsBehavior
 		return( $_sResult );
 	}
 
+	/**
+	* Adds to the requestMap array
+	*
+	* @param string $sLabel
+	* @param string $sParamName
+	* @param bool $bRequired
+	* @param array $arOptions
+	* @param string $sApiName
+	* @param string $sSubApiName
+	* @return array
+	* @see makeMapItem
+	* @see makeMapArray
+	*/
+	protected function addRequestMapping( $sLabel, $sParamName = null, $bRequired = false, array $arOptions = null, $sApiName = null, $sSubApiName = null )
+	{
+		//	Save for next call
+		static $_sLastApiName;
+		static $_sLastSubApiName;
+
+		//	Get our requestMap array...
+		$_arReqMap =& $this->getOption( 'requestMap' );
+
+		//	Set up statics so next call can omit those parameters.
+		if ( $sApiName != $_sLastApiName && null != $sApiName )
+			$_sLastApiName = $sApiName;
+
+		if ( $sSubApiName != $_sLastSubApiName && null != $sSubApiName )
+			$_sLastSubApiName = $sSubApiName;
+
+		//	Build the options
+		$_arTemp = array( 'name' => ( null != $sParamName ) ? $sParamName : $sLabel, 'required' => $bRequired );
+
+		//	Add on supplied options
+		if ( null != $arOptions )
+			$_arTemp = array_merge( $_arTemp, $arOptions );
+
+		//	Get array item ready for insertion
+		if ( null != $_sLastApiName && null != $_sLastSubApiName )
+			$_arReqMap[ $_sLastApiName ][ $_sLastApiName ] = $_arTemp;
+		else if ( null != $_sLastApiName && null == $_sLastSubApiName )
+			$_arFinal[ $sLabel ] = $_arTemp;
+		else
+			$_arFinal = $_arTemp;
+
+		$_arReqMap[ $_sLastApiName ] = $_arFinal;
+
+		return $_arFinal;
+	}
+
+	/**
+	* Creates an array for requestMap
+	*
+	* @param array $arMap The map of items to insert into the array. Format is the same as (@link makeMapItem)
+	* @param bool $bSetRequestMap If false, will NOT insert constructed array into (@link requestMap)
+	* @returns array Returns the constructed array item ready to insert into your requestMap
+	* @see makeMapItem
+	*/
+	protected function makeMapArray( $sApiName, $sSubApiName = null, array $arMap, $bSetRequestMap = true )
+	{
+		$_arFinal = array();
+
+		foreach ( $arMap as $_sKey => $_oValue )
+		{
+			$_sLabel = ( in_array( 'label', $_oValue ) ) ? $_oValue[ 'name' ] : $_oValue[ 'label' ];
+			$_bRequired = ( in_array( 'required', $_oValue ) ) ? $_oValue[ 'required' ] : false;
+			$_arOptions = ( in_array( 'options', $_oValue ) ) ? $_oValue[ 'options' ] : null;
+			$_sParamName = $_oValue[ 'name' ];
+
+			if ( $bSetRequestMap )
+				$this->addRequestMapping( $_sLabel, $_oValue[ 'name' ], $sApiName, $sSubApiName, $_bRequired, $_arOptions );
+			else
+			{
+				$_arTemp = $this->makeMapItem( $_sLabel, $_sParamName, $_bRequired, $_arOptions );
+ 				$_arFinal[ $sApiName ] = ( ! is_array( $_arFinal[ $sApiName ] ) && sizeof( $_arFinal[ $sApiName ] ) > 0 ) ? $_arTemp : array_merge( $_arFinal[ $sApiName ], $_arTemp );
+ 			}
+		}
+
+		//	Return final array
+		return( $_arFinal );
+	}
+
+	/**
+	* Creates an entry for requestMap and inserts it into the array.
+	*
+	* @param string $sLabel The label or friendly name of this map item
+	* @param string $sParamName The actual parameter name to send to API. If not specified, will default to $sLabel
+	* @param bool $bRequired Set to true if the parameter is required
+	* @param array $arOptions If supplied, will merge with generated options
+	* @param array $arTargetArray If supplied, will insert into array
+	* @returns array Returns the constructed array item ready to insert into your requestMap
+	*/
+	protected function makeMapItem( $sLabel, $sParamName = null, $bRequired = false, array $arOptions = null, array $arTargetArray = null )
+	{
+		//	Build default settings
+		$_arMapOptions = array( 'name' => ( null != $sParamName ) ? $sParamName : $sLabel, 'required' => $bRequired );
+
+		//	Add on supplied options
+		if ( null != $arOptions )
+			$_arMapOptions = array_merge( $_arMapOptions, $arOptions );
+
+		//	Insert for caller if requested
+		if ( null != $arTargetArray )
+			$arTargetArray[ $sLabel ] = $_arMapOptions;
+
+		//	Return our array
+		return( $_arMapOptions );
+	}
 }

@@ -3,7 +3,7 @@
  * CPSComponentBehavior class file.
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @link http://www.pogostick.com/
+ * @link http://ps-yii-extensions.googlecode.com
  * @copyright Copyright &copy; 2009 Pogostick, LLC
  * @license http://www.pogostick.com/license/
  */
@@ -12,8 +12,8 @@
  * CPSComponentBehavior provides base component behaviors to other classes
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @version $Id$
- * @package
+ * @version SVN: $Id$
+ * @package application.extensions.pogostick.behaviors
  * @since 1.0.4
  */
 class CPSComponentBehavior extends CPSOptionsBehavior
@@ -43,7 +43,7 @@ class CPSComponentBehavior extends CPSOptionsBehavior
 	* Allows for single behaviors
 	*
 	*/
-	protected function getBaseOptions()
+	private function getBaseOptions()
 	{
 		return(
 			array(
@@ -63,12 +63,22 @@ class CPSComponentBehavior extends CPSOptionsBehavior
 	//********************************************************************************
 
 	/**
+	* Inserts or updates the base options with the ones apssed in
+	*
+	* @param array $arOptions
+	*/
+	public function mergeOptions( array $arOptions )
+	{
+		foreach ( $arOptions as $_sKey => $_oValue )
+			$this->setOption( $_sKey, $_oValue, true );
+	}
+	/**
     * Check the options against the valid ones
     *
     * @param array $value user's options
     * @param array $validOptions valid options
     */
-	protected function checkOptions( array $arOptions = null, array $arValidOptions = null )
+	public function checkOptions( array $arOptions = null, array $arValidOptions = null )
  	{
 		if ( ! isset( $arValidOptions ) )
 			$arValidOptions = $this->validOptions;
@@ -109,11 +119,11 @@ class CPSComponentBehavior extends CPSOptionsBehavior
 	* @param array $arOptions
 	* @return string
 	*/
-	protected function makeOptions( array $arOptions = null )
+	public function makeOptions( array $arOptions = null )
 	{
-		$_arOptions = ( $arOptions == null ) ? $this->getOption( 'options.value' ) : $arOptions;
+		$_arOptions = ( $arOptions == null ) ? $this->getOption( 'options' ) : $arOptions;
 
-		foreach ( $this->getOption( 'callbacks.value' ) as $_sKey => $_oValue )
+		foreach ( $this->getOption( 'callbacks' ) as $_sKey => $_oValue )
 		{
 			if ( ! empty( $_oValue ) )
 				$_arOptions[ "cb_{$_sKey}" ] = $_sKey;
@@ -131,21 +141,26 @@ class CPSComponentBehavior extends CPSOptionsBehavior
 			$_arToEncode[ $_oOption[ 'name' ] ] = $_oOption[ 'value' ];
 		}
 
-		$_sEncodedOptions = CJavaScript::encode( $_arToEncode );
-
-		//	Fix up the callbacks...
-		foreach ( $this->getOption( 'callbacks.value' ) as $_sKey => $_oValue )
+		if ( sizeof( $_arToEncode ) > 0 )
 		{
-			if ( ! empty( $_oValue ) )
+			$_sEncodedOptions = CJavaScript::encode( $_arToEncode );
+
+			//	Fix up the callbacks...
+			foreach ( $this->getOption( 'callbacks' ) as $_sKey => $_oValue )
 			{
-				if ( 0 == strncasecmp( $_oValue, 'function(', 9 ) )
-					$_sEncodedOptions = str_replace( "'cb_{$_sKey}':'{$_sKey}'", "{$_sKey}:{$_oValue}", $_sEncodedOptions );
-				else
-					$_sEncodedOptions = str_replace( "'cb_{$_sKey}':'{$_sKey}'", "{$_sKey}:'{$_oValue}'", $_sEncodedOptions );
+				if ( ! empty( $_oValue ) )
+				{
+					if ( 0 == strncasecmp( $_oValue, 'function(', 9 ) )
+						$_sEncodedOptions = str_replace( "'cb_{$_sKey}':'{$_sKey}'", "{$_sKey}:{$_oValue}", $_sEncodedOptions );
+					else
+						$_sEncodedOptions = str_replace( "'cb_{$_sKey}':'{$_sKey}'", "{$_sKey}:'{$_oValue}'", $_sEncodedOptions );
+				}
 			}
+
+			return( $_sEncodedOptions );
 		}
 
-		return( $_sEncodedOptions );
+		return( null );
 	}
 
 	/**
@@ -154,7 +169,7 @@ class CPSComponentBehavior extends CPSOptionsBehavior
 	* @param mixed $arOptions
 	* @param mixed $arValidOptions
 	*/
-	protected function validateOptions( array $arOptions , array $arValidOptions )
+	public function validateOptions( array $arOptions , array $arValidOptions )
 	{
 		foreach ( $arOptions as $_sKey => $_oValue )
 		{
@@ -177,7 +192,7 @@ class CPSComponentBehavior extends CPSOptionsBehavior
     * @param array $value user's callbacks
     * @param array $validCallbacks valid callbacks
     */
-	protected function checkCallbacks( array $arCallbacks = null, array $arValidCallbacks = null )
+	public function checkCallbacks( array $arCallbacks = null, array $arValidCallbacks = null )
 	{
 		if ( ! empty( $arValidCallbacks ) && is_array( $arValidCallbacks ) )
 		{

@@ -3,7 +3,7 @@
  * CPSOptionsBehavior class file.
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @link http://www.pogostick.com/
+ * @link http://ps-yii-extensions.googlecode.com
  * @copyright Copyright &copy; 2009 Pogostick, LLC
  * @license http://www.pogostick.com/license/
  */
@@ -13,7 +13,7 @@
  * Avoids the need for declaring member variables and provides convenience magic functions to search the options.
  *
  * addOptions array format:
- *
+ * <code>
  * array(
  * 		'optionName' = array(
  * 			'value' => default value,
@@ -21,9 +21,10 @@
  * 			'valid' => array( 'v1', 'v2', 'v3', etc.) // An array of valid values for the option
  * 		)
  * )
+ * </code>
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @version $Id$
+ * @version SVN: $Id$
  * @package application.extensions.pogostick.behaviors
  * @since 1.0.4
  */
@@ -38,13 +39,13 @@ abstract class CPSOptionsBehavior extends CBehavior
 	*
 	* @var array
 	*/
-	private static $m_arOptions = array();
+	public static $m_arOptions = array();
 	/**
 	* The delimiter to use for sub-options. Defaults to '.'
 	*
 	* @var string
 	*/
-	private static $m_sDelimiter = '.';
+	public static $m_sDelimiter = '.';
 
 	//********************************************************************************
 	//* Property Accessors
@@ -54,12 +55,12 @@ abstract class CPSOptionsBehavior extends CBehavior
 	* Delimiter getter
 	* @returns string The currently set delimiter. Defaults to '.'
 	*/
-	public function getDelimiter() { return( $this->m_sDelimiter ); }
+	public function getDelimiter() { return( self::$m_sDelimiter ); }
 	/**
 	* Delimiter setter
 	* @var $sValue The string to use as a delimiter
 	*/
-	public function setDelimiter( $sValue ) { $this->m_sDelimiter = $sValue; }
+	public function setDelimiter( $sValue ) { self::$m_sDelimiter = $sValue; }
 
 	//********************************************************************************
 	//* Public Methods
@@ -74,11 +75,7 @@ abstract class CPSOptionsBehavior extends CBehavior
 	public function addOptions( array $arOptions )
 	{
 		foreach ( $arOptions as $_sKey => $_oValue )
-			$_oObject =& $this->addOption( $_sKey, $_oValue, $arOptions );
-
-		//	Add final 'value' if not set in array...
-		if ( ! isset( $_oObject[ 'value' ] ) )
-			$_oObject[ 'value' ] = null;
+			$this->addOption( $_sKey, $_oValue );
 	}
 
 	/**
@@ -89,18 +86,13 @@ abstract class CPSOptionsBehavior extends CBehavior
 	* @param array $arOrigArgs
 	* @return array The last option processed
 	*/
-	public function &addOption( $sKey, $oValue = null, &$arOrigArgs = null )
+	public function addOption( $sKey, $oValue = null )
 	{
 		//	Is the key bogus?
 		if ( null == $sKey || '' == trim( $sKey ) )
 			throw new CException( Yii::t( 'psOptionsBehavior', 'Invalid property name "{property}".', array( '{property}' => $sKey ) ) );
 
-		//	Get the object...
-		$_arTemp = $this->walkOptionChain( $sKey );
-		$_oObject =& $_arTemp[ 'object' ];
-
-		//	Set the value...
-		return( $_oObject[ ( ! $_arTemp[ 'status' ] ) ? $_arTemp[ 'missingKey' ] : $_arTemp[ 'lastKey' ] ] = $oValue );
+		self::$m_arOptions[ $sKey ] = $oValue;
 	}
 
 	/**
@@ -112,28 +104,22 @@ abstract class CPSOptionsBehavior extends CBehavior
 	*/
 	public function &getOption( $sKey, $bOnlyPublic = false )
 	{
-		//	Find options object
-		if ( ! ( $_arTemp = $this->walkOptionChain( $sKey ) ) )
-			throw new CException( Yii::t( 'psOptionsBehavior', 'Property "{class}"."{property}" is not defined.', array( '{class}' => get_class( $this ), '{property}' => $sKey ) ) );
+		$_arTemp =& $this->walkOptionChain( $sKey, false );
 
-		//	Key not found...
-		if ( ! $_arTemp[ 'status' ] )
-			throw new CException( Yii::t( 'psOptionsBehavior', 'Property "{class}"."{property}" is not defined.', array( '{class}' => get_class( $this ), '{property}' => $sKey ) ) );
+		if ( $_arTemp[ 'status' ] )
+			$_oObject =& $_arTemp[ 'object' ];
+		else
+			$_oObject =& $_arTemp[ $_arTemp[ 'missingKey' ] ];
 
-		return( ( $_arTemp[ 'containsPrivate' ] ) ? null : $_arTemp[ 'object' ] );
-	}
+		if ( $bOnlyPublic && $_arTemp[ 'containsPrivate' ] )
+			$_oObject = null;
 
-	/**
-	* Get the non-referenced 'value' property of the supplied option key
-	*
-	* @param string $sKey
-	* @param boolean $bOnlyPublic Returns only options that are not marked as 'private' => true
-	* @returns mixed|null
-	*/
-	public function getOptionValue( $sKey, $bOnlyPublic = false )
-	{
-		$_oObject =& $this->getOption( $sKey, $bOnlyPublic );
-		return( ( is_array( $_oObject ) && array_key_exists( 'value', $_oObject ) ) ? $_oObject[ 'value' ] : null );
+		$_oObject =& $_oObject[ $sKey ];
+
+		if ( null != $_oObject && is_array( $_oObject ) && array_key_exists( 'value', $_oObject ) )
+			return $_oObject[ 'value' ];
+
+		return $_oObject;
 	}
 
 	/***
@@ -142,37 +128,21 @@ abstract class CPSOptionsBehavior extends CBehavior
 	* @param string $sKey
 	* @param mixed $oValue
 	*/
-	public function setOption( $sKey, $oValue )
+	public function setOption( $sKey, $oValue, $bAddIfMissing = false )
 	{
-		$_arTemp = $this->walkOptionChain( $sKey );
+		$_oObject =& $this->walkOptionChain( $sKey );
 
-		if ( null == $_arTemp[ 'object' ] || ! $_arTemp[ 'status' ] )
-			throw new CException( Yii::t( 'psOptionsBehavior', 'Options key "{key}" from "{masterKey}" not found.', array( '{key}' => $_arTemp[ 'lastKey' ], '{masterKey}' => $sKey  ) ) );
+		$_sKey = ( ! $_oObject[ 'status' ] ) ? $_oObject[ 'missingKey' ] : $_oObject[ 'lastKey' ];
 
-		//	Set the object's value
-		$_oObject = $oValue;
-	}
+		if ( ! $bAddIfMissing && ( null == $_oObject || ! $_oObject[ 'status' ] ) )
+			throw new CException( Yii::t( 'psOptionsBehavior', 'Options key "{key}" from "{masterKey}" not found.', array( '{key}' => $_oObject[ 'lastKey' ], '{masterKey}' => $sKey  ) ) );
 
-	/***
-	* Set the value of the supplied option key
-	*
-	* @param string $sKey
-	* @param mixed $oValue
-	*/
-	public function setOptionValue( $sKey, $oValue )
-	{
-		//	Take off extranious .value key as we are adding that below.
-		if ( '.value' == substr( $sKey, strlen( $sKey ) - 6 ) )
-			$sKey = substr( $sKey, strlen( $sKey ) - 6 );
-
-		$_arTemp = $this->walkOptionChain( $sKey );
-		$_oObject =& $_arTemp[ 'object' ];
-
-		if ( null == $_oObject || ! $_arTemp[ 'status' ] )
-			throw new CException( Yii::t( 'psOptionsBehavior', 'Options key "{key}" from "{masterKey}" not found.', array( '{key}' => $_arTemp[ 'lastKey' ], '{masterKey}' => $sKey  ) ) );
-
-		//	Set the object's value
-		$_oObject[ 'value' ] = $oValue;
+		if ( $_oObject[ 'status' ] && is_array( $_oObject[ 'object' ][ $_sKey ] ) && array_key_exists( 'value', $_oObject[ 'object' ][ $_sKey ] ) )
+			$_oObject[ 'object' ][ $_sKey ][ 'value' ] = $oValue;
+		else if ( array_key_exists( $_sKey, $_oObject[ 'object' ] ) )
+			$_oObject[ 'object' ][ $_sKey ] = $oValue;
+		else
+			throw new CException( Yii::t( 'psOptionsBehavior', 'Options key "{key}" from "{masterKey}" not found.', array( '{key}' => $_oObject[ 'lastKey' ], '{masterKey}' => $sKey  ) ) );
 	}
 
 	/**
@@ -183,18 +153,19 @@ abstract class CPSOptionsBehavior extends CBehavior
 	*/
 	public function &walkOptionChain( $sOptionKey )
 	{
-		//	Start with reference to the options array
-		$_oObject =& self::$m_arOptions;
-
 		//	Local vars...
 		$_bPrivate = false;
 		$_bContainsPrivate = false;
+		$_oObject =& self::$m_arOptions;
 
 		//	Our return object...
 		$_arReturn = array( 'status' => true, 'object' => null, 'lastKey' => null, 'keyArray' => array(), 'containsPrivate' => false, 'missingKey' => null );
 
 		//	If start key given, scoot up to it...
-		foreach ( explode( self::$m_sDelimiter, $sOptionKey ) as $_sKeyName )
+		$_arKeys = explode( self::$m_sDelimiter, $sOptionKey );
+		$_i = 0;
+
+		foreach ( $_arKeys as $_sKeyName )
 		{
 			//	Set return parameters
 			$_arReturn[ 'keyArray' ][ 'name' ] = $_arReturn[ 'lastKey' ] = $_sKeyName;
@@ -208,18 +179,21 @@ abstract class CPSOptionsBehavior extends CBehavior
 				$_arReturn[ 'object' ] =& $_oObject;
 				$_arReturn[ 'status' ] = false;
 				$_arReturn[ 'missingKey' ] = $_sKeyName;
-				break;
+				return $_arReturn;
 			}
 
-			//	Move our reference
-			$_oObject =& $_oObject[ $_sKeyName ];
+			//	Counter...
+		if ( ++$_i <= sizeof( $_arKeys ) - 1 )
+				$_oObject =& $_oObject[ $_sKeyName ];
 
-			//	Set our object reference...
+			//	Move our reference
 			$_arReturn[ 'object' ] =& $_oObject;
+
 		}
 
+		//	Set our array reference
 		//	Return our object
-		return( $_arReturn );
+		return $_arReturn;
 	}
 
 	//********************************************************************************
@@ -228,18 +202,21 @@ abstract class CPSOptionsBehavior extends CBehavior
 
 	/**
 	 * Returns a property value or an event handler list by property or event name. You can access sub-option settings via using the delimiter between options.
-	 * The default delimiter is '.'. For example, you can get $this->validOptions.baseUrl instead of making two calls. There is no limit to the depth.
+	 * The default delimiter is '.'. For example, you can get $this->validOptions.baseUrl instead of making two calls. There is no limit to the depth. There is no
+	 * parent::__get call in here because our parent is CBehavior
 	 * @param string the property name or the event name
 	 * @return mixed the property value or the event handler list
 	 * @throws CException if the property/event is not defined.
 	 */
-	public function __get( $sArgs )
+	public function __get( $sName )
 	{
-		//	Try local options first...
-		try { $oObject =& $this->getOptionValue( $sArgs ); return( $oObject ); } catch ( Exception $_ex ) { /* Ignore for passthru */ }
-
 		//	Look for member variables with that name
-		return( parent::__get( $sArgs ) );
+		$_oGetResults = $this->getOption( $sName );
+
+		if ( $_oGetResults === null )
+			return parent::__get( $sName );
+
+		return $_oGetResults;
 	}
 
 	/**
@@ -252,13 +229,10 @@ abstract class CPSOptionsBehavior extends CBehavior
 	public function __set( $sArgs, $oValue = null )
 	{
 		//	Look in options array...
-		try { $this->setOptionValue( $sArgs, $oValue ); return; } catch ( Exception $_ex ) { /* Ignore for passthru */ }
+		try { $this->setOption( $sArgs, $oValue ); return; } catch ( Exception $_ex ) { /* Ignore for passthru */ }
 
 		//	Look for member variables to set...
-		return( parent::__set( $sArgs, $oValue ) );
-
-		//	Default, add as new option...
-//		$this->addOption( ( string )$sArgs, $oValue );
+		parent::__set( $sArgs, $oValue );
 	}
 
 	/**
@@ -268,7 +242,9 @@ abstract class CPSOptionsBehavior extends CBehavior
 	 */
 	public function __isset( $sName )
 	{
-		return( null != $this->__get( $sName ) );
+//		try { parent::__isset( $sName ); } catch ( Exception $_ex ) { /* Ignore for passthru */ }
+
+		return null != $this->getOption( $sName );
 	}
 
 	/**
@@ -278,9 +254,8 @@ abstract class CPSOptionsBehavior extends CBehavior
 	 */
 	public function __unset( $sName )
 	{
-		$_oObject =& $this->__get( $sName );
+//		try { return parent::__unset( $sName ); } catch ( Exception $_ex ) { /* Ignore for passthru */ }
 
-		if ( null != $_oObject )
-			$_oObject = null;
+		$this->setOption( $sName, null );
 	}
 }
