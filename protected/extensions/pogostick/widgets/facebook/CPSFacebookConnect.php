@@ -3,7 +3,7 @@
  * CPSFacebookConnect class file.
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @link http://www.pogostick.com/
+ * @link http://ps-yii-extensions.googlecode.com
  * @copyright Copyright &copy; 2009 Pogostick, LLC
  * @license http://www.pogostick.com/license/
  */
@@ -12,8 +12,8 @@
  * CPSFacebookConnect provides an interface to Facebook Connect
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @version $Id$
-
+ * @version SVN $Id$
+ * @package application.extensions.pogostick.base.widgets.facebook
  * @since 1.0.4
  */
 class CPSFacebookConnect extends CPSApiWidget
