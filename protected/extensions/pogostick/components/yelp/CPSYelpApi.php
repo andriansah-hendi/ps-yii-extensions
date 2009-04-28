@@ -3,7 +3,7 @@
  * CPSYelpApi class file.
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @link http://www.pogostick.com/
+ * @link http://ps-yii-extensions.googlecode.com
  * @copyright Copyright &copy; 2009 Pogostick, LLC
  * @license http://www.pogostick.com/license/
  */
@@ -12,8 +12,8 @@
  * CPSYelpApi provides access to the Yelp Business Reviews API
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @version $Id$
- * @package
+ * @version SVN: $Id$
+ * @package application.extensions.pogostick.components.yelp
  * @since 1.0.4
  */
 class CPSYelpApi extends CPSApiComponent
@@ -46,67 +46,45 @@ class CPSYelpApi extends CPSApiComponent
 				self::YELP_NEIGHBORHOOD_API => 'neighborhood_search',
 			);
 
-		//	The Yelp API request mapping. This array holds the mapping for the object names to API parameters
-		$this->makeMapArray( self::YELP_REVIEW_API, 'boundingBox',
-			array(
-				$this->makeMapItem( 'searchTerm', 'term' ),
-				$this->makeMapItem( 'maxResults', 'num_biz_requested' ),
-				$this->makeMapItem( 'topLeftLatitude', 'tl_lat', true ),
-				$this->makeMapItem( 'topLeftLongitude', 'tl_long', true ),
-				$this->makeMapItem( 'bottomRightLatitude', 'br_lat', true ),
-				$this->makeMapItem( 'bottomRightLongitude', 'br_long', true ),
-				$this->makeMapItem( 'category' ),
-			)
-		);
+		//	Create the base array
+		$this->requestMap = array();
 
-		$this->makeMapArray( self::YELP_REVIEW_API, 'point',
-			array(
-				$this->makeMapItem( 'searchTerm', 'term' ),
-				$this->makeMapItem( 'maxResults', 'num_biz_requested' ),
-				$this->makeMapItem( 'topLeftLatitude', 'lat', true ),
-				$this->makeMapItem( 'topLeftLongitude', 'long', true ),
-				$this->makeMapItem( 'radius' ),
-				$this->makeMapItem( 'category' ),
-			)
-		);
+		//	Review API
+		$this->addRequestMapping( 'searchTerm', 'term', false, null, self::YELP_REVIEW_API, 'boundingBox' );
+		$this->addRequestMapping( 'maxResults', 'num_biz_requested' );
+		$this->addRequestMapping( 'topLeftLatitude', 'tl_lat', true );
+		$this->addRequestMapping( 'topLeftLongitude', 'tl_long', true );
+		$this->addRequestMapping( 'bottomRightLatitude', 'br_lat', true );
+		$this->addRequestMapping( 'bottomRightLongitude', 'br_long', true );
+		$this->addRequestMapping( 'category' );
 
-		$this->makeMapArray( self::YELP_REVIEW_API, 'location',
-			array(
-				$this->makeMapItem( 'searchTerm', 'term' ),
-				$this->makeMapItem( 'maxResults', 'num_biz_requested' ),
-				$this->makeMapItem( 'location', 'location', true ),
-				$this->makeMapItem( 'countryCode', 'cc' ),
-				$this->makeMapItem( 'radius' ),
-				$this->makeMapItem( 'category' ),
-			)
-		);
+		$this->addRequestMapping( 'searchTerm', 'term', false, null, self::YELP_REVIEW_API, 'point' );
+		$this->addRequestMapping( 'maxResults', 'num_biz_requested' );
+		$this->addRequestMapping( 'topLeftLatitude', 'lat', true );
+		$this->addRequestMapping( 'topLeftLongitude', 'long', true );
+		$this->addRequestMapping( 'radius' );
+		$this->addRequestMapping( 'category' );
 
-		$this->requestMap = array_merge( $this->requestMap, array(
+		$this->addRequestMapping( 'searchTerm', 'term', false, null, self::YELP_REVIEW_API, 'location' );
+		$this->addRequestMapping( 'maxResults', 'num_biz_requested' );
+		$this->addRequestMapping( 'location', 'location', true );
+		$this->addRequestMapping( 'countryCode', 'cc' );
+		$this->addRequestMapping( 'radius' );
+		$this->addRequestMapping( 'category' );
 
-			//	Phone Search API
-			self::YELP_PHONE_API => array(
-				'number' => array(
-					'phoneNumber' => array( 'name' => 'phone', 'required' => true ),
-					'countryCode' => array( 'name' => 'cc', 'required' => false ),
-					'category' => array( 'name' => 'category', 'required' => false ),
-				),
-			),
+		//	Phone API
+		$this->addRequestMapping( 'phoneNumber', 'phone', false, null, self::YELP_PHONE_API, 'number' );
+		$this->addRequestMapping( 'countryCode', 'cc' );
+		$this->addRequestMapping( 'category' );
 
-			//	Neighborhood API
-			self::YELP_NEIGHBORHOOD_API => array(
-				'point' => array(
-					'latitude' => array( 'name' => 'lat', 'required' => true ),
-					'longitude' => array( 'name' => 'long', 'required' => true ),
-					'category' => array( 'name' => 'category', 'required' => false ),
-				),
+		//	Neighborhood API
+		$this->addRequestMapping( 'latitude', 'lat', true, null, self::YELP_NEIGHBORHOOD_API, 'point' );
+		$this->addRequestMapping( 'longitude', 'long', true );
+		$this->addRequestMapping( 'category' );
 
-				'location' => array(
-					'location' => array( 'name' => 'location', 'required' => true ),
-					'countryCode' => array( 'name' => 'cc', 'required' => false ),
-					'category' => array( 'name' => 'category', 'required' => false ),
-				),
-			),
-		);
+		$this->addRequestMapping( 'location', null, true, null, self::YELP_NEIGHBORHOOD_API, 'location' );
+		$this->addRequestMapping( 'countryCode', 'cc' );
+		$this->addRequestMapping( 'category' );
 	}
 
 	/**
@@ -162,6 +140,10 @@ class CPSYelpApi extends CPSApiComponent
 			'longitude' => $fLong,
 			'maxResults' => $iMaxResults,
 		);
+
+			$_oTemp = $this->requestMap;
+			$_sLabel = $this->apiToUse;
+			$_oTemp = $this->requestMap[ $_sLabel ];
 
 		if ( $iRadius != null )
 			$this->requestData[ 'radius' ] = $iRadius;
