@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * CPSComponent class file.
  *
@@ -14,7 +14,7 @@
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
  * @package psYiiExtensions
- * @subpackage base
+ * @subpackage Base
  * @filesource
  * @since 1.0.3
  */

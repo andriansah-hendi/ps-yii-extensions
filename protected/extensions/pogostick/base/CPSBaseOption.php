@@ -15,7 +15,7 @@
  * @version SVN: $Id$
  * @filesource
  * @package psYiiExtensions
- * @subpackage base
+ * @subpackage Base
  * @since 1.0.4
  */
 class CPSBaseOption
@@ -147,7 +147,7 @@ class CPSBaseOption
 	//********************************************************************************
 
 	/**
-	* Finds the option value using the global delimiter (@link CPSBaseOption::$m_sDelimiter).
+	* Finds the option value using the global delimiter {@link CPSBaseOption::$m_sDelimiter}.
 	*
 	* Example:
 	*
@@ -155,7 +155,7 @@ class CPSBaseOption
 	*	$this->getSubOption( 'us.ga.atlanta.businesses' );
 	*
 	* @param string $sKey
-	* @return mixed If (@link CPSBaseOption::$m_bAddIfNotFound) is set to false, null will be returned.
+	* @return mixed If {@link CPSBaseOption::$m_bAddIfNotFound} is set to false, null will be returned.
 	* Otherwise a new array() will be created at that spot in the array and returend.
 	*/
 	protected function &getSubOption( $sKey )

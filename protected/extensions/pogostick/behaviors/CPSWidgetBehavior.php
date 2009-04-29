@@ -1,6 +1,6 @@
 <?php
 /**
- * <name> class file.
+ * CPSWidgetBehavior class file.
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @link http://ps-yii-extensions.googlecode.com
@@ -9,13 +9,13 @@
  */
 
 /**
- * <name> provides
+ * CPSWidgetBehavior provides convenient access to typical "widget" behaviors
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
  * @filesource
  * @package psYiiExtensions
- * @subpackage "Behaviors"
+ * @subpackage Behaviors
  * @filesource
  * @since 1.0.4
  */

@@ -1,6 +1,6 @@
 <?php
 /**
- * name class file.
+ * CPSgMapsWidget class file.
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @link http://ps-yii-extensions.googlecode.com
@@ -9,12 +9,12 @@
  */
 
 /**
- * name provides stuff
+ * CPSgMapsWidget encapsulates access to the {@link http://code.google.com/apis/maps Google Maps API}
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
  * @package psYiiExtensions
- * @subpackage Widgets-gApi
+ * @subpackage Widgets
  * @filesource
  * @since 1.0.4
  */

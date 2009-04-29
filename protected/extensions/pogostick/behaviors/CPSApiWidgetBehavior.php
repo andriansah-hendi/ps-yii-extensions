@@ -1,37 +1,26 @@
 <?php
 /**
- * CPSApiBehavior class file.
+ * CPSApiWidgetBehavior class file.
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @link http://ps-yii-extensions.googlecode.com
+ * @link http://www.pogostick.com/
  * @copyright Copyright &copy; 2009 Pogostick, LLC
  * @license http://www.pogostick.com/license/
  */
 
 /**
- * CPSApiBehavior provides a behavior to classes for making API calls
+ * CPSApiWidget provides a behavior to classes for making API calls
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @version SVN $Id$
- * @package psYiiExtensions
- * @subpackage Behaviors
- * @filesource
+ * @version $Id$
+ * @package
  * @since 1.0.5
  */
-class CPSApiBehavior extends CPSComponentBehavior
+class CPSApiWidgetBehavior extends CPSApiBehavior
 {
 	//********************************************************************************
 	//* Constants
 	//********************************************************************************
-
-	/**
-	* 'GET' Http method
-	*/
-	const HTTP_GET = 'GET';
-	/**
-	* 'PUT' Http method
-	*/
-	const HTTP_POST = 'POST';
 
 	//********************************************************************************
 	//* Member Variables
@@ -48,7 +37,7 @@ class CPSApiBehavior extends CPSComponentBehavior
 	public function __construct()
 	{
 		//	Log
-		Yii::log( 'constructed psApiBehavior object for [' . get_parent_class() . ']' );
+		Yii::log( 'constructed psApiWidgetBehavior object for [' . get_parent_class() . ']' );
 
 		//	Call daddy...
 		parent::__construct();
@@ -65,6 +54,13 @@ class CPSApiBehavior extends CPSComponentBehavior
 	{
 		return(
 			array(
+				//	Widget Options
+				'html' => array( 'value' => '', 'type' => 'string' ),
+				'script' => array( 'value' => '', 'type' => 'string' ),
+				'cssFile' => array( 'value' => '', 'type' => 'string' ),
+				'viewName' => array( 'value' => '', 'type' => 'string' ),
+
+				//	API options
 				'altApiKey' => array( 'value' => '', 'type' => 'string' ),
 				'apiBaseUrl' => array( 'value' => '', 'type' => 'string' ),
 				'apiKey' => array( 'value' => '', 'type' => 'string' ),
@@ -240,8 +236,8 @@ class CPSApiBehavior extends CPSComponentBehavior
 	/**
 	* Creates an array for requestMap
 	*
-	* @param array $arMap The map of items to insert into the array. Format is the same as {@link makeMapItem}
-	* @param bool $bSetRequestMap If false, will NOT insert constructed array into {@link requestMap}
+	* @param array $arMap The map of items to insert into the array. Format is the same as (@link makeMapItem)
+	* @param bool $bSetRequestMap If false, will NOT insert constructed array into (@link requestMap)
 	* @returns array Returns the constructed array item ready to insert into your requestMap
 	* @see makeMapItem
 	*/

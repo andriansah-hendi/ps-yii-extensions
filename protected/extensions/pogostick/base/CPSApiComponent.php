@@ -14,7 +14,7 @@
  * @version SVN: $Id$
  * @filesource
  * @package psYiiExtensions
- * @subpackage base
+ * @subpackage Base
  * @since 1.0.4
  */
 class CPSApiComponent extends CPSComponent

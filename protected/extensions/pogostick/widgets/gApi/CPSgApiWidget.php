@@ -10,13 +10,13 @@
  */
 
 /**
- * CPSgApiWidget provides access to the Google AJAX API
+ * CPSgApiWidget provides access to the {@link http://code.google.com/apis/ajaxsearch/ Google AJAX APIs}
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
  * @filesource
  * @package psYiiExtensions
- * @subpackage "gApi (/widgets/gApi)"
+ * @subpackage Widgets
  * @since 1.0.3
  */
 class CPSgApiWidget extends CPSApiWidget

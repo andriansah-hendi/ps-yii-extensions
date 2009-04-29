@@ -9,12 +9,12 @@
 */
 
 /**
-* The CPSjqRatingWidgetallows the (@link http://www.fyneworks.com/jquery/star-rating/ JQ Rating) to be used in Yii.
+* The CPSjqRatingWidget allows the {@link http://www.fyneworks.com/jquery/star-rating/ JQ Rating} to be used in Yii.
 *
 * @author Jerry Ablan <jablan@pogostick.com>
 * @version SVN: $Id$
 * @package psYiiExtensions
-* @subpackage Widgets-jqRating
+* @subpackage Widgets
 * @since 1.0.3
 */
 class CPSjqRatingWidget extends CPSWidget

@@ -9,13 +9,15 @@
 */
 
 /**
-* The CPSjqGridWidget allows the jqGrid (@link http://www.trirand.com/blog/) to be used in Yii. Thanks to (@link http://www.yiiframework.com/forum/index.php?action=profile;u=20 MetaYii) for some ideas on valid options and callbacks.
+* The CPSjqGridWidget allows the {@link http://www.trirand.com/blog/ jqGrid} to be used in Yii.
+*
+* Thanks to {@link http://www.yiiframework.com/forum/index.php?action=profile;u=20 MetaYii} for some ideas on valid options and callbacks.
 *
 * @author Jerry Ablan <jablan@pogostick.com>
 * @version SVN: $Id$
 * @filesource
 * @package psYiiExtensions
-* @subpackage Widgets-jqRating
+* @subpackage Widgets
 * @since 1.0.3
 */
 class CPSjqGridWidget extends CPSWidget

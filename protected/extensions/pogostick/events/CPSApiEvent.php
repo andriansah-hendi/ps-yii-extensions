@@ -9,7 +9,7 @@
  */
 
 /**
- * CPSApiEvent provides specialized events for CPSApiBehavior
+ * CPSApiEvent provides specialized events for {@link CPSApiBehavior}
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$

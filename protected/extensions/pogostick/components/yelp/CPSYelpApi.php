@@ -15,7 +15,7 @@
  * @version SVN: $Id$
  * @filesource
  * @package psYiiExtensions
- * @subpackage Yelp
+ * @subpackage Components
  * @since 1.0.4
  */
 class CPSYelpApi extends CPSApiComponent

@@ -11,7 +11,7 @@
  */
 
 /**
- * CPSOptionsBehavior provides base class for generic options settings for use with any class.
+ * CPSOptionsBehavior provides the base class for generic options settings for use with any class.
  * Avoids the need for declaring member variables and provides convenience magic functions to search the options.
  *
  * addOptions array format:

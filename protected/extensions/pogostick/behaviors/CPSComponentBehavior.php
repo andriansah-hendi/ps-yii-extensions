@@ -14,7 +14,7 @@
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
  * @package psYiiExtensions
- * @subpackage Behaviors
+ * @subpackage behaviors
  * @filesource
  * @since 1.0.4
  */

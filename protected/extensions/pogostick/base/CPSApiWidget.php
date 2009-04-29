@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * CPSApiWidget class file.
  *
@@ -14,7 +14,7 @@
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
  * @package psYiiExtensions
- * @subpackage base
+ * @subpackage Base
  * @filesource
  * @abstract
  * @since 1.0.3
@@ -62,8 +62,8 @@ abstract class CPSApiWidget extends CPSWidget
 	/**
 	* Creates an array for requestMap
 	*
-	* @param array $arMap The map of items to insert into the array. Format is the same as (@link makeMapItem)
-	* @param bool $bSetRequestMap If false, will NOT insert constructed array into (@link requestMap)
+	* @param array $arMap The map of items to insert into the array. Format is the same as {@link makeMapItem}
+	* @param bool $bSetRequestMap If false, will NOT insert constructed array into {@link requestMap}
 	* @returns array Returns the constructed array item ready to insert into your requestMap
 	* @see makeMapItem
 	*/

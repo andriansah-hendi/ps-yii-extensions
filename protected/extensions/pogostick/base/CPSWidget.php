@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * CPSWidget class file.
  *
@@ -14,7 +14,7 @@
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
  * @package psYiiExtensions
- * @subpackage base
+ * @subpackage Base
  * @filesource
  * @since 1.0.3
  */
@@ -60,7 +60,7 @@ class CPSWidget extends CInputWidget
 
 	/***
 	* Handles registration of scripts & css files...
-	* @returns CClientScript Returns the current applications CClientScript object (@link CWebApplication::getClientScript)
+	* @returns CClientScript Returns the current applications CClientScript object {@link CWebApplication::getClientScript}
 	*/
 	public function registerClientScripts()
 	{

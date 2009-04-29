@@ -9,13 +9,13 @@
  */
 
 /**
- * CPSFacebookConnect provides an interface to Facebook Connect
+ * CPSFacebookConnect provides an interface to {@link http://developers.facebook.com/connect.php Facebook Connect}
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN $Id$
  * @filesource
  * @package psYiiExtensions
- * @subpackage "Widgets (/widgets/facebook)"
+ * @subpackage Widgets
  * @since 1.0.4
  */
 class CPSFacebookConnect extends CPSApiWidget
