@@ -3,7 +3,7 @@
  * CPSComponent class file.
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @link http://www.pogostick.com/
+ * @link http://ps-yii-extensions.googlecode.com
  * @copyright Copyright &copy; 2009 Pogostick, LLC
  * @license http://www.gnu.org/licenses/gpl.html
  *
@@ -14,8 +14,8 @@
  * The CPSComponent is the base class for all Pogostick components for Yii
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @version $Id$
- * @package applications.extensions.pogostick
+ * @version SVN: $Id$
+ * @package applications.extensions.pogostick.base
  * @since 1.0.3
  */
 class CPSComponent extends CApplicationComponent

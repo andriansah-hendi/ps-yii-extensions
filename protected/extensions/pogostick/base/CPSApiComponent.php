@@ -3,7 +3,7 @@
  * CPSApiComponent class file.
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @link http://www.pogostick.com/
+ * @link http://ps-yii-extensions.googlecode.com
  * @copyright Copyright &copy; 2009 Pogostick, LLC
  * @license http://www.pogostick.com/license/
  */
@@ -12,8 +12,8 @@
  * CPSApiComponent provides a convenient base class for APIs
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @version $Id$
- * @package application.extensions.pogostick.CPSApiComponent
+ * @version SVN: $Id$
+ * @package application.extensions.pogostick.base
  * @since 1.0.4
  */
 class CPSApiComponent extends CPSComponent
@@ -29,7 +29,7 @@ class CPSApiComponent extends CPSComponent
 	public function __construct()
 	{
 		//	Log
-		Yii::log( 'constructed psApiComponent object for [' . get_parent_class() . ']' );
+		Yii::trace( Yii::t( 'psApiComponent', 'constructed psApiComponent object for [' . get_parent_class() . ']' ) );
 
 		$this->attachBehaviors(
 			array(
