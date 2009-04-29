@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
 * CPSjqRatingWidget class file.
 *
