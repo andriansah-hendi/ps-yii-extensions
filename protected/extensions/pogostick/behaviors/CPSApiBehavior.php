@@ -3,7 +3,7 @@
  * CPSApiBehavior class file.
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @link http://www.pogostick.com/
+ * @link http://ps-yii-extensions.googlecode.com
  * @copyright Copyright &copy; 2009 Pogostick, LLC
  * @license http://www.pogostick.com/license/
  */
@@ -12,8 +12,8 @@
  * CPSApiBehavior provides a behavior to classes for making API calls
  *
  * @author Jerry Ablan <jablan@pogostick.com>
- * @version $Id$
- * @package
+ * @version SVN $Id$
+ * @package application.extensions.pogostick.behaviors
  * @since 1.0.5
  */
 class CPSApiBehavior extends CPSComponentBehavior
