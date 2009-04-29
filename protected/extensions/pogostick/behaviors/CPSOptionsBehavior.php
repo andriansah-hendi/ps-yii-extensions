@@ -4,6 +4,8 @@
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @link http://ps-yii-extensions.googlecode.com
+ * @author Jerry Ablan <jablan@pogostick.com> 
+ * @link http://ps-yii-extensions.googlecode.com
  * @copyright Copyright &copy; 2009 Pogostick, LLC
  * @license http://www.pogostick.com/license/
  */
