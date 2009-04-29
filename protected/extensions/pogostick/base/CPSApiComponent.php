@@ -7,13 +7,14 @@
  * @copyright Copyright &copy; 2009 Pogostick, LLC
  * @license http://www.pogostick.com/license/
  */
-
 /**
  * CPSApiComponent provides a convenient base class for APIs
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
- * @package application.extensions.pogostick.base
+ * @package application.extensions.pogostick Pogostick Yii Extensions
+ * @filesource
+ * @subpackage base
  * @since 1.0.4
  */
 class CPSApiComponent extends CPSComponent

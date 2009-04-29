@@ -6,8 +6,6 @@
  * @link http://ps-yii-extensions.googlecode.com
  * @copyright Copyright &copy; 2009 Pogostick, LLC
  * @license http://www.gnu.org/licenses/gpl.html
- *
- * Install in <yii_app_base>/extensions/pogostick
  */
 
 /**
@@ -15,7 +13,9 @@
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
- * @package applications.extensions.pogostick.base
+ * @package application.extensions.pogostick Pogostick Yii Extensions
+ * @subpackage base
+ * @filesource
  * @since 1.0.3
  */
 class CPSComponent extends CApplicationComponent
