@@ -3,7 +3,7 @@
 * CPSjqGridWidget class file.
 *
 * @author Jerry Ablan <jablan@pogostick.com>
-* @link http://www.pogostick.com/
+* @link http://ps-yii-extensions.googlecode.com
 * @copyright Copyright &copy; 2009 Pogostick, LLC
 * @license http://www.gnu.org/licenses/gpl.html
 *
@@ -15,8 +15,8 @@
 * Thanks to MetaYii for some ideas on valid options and callbacks.
 *
 * @author Jerry Ablan <jablan@pogostick.com>
-* @version $Id$
-* @package applications.extensions.pogostick.jqGrid
+* @version SVN: $Id$
+* @package applications.extensions.pogostick.base.widgets.jqGrid
 * @since 1.0.3
 */
 class CPSjqGridWidget extends CPSWidget
