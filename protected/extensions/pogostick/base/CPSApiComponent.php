@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * CPSApiComponent class file.
  *
