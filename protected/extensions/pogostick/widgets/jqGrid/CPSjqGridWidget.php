@@ -6,17 +6,16 @@
 * @link http://ps-yii-extensions.googlecode.com
 * @copyright Copyright &copy; 2009 Pogostick, LLC
 * @license http://www.gnu.org/licenses/gpl.html
-*
-* Install in <yii_app_base>/extensions/pogostick/jqGrid
 */
 
 /**
-* The CPSjqGridWidget allows the jqGrid (@link http://www.trirand.com/blog/) to be used in Yii.
-* Thanks to MetaYii for some ideas on valid options and callbacks.
+* The CPSjqGridWidget allows the jqGrid (@link http://www.trirand.com/blog/) to be used in Yii. Thanks to (@link http://www.yiiframework.com/forum/index.php?action=profile;u=20 MetaYii) for some ideas on valid options and callbacks.
 *
 * @author Jerry Ablan <jablan@pogostick.com>
 * @version SVN: $Id$
-* @package applications.extensions.pogostick.base.widgets.jqGrid
+* @filesource
+* @package psYiiExtensions
+* @subpackage widgets.views.jqGrid
 * @since 1.0.3
 */
 class CPSjqGridWidget extends CPSWidget

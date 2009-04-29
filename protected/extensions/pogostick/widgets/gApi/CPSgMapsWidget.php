@@ -13,7 +13,9 @@
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
- * @package applications.extensions.pogostick.base.widgets.gApi
+ * @package applications.extensions.pogostick.base.widgets
+ * @subpackage gApi
+ * @filesource
  * @since 1.0.4
  */
 class CPSgMapsWidget extends CPSgApiWidget

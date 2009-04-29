@@ -6,6 +6,7 @@
  * @link http://ps-yii-extensions.googlecode.com
  * @copyright Copyright &copy; 2009 Pogostick, LLC
  * @license http://www.pogostick.com/license/
+ * @package psYiiExtensions
  */
 
 /**
@@ -13,7 +14,9 @@
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
- * @package application.extensions.pogostick.base.widgets.gApi
+ * @filesource
+ * @package psYiiExtensions
+ * @subpackage widgets.gApi
  * @since 1.0.3
  */
 class CPSgApiWidget extends CPSApiWidget

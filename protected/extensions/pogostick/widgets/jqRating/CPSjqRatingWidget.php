@@ -6,8 +6,6 @@
 * @link http://ps-yii-extensions.googlecode.com
 * @copyright Copyright &copy; 2009 Pogostick, LLC
 * @license http://www.gnu.org/licenses/gpl.html
-*
-* Install in <yii_app_base>/extensions/pogostick/jqRating
 */
 
 /**
@@ -15,7 +13,8 @@
 *
 * @author Jerry Ablan <jablan@pogostick.com>
 * @version SVN: $Id$
-* @package applications.extensions.pogostick.base.widgets.jqRating
+* @package psYiiExtensions
+* @subpackage widgets.jqRating
 * @since 1.0.3
 */
 class CPSjqRatingWidget extends CPSWidget
