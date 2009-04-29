@@ -13,7 +13,9 @@
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
- * @package application.extensions.pogostick.components.yelp
+ * @filesource
+ * @package application.extensions.pogostick.components <b>Components</b>
+ * @subpackage components.yelp
  * @since 1.0.4
  */
 class CPSYelpApi extends CPSApiComponent

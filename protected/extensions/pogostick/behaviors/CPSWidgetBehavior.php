@@ -13,7 +13,10 @@
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
- * @package application.extensions.pogostick.behaviors
+ * @filesource
+ * @package application.extensions.pogostick
+ * @subpackage behaviors
+ * @filesource
  * @since 1.0.4
  */
 class CPSWidgetBehavior extends CPSComponentBehavior
