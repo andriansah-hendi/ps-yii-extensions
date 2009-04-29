@@ -14,7 +14,7 @@
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
  * @filesource
- * @package application.extensions.pogostick.components <b>Components</b>
+ * @package psYiiExtensions
  * @subpackage components.yelp
  * @since 1.0.4
  */
