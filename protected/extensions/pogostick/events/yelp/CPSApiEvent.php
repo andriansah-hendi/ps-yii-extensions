@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * CPSApiEvent class file.
  *
