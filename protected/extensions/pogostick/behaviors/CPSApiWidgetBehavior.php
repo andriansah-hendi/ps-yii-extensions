@@ -13,7 +13,8 @@
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version $Id$
- * @package
+ * @package psYiiExtensions
+ * @subpackage Behaviors
  * @since 1.0.5
  */
 class CPSApiWidgetBehavior extends CPSApiBehavior

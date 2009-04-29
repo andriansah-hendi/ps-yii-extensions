@@ -13,7 +13,8 @@
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version $Id$
- * @package application.extensions.pogostick.behaviors.CApiHelper
+ * @package psYiiExtensions
+ * @subpackage Base
  * @since 1.0.4
  */
 class CPSApiHelper extends CBehavior
