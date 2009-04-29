@@ -13,7 +13,7 @@
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
- * @package application.extensions.pogostick Pogostick Yii Extensions
+ * @package psYiiExtensions
  * @subpackage base
  * @filesource
  * @since 1.0.3
