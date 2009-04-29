@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
 * CPSjqRatingWidget class file.
 *
@@ -13,8 +13,8 @@
 *
 * @author Jerry Ablan <jablan@pogostick.com>
 * @version SVN: $Id$
-* @package psYiiExtensions
-* @subpackage widgets.jqRating
+* @package psYiiExtensions.widgets
+* @subpackage jqRating
 * @since 1.0.3
 */
 class CPSjqRatingWidget extends CPSWidget

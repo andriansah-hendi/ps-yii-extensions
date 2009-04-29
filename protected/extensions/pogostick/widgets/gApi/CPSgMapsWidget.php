@@ -13,8 +13,8 @@
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
- * @package psYiiExtensions
- * @subpackage widgets.gApi
+ * @package psYiiExtensions.widgets
+ * @subpackage gApi
  * @filesource
  * @since 1.0.4
  */

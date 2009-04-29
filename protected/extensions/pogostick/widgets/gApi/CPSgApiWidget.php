@@ -15,8 +15,8 @@
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
  * @filesource
- * @package psYiiExtensions
- * @subpackage widgets.gApi
+ * @package psYiiExtensions.widgets
+ * @subpackage gApi
  * @since 1.0.3
  */
 class CPSgApiWidget extends CPSApiWidget

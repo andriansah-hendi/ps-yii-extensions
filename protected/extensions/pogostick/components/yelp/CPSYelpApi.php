@@ -1,4 +1,4 @@
-<?php  
+<?php
 /**
  * CPSYelpApi class file.
  *
@@ -14,8 +14,8 @@
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
  * @filesource
- * @package psYiiExtensions
- * @subpackage components.yelp
+ * @package psYiiExtensions.components
+ * @subpackage yelp
  * @since 1.0.4
  */
 class CPSYelpApi extends CPSApiComponent
