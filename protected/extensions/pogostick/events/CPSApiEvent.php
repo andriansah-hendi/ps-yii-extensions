@@ -14,7 +14,7 @@
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
  * @filesource
- * @package application.extensions.pogostick
+ * @package ps-yii-extensions
  * @subpackage events
  * @since 1.0.4
  */
