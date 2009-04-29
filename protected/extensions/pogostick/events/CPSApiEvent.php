@@ -14,7 +14,7 @@
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
  * @filesource
- * @package ps-yii-extensions
+ * @package psYiiExtensions
  * @subpackage events
  * @since 1.0.4
  */
