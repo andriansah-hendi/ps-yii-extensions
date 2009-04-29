@@ -16,6 +16,7 @@
  * @package psYiiExtensions
  * @subpackage base
  * @filesource
+ * @abstract
  * @since 1.0.3
  */
 abstract class CPSApiWidget extends CPSWidget
@@ -124,6 +125,7 @@ abstract class CPSApiWidget extends CPSWidget
 	/**
 	* Generates the javascript code for the widget
 	*
+	* @abstract
 	* @return string
 	*/
 	abstract protected function generateJavascript();
@@ -131,6 +133,7 @@ abstract class CPSApiWidget extends CPSWidget
 	/**
 	* Generates the javascript code for the widget
 	*
+	* @abstract
 	* @return string
 	*/
 	abstract protected function generateHtml();
