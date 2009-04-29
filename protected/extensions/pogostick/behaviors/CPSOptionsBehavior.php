@@ -4,7 +4,7 @@
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @link http://ps-yii-extensions.googlecode.com
- * @author Jerry Ablan <jablan@pogostick.com> 
+ * @author Jerry Ablan <jablan@pogostick.com>
  * @link http://ps-yii-extensions.googlecode.com
  * @copyright Copyright &copy; 2009 Pogostick, LLC
  * @license http://www.pogostick.com/license/
@@ -28,7 +28,7 @@
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
  * @package psYiiExtensions
- * @subpackage behaviors
+ * @subpackage Behaviors
  * @filesource
  * @since 1.0.4
  */

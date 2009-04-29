@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * CPSBaseOption class file.
  *
@@ -13,7 +13,9 @@
  *
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
- * @package application.extensions.pogostick
+ * @filesource
+ * @package psYiiExtensions
+ * @subpackage base
  * @since 1.0.4
  */
 class CPSBaseOption

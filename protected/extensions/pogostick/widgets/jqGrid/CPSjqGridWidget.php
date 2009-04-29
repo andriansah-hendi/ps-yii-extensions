@@ -14,8 +14,8 @@
 * @author Jerry Ablan <jablan@pogostick.com>
 * @version SVN: $Id$
 * @filesource
-* @package psYiiExtensions.widgets
-* @subpackage jqGrid
+* @package psYiiExtensions
+* @subpackage Widgets-jqRating
 * @since 1.0.3
 */
 class CPSjqGridWidget extends CPSWidget

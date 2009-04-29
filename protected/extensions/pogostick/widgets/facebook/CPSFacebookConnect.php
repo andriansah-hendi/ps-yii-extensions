@@ -14,8 +14,8 @@
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN $Id$
  * @filesource
- * @package psYiiExtensions.widgets
- * @subpackage facebook
+ * @package psYiiExtensions
+ * @subpackage "Widgets (/widgets/facebook)"
  * @since 1.0.4
  */
 class CPSFacebookConnect extends CPSApiWidget

@@ -15,7 +15,7 @@
  * @version SVN: $Id$
  * @filesource
  * @package psYiiExtensions
- * @subpackage events
+ * @subpackage Models
  * @since 1.0.4
  */
 class CPSFormModel extends CFormModel

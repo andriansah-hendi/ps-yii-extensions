@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * CPSApiEvent class file.
  *
@@ -15,7 +15,7 @@
  * @version SVN: $Id$
  * @filesource
  * @package psYiiExtensions
- * @subpackage events
+ * @subpackage Events
  * @since 1.0.4
  */
 class CPSApiEvent extends CEvent

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * <name> class file.
  *
@@ -15,7 +15,7 @@
  * @version SVN: $Id$
  * @filesource
  * @package psYiiExtensions
- * @subpackage behaviors
+ * @subpackage "Behaviors"
  * @filesource
  * @since 1.0.4
  */

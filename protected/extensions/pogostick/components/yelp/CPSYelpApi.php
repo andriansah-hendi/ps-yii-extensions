@@ -14,8 +14,8 @@
  * @author Jerry Ablan <jablan@pogostick.com>
  * @version SVN: $Id$
  * @filesource
- * @package psYiiExtensions.components
- * @subpackage yelp
+ * @package psYiiExtensions
+ * @subpackage Yelp
  * @since 1.0.4
  */
 class CPSYelpApi extends CPSApiComponent
