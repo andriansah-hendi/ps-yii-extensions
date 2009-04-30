@@ -1,4 +1,5 @@
 <?php
+<?php
 /**
  * CPSWidget class file.
  *
@@ -40,7 +41,7 @@ class CPSWidget extends CInputWidget
 		//	Attach our widget behaviors
 		$this->attachBehaviors(
         	array(
-        		'psWidget' => 'application.extensions.pogostick.behaviors.CPSWidgetBehavior',
+        		'psWidget' => 'pogostick.behaviors.CPSWidgetBehavior',
         	)
         );
 	}
