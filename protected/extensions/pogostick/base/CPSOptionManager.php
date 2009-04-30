@@ -18,97 +18,208 @@
  * @subpackage Base
  * @since 1.0.4
  */
-class CPSOptionCollection extends CMap
+class CPSOptionCollection
 {
 	//********************************************************************************
 	//* Member Variables
 	//********************************************************************************
 
-	protected $m_sName;
-	protected $m_oValue;
-	protected $m_sDelimiter = '.';
-	protected $m_bAddIfNotFound = true;
+	/**
+	* The base option collection
+	*
+	* @var array
+	*/
+	protected static $m_arOptions = array();
+	/**
+	* The delimiter for multi-part keys, defaults to '.'
+	*
+	* @var string
+	*/
+	protected static $m_sDelimiter = '.';
+	/**
+	* Will add new options upon 'setValue' if the key does not exist. Defaults to 'true'
+	*
+	* @var bool
+	*/
+	protected static $m_bAddIfNotFound = true;
 
 	//********************************************************************************
 	//* Property Access Methods
 	//********************************************************************************
 
-	public function getName() { return( $this->m_sName ); }
-	public function setName( $sValue ) { $this->m_sName = $sValue; }
-	public function getValue( $sKey ) { return $this->walkOptionChain( $sKey, $this->m_sDelimiter, $this->m_bAddIfNotFound ); }
+	/**
+	* Getters
+	*
+	*/
+	public function getOption( $sKey ) { return $this->getSubOption( $sKey ); }
+	public function getDelimiter() { return( $this->m_sDelimiter ); }
+	public function getAddIfNotFound() { return( $this->m_bAddIfNotFound ); }
 
-	public function setValue( $sKey, $oValue )
+	/**
+	* Setters
+	*
+	* @param mixed $sValue
+	*/
+	public function setOption( $sKey, $oValue )
 	{
-		$_oObject = $this->walkOptionChain( $sKey );
+		$_oObject =& $this->getSubOption( $sKey );
 
 		if ( null !== $_oObject )
 			$_oObject = $oValue;
 		else
-			throw new CException( Yii::t( 'psBaseOption', 'Option Value not found for key "{key}"', array( '{key}' => $sKey ) ) );
+			throw new CException( Yii::t( 'psOptionManager', 'Option Value not found for key "{key}"', array( '{key}' => $sKey ) ) );
 	}
+
+	public function setDelimiter( $sValue ) { $this->m_sDelimiter = $sValue; }
+	public function setAddIfNotFound( $bValue ) { $this->m_bAddIfNotFound = $bValue; }
 
 	//********************************************************************************
 	//* Magic Methods
 	//********************************************************************************
 
+	/**
+	* Getter
+	*
+	* @param string $sKey
+	*/
 	public function __get( $sKey )
 	{
+		//	Look in the array...
+		$_oObject =& getSubOption( $sKey, $this->m_sDelimiter, false );
+
+		//	If we found one, return it...
+		if ( null != $_oObject )
+			return $_oObject;
+
 		//	Call our property accessor if there...
 		$_sFuncName = 'get' . $sKey;
 		if ( method_exists( $this, $_sFuncName ) )
 			return $this->{$_sFuncName}( $sKey );
 
-		//	Try local members...
-		$_sMemberVar = key( preg_grep( '/^m_', array_keys( get_class_vars( get_class( $this ) ) ) ) );
-		if ( false !== $_sMemberVar )
-			return $this->{$_sMemberVar};
+		//	No luck? Evil!
+		throw new CException( Yii::t( 'psOptionManager', 'Option key "{key}" not found', array( '{key}' => $sKey ) ) );
+	}
+
+	/**
+	* Setter
+	*
+	* @param string $sKey
+	* @param mixed $oValue
+	*/
+	public function __set( $sKey, $oValue )
+	{
+		//	Call our property accessor if there...
+		$_sFuncName = 'set' . $sKey;
+		if ( method_exists( $this, $_sFuncName ) )
+			return $this->{$_sFuncName}( $sKey );
 
 		//	No luck? Evil!
-		throw new CException( Yii::t( 'psBaseOption', 'Option key "{key}" not found', array( '{key}' => $sKey ) ) );
+		throw new CException( Yii::t( 'psOptionManager', 'Option key "{key}" not found', array( '{key}' => $sKey ) ) );
 	}
 
 	//********************************************************************************
 	//* Public Methods
 	//********************************************************************************
 
-	public function __construct( $sName, $oValue = null, $sDelimiter = '.', $bAddIfNotFound = true )
+	/**
+	* Constructs CPSOptionCollection
+	*
+	* @param string $sDelimiter
+	* @param string $bAddIfNotFound
+	* @return CPSOptionCollection
+	*/
+	public function __construct( $sDelimiter = '.', $bAddIfNotFound = true )
 	{
-		$this->m_sName = $sName;
-		$this->m_oValue = $oValue;
 		$this->m_sDelimiter = $sDelimiter;
 		$this->m_bAddIfNotFound = $bAddIfNotFound;
+	}
+
+	/**
+	* Add bulk options to the manager.
+	*
+	* @param array $arOptions An array containing key => value pairs to put in option array
+	* @see addOption
+	*/
+	public function addOptions( array $arOptions )
+	{
+		foreach( $arOptions as $_sKey => $_oValue )
+			$this->addOption( $_sKey, $_oValue );
+	}
+
+	/**
+	* Adds a single option to the behavior
+	*
+	* @param string $sKey
+	* @param mixed $oValue
+	* @return array The last option processed
+	* @see addOptions
+	*/
+	public function &addOption( $sKey, $oValue = null )
+	{
+		//	Is the key bogus?
+		if ( null == $sKey || '' == trim( $sKey ) )
+			throw new CException( Yii::t( 'psOptionManager', 'Invalid property name "{property}".', array( '{property}' => $sKey ) ) );
+
+		//	Make sure to add if not found..
+		$_oObject =& $this->getSubOption( $sKey, null, true );
+
+		//	If it worked, return the object...
+		if ( null !== $_oObject )
+		{
+			$_oObject = $oValue;
+			return $_oObject;
+		}
+
+		//	Something's fishy...
+		throw new CException( Yii::t( 'psOptionManager', 'Unable to add value for key "{key}"', array( '{key}' => $sKey ) ) );
 	}
 
 	//********************************************************************************
 	//* Private Methods
 	//********************************************************************************
 
-	protected function &walkOptionChain( $sKey )
+	/**
+	* Finds the option value using the global delimiter {@link CPSBaseOption::$m_sDelimiter}.
+	*
+	* Example:
+	*
+	*	$this->getSubOption( 'baseUrl' );
+	*	$this->getSubOption( 'us.ga.atlanta.businesses' );
+	*
+	* @param string $sKey
+	* @param string $sDelimiter
+	* @param bool $bAddIfNotFound
+	* @return mixed If {@link CPSBaseOption::$m_bAddIfNotFound} is set to false, null will be returned.
+	* Otherwise a new array() will be created at that spot in the array and returend.
+	*/
+	protected function &getSubOption( $sKey, $sDelimiter = null, $bAddIfNotFound = null )
 	{
-		if ( ! is_array( $this->m_oValue ) )
-			return null;
+		//	Check for overrides
+		$_sDelimiter = ( isset( $sDelimiter ) ) ? $sDelimiter : $this->m_sDelimiter;
+		$_bAddIfNotFound = ( isset( $bAddIfNotFound ) ) ? $_bAddIfNotFound : $this->m_nAddIfNotFound;
 
-		$_oObject =& $m_oValue;
+		//	Start at the top...
+		$_oObject =& $this->m_arOptions;
 
-		foreach( explode( $this->m_sDelimiter, $_oObject ) as $_sKey => $_oValue )
+		foreach( explode( $_sDelimiter, $_oObject ) as $_sKey => $_oValue )
 		{
 			if ( ! array_key_exists( $_sKey, $_oObject ) )
 			{
-				if ( $this->m_bAddIfNotFound )
+				if ( $_bAddIfNotFound )
 				{
 					//	Add a new array and return it...
 					$_oObject[ $_sKey ] = array();
-					return $_oObject[ $_sKey ];
+					continue;
 				}
 
 				//	Not there... bail
 				return null;
 			}
-
-			//	Lather, rinse, repeat
-			$_oObject =& $_oObject[ $_sKey ];
+			else //	Lather, rinse, repeat
+				$_oObject =& $_oObject[ $_sKey ];
 		}
 
+		//	Return the object
 		return $_oObject;
 	}
 
