@@ -2,7 +2,9 @@
 
 = Introduction =
 
-Welcome and thank you for visiting the *Pogostick Yii Extensions library* home page! This wiki will serve as additional documentation and other minutae.
+Welcome and thank you for visiting the *Pogostick Yii Extensions library* home page!
+
+This wiki will serve as additional documentation and other minutae.
 
 = Details =
 
