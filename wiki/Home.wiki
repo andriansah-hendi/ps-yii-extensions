@@ -1,5 +1,4 @@
-#summary One-sentence summary of this page.
-Welcome to the Pogostick Yii Extensions library home page!
+#summary Welcome to the Pogostick Yii Extensions library home page!
 
 
 = Introduction =
