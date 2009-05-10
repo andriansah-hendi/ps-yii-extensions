@@ -1,7 +1,5 @@
-#summary README page for ps-yii-extensions
-
 This explains the installation of the ps-yii-extensions package. If you have
-any problems with installation, send an email to [mailto:yii@pogostick.com Jerry Ablan]<yii@pogostick.com>.
+any problems with installation, send an email to [mailto:yii@pogostick.com Jerry Ablan] ([mailto:yii@pogostick.com yii@pogostick.com]).
 
 == OBTAINING ==
 
