@@ -1,0 +1,14 @@
+= README =
+
+This explains the installation of the ps-yii-extensions package. If you have
+any problems with installation, send an email to Jerry Ablan <yii@pogostick.com>.
+
+= OBTAINING =
+
+  You can download the Pogostick Yii Extension Library from the Yii Extension library or directly from the [http://ps-yii-extensions.googlecode.com SVN repository].
+
+= INSTALLATION =
+
+= GETTING STARTED = 
+
+= QUESTIONS/COMMENTS/CONCERNS =
