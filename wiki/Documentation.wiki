@@ -1,0 +1,3 @@
+#summary One-sentence summary of this page.
+
+The class reference for the ps-yii-extensions library is located in the [http:SVN repository under the doc directory.
