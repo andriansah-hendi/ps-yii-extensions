@@ -9,7 +9,7 @@ This wiki will serve as additional documentation and other minutae.
 = Details =
 
 Where would you like to go?
-  * README
+  * [README]
   * Installation
   * Configuration
   * Usage
