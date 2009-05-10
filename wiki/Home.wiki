@@ -2,12 +2,13 @@
 
 = Introduction =
 
-Welcome and thank you for visiting the '''Pogostick Yii Extensions library''' home page!
-
+Welcome and thank you for visiting the *Pogostick Yii Extensions library* home page! This wiki will serve as additional documentation and other minutae.
 
 = Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+Where would you like to go?
+  * README
+  * Installation
+  * Configuration
+  * Usage
+  * Documentation
