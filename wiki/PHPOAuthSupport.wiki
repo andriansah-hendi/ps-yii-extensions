@@ -33,8 +33,3 @@ extensions=oauth.so
 If you try and create a CPSTwitterApi object, if oauth is not installed properly it will throw an exception.
 
 If you need help, let me know.
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
