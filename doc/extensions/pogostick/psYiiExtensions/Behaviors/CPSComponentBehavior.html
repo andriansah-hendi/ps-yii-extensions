@@ -1,0 +1,1107 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class CPSComponentBehavior</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class CPSComponentBehavior</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|											<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">CPSComponentBehavior provides base component behaviors to other classes</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Jerry Ablan &lt;<a href="mailto:jablan@pogostick.com">jablan@pogostick.com</a>&gt;</li>
+				<li><span class="field">version:</span> SVN: $Id: CPSComponentBehavior.php 233 2009-06-10 23:54:16Z jerryablan@gmail.com $</li>
+				<li><span class="field">since:</span> 1.0.1</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_behaviors---CPSComponentBehavior.php.html">/behaviors/CPSComponentBehavior.php</a> (line <span class="field">21</span>)
+		</p>
+		
+				
+		<pre>CBehavior
+   |
+   --CPSComponentBehavior</pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|												<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+								|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../../psYiiExtensions/Behaviors/CPSApiBehavior.html">CPSApiBehavior</a></td>
+					<td>
+											CPSApiBehavior provides a behavior to classes for making API calls
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../../psYiiExtensions/Behaviors/CPSWidgetBehavior.html">CPSWidgetBehavior</a></td>
+					<td>
+											CPSWidgetBehavior provides convenient access to typical &quot;widget&quot; behaviors
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																				<div class="var-title">
+					static <span class="var-type">string</span>
+					<a href="#$m_sPrefixDelimiter" title="details" class="var-name">$m_sPrefixDelimiter</a>
+				</div>
+																				<div class="var-title">
+					<span class="var-type">string</span>
+					<a href="#$m_sInternalName" title="details" class="var-name">$m_sInternalName</a>
+				</div>
+																			</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																																																																				
+												<div class="method-definition">
+											<span class="method-result">CPSComponentBehavior</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addOption" title="details" class="method-name">addOption</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$arValue</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$bNoSort</span> = <span class="var-default">false</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$oSetValue</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addOptions" title="details" class="method-name">addOptions</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$arOptions</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">true</span>
+										<a href="#checkCallbacks" title="details" class="method-name">checkCallbacks</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#checkOptions" title="details" class="method-name">checkOptions</a>
+											([<span class="var-type"></span>&nbsp;<span class="var-name">$arOptions</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getInternalName" title="details" class="method-name">getInternalName</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getNamePrefix" title="details" class="method-name">getNamePrefix</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#getOption" title="details" class="method-name">&amp;getOption</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getOptions" title="details" class="method-name">&amp;getOptions</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getOptionsObject" title="details" class="method-name">&amp;getOptionsObject</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getPrefixDelimiter" title="details" class="method-name">getPrefixDelimiter</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getPublicOptions" title="details" class="method-name">getPublicOptions</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getValidPattern" title="details" class="method-name">getValidPattern</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#hasOption" title="details" class="method-name">hasOption</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#isCBFunction" title="details" class="method-name">isCBFunction</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sValue</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#isEmpty" title="details" class="method-name">isEmpty</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$oVar</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#makeOptions" title="details" class="method-name">makeOptions</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$arOptions</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#mergeOptions" title="details" class="method-name">mergeOptions</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$arOptions</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#raiseEvent" title="details" class="method-name">raiseEvent</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sName</span>, <span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>&nbsp;<span class="var-name">$oEvent</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setInternalName" title="details" class="method-name">setInternalName</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$sValue</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">null</span>
+										<a href="#setOption" title="details" class="method-name">setOption</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$oValue</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">null</span>
+										<a href="#setOptions" title="details" class="method-name">setOptions</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$arOptions</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setPrefixDelimiter" title="details" class="method-name">setPrefixDelimiter</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sValue</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setValidPattern" title="details" class="method-name">setValidPattern</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$arValue</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#__get" title="details" class="method-name">&amp;__get</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sName</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#__set" title="details" class="method-name">__set</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sName</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$oValue</span>)
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<a name="var$m_sPrefixDelimiter" id="$m_sPrefixDelimiter"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			static <span class="var-type">string</span>
+			<span class="var-name">$m_sPrefixDelimiter</span>
+			 = <span class="var-default"> '::'</span>			(line <span class="line-number">58</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The delimiter to use for prefixes. This must contain only characters that are not allowed  in variable names (i.e. '::', '||', '.', etc.). Defaults to '::'. There is no length limit,  but 2 works out. There is really no need to ever change this unless you have a strong dislike  of the '::' characters.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$m_sInternalName" id="$m_sInternalName"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$m_sInternalName</span>
+						(line <span class="line-number">48</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The internal name of the component. Used as the name of the behavior when attaching.</p>
+<p class="description"><p>In order to facilitate option separation, this value is used along with the prefix delimiter by the internal option  manager to distinguish between owners. During construction, it is set to the name of  the class, and includes special behavior for Pogostick classes. Example: CPSComponent  becomes psComponent. Use or override (@link setInternalName) to change the name at  runtime.</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Behaviors/CPSComponentBehavior.html#methodsetInternalName">CPSComponentBehavior::setInternalName()</a></li>
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Behaviors/CPSComponentBehavior.html#var$m_sPrefixDelimiter">CPSComponentBehavior::$m_sPrefixDelimiter</a></li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">88</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">CPSComponentBehavior</span>
+		<span class="method-name">
+			__construct
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../../psYiiExtensions/Behaviors/CPSApiBehavior.html#method__construct">CPSApiBehavior::__construct()</a>
+								: *
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Behaviors/CPSOAuthBehavior.html#method__construct">CPSOAuthBehavior::__construct()</a>
+								: *
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Behaviors/CPSWidgetBehavior.html#method__construct">CPSWidgetBehavior::__construct()</a>
+							</li>
+				</ul>
+	</div>
+<a name="methodaddOption" id="addOption"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">addOption</span> (line <span class="line-number">122</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retrieves an option value from the options array. If key doesn't exist, it's created as an empty array and returned.</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Behaviors/CPSComponentBehavior.html#methodaddOptions">CPSComponentBehavior::addOptions()</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addOption
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$arValue</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$bNoSort</span> = <span class="var-default">false</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$oSetValue</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sKey</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arValue</span>			</li>
+					<li>
+				<span class="var-type">bool</span>
+				<span class="var-name">$bNoSort</span><span class="var-description">: If set to false, the option array will not be sorted after the addition</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$oSetValue</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddOptions" id="addOptions"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">addOptions</span> (line <span class="line-number">130</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add a batch of options to the option manager</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Behaviors/CPSComponentBehavior.html#methodaddOption">CPSComponentBehavior::addOption()</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addOptions
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$arOptions</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arOptions</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcheckCallbacks" id="checkCallbacks"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">checkCallbacks</span> (line <span class="line-number">245</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks the callback array to see if they're valid.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> If all is good.</li>
+				<li><span class="field">throws:</span> CException</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">true</span>
+		<span class="method-name">
+			checkCallbacks
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodcheckOptions" id="checkOptions"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">checkOptions</span> (line <span class="line-number">356</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks options for validity based on the meta data rules (if any)</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			checkOptions
+		</span>
+					([<span class="var-type"></span>&nbsp;<span class="var-name">$arOptions</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$arOptions</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetInternalName" id="getInternalName"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getInternalName</span> (line <span class="line-number">68</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Getters for member variables</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getInternalName
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetNamePrefix" id="getNamePrefix"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getNamePrefix</span> (line <span class="line-number">69</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getNamePrefix
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetOption" id="getOption"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getOption</span> (line <span class="line-number">184</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retrieves an option value from the options array. If key doesn't exist, it's created as an empty array and returned.</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Behaviors/CPSComponentBehavior.html#methodgetOptions">CPSComponentBehavior::getOptions()</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			&amp;getOption
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sKey</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetOptions" id="getOptions"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getOptions</span> (line <span class="line-number">167</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a reference to the entire reference array</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> A reference to the internal options array</li>
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Behaviors/CPSComponentBehavior.html#methodgetOption">CPSComponentBehavior::getOption()</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			&amp;getOptions
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetOptionsObject" id="getOptionsObject"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getOptionsObject</span> (line <span class="line-number">192</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a reference to the entire reference array</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> A reference to the internal options array</li>
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Behaviors/CPSComponentBehavior.html#methodgetOption">CPSComponentBehavior::getOption()</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			&amp;getOptionsObject
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetPrefixDelimiter" id="getPrefixDelimiter"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getPrefixDelimiter</span> (line <span class="line-number">70</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getPrefixDelimiter
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetPublicOptions" id="getPublicOptions"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getPublicOptions</span> (line <span class="line-number">175</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a copy of only the public options within the options array</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> A copy of the public options stored...</li>
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Behaviors/CPSComponentBehavior.html#methodgetOptions">CPSComponentBehavior::getOptions()</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getPublicOptions
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetValidPattern" id="getValidPattern"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getValidPattern</span> (line <span class="line-number">71</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getValidPattern
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodhasOption" id="hasOption"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">hasOption</span> (line <span class="line-number">202</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if an option exists in the options array...</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Behaviors/CPSComponentBehavior.html#methodsetOption">CPSComponentBehavior::setOption()</a></li>
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Behaviors/CPSComponentBehavior.html#methodsetOptions">CPSComponentBehavior::setOptions()</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			hasOption
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sKey</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisCBFunction" id="isCBFunction"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">isCBFunction</span> (line <span class="line-number">447</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Check to see if the value follows a callback function pattern</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			isCBFunction
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sValue</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sValue</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisEmpty" id="isEmpty"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">isEmpty</span> (line <span class="line-number">370</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks for an empty variable.</p>
+<p class="description"><p>Useful because the PHP empty() function cannot be reliably used with overridden __get methods.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			isEmpty
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$oVar</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$oVar</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodmakeOptions" id="makeOptions"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">makeOptions</span> (line <span class="line-number">269</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Generates the options for the widget</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			makeOptions
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$arOptions</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arOptions</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodmergeOptions" id="mergeOptions"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">mergeOptions</span> (line <span class="line-number">209</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Merges the supplied options into parent's option array. No checking is done at the time. It's a blind merge.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			mergeOptions
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$arOptions</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arOptions</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodraiseEvent" id="raiseEvent"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">raiseEvent</span> (line <span class="line-number">461</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Redirect event to owner object</p>
+<p class="description"><p>This doesn't actually raise an event. What it does is calls the  owner's event raiser method. That method will then raise the event.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			raiseEvent
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sName</span>, <span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>&nbsp;<span class="var-name">$oEvent</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sName</span><span class="var-description">: The event name</span>			</li>
+					<li>
+				<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>
+				<span class="var-name">$oEvent</span><span class="var-description">: The event</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetInternalName" id="setInternalName"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">setInternalName</span> (line <span class="line-number">77</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Setters for member variables</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setInternalName
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$sValue</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$sValue</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetOption" id="setOption"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">setOption</span> (line <span class="line-number">159</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Sets a single option to the array</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Behaviors/CPSComponentBehavior.html#methodsetOptions">CPSComponentBehavior::setOptions()</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">null</span>
+		<span class="method-name">
+			setOption
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$oValue</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sKey</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$oValue</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetOptions" id="setOptions"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">setOptions</span> (line <span class="line-number">149</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add bulk options to the manager.</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Behaviors/CPSComponentBehavior.html#methodgetOptions">CPSComponentBehavior::getOptions()</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">null</span>
+		<span class="method-name">
+			setOptions
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$arOptions</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arOptions</span><span class="var-description">: An array containing option_key =&gt; value pairs to put into option array. The parameter $arOptions is merged with the existing options array. Existing option values are overwritten or added.  <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$this</span><span class="src-sym">-&gt;</span><a href="../../psYiiExtensions/Behaviors/CPSComponentBehavior.html#methodsetOptions">setOptions</a><span class="src-sym">(&nbsp;</span><span class="src-key">array</span><span class="src-sym">(&nbsp;</span><span class="src-str">'option_x'&nbsp;</span>=&gt;&nbsp;<span class="src-key">array</span><span class="src-sym">(&nbsp;</span><span class="src-id"><a href="../../psYiiExtensions/Base/CPSOptionManager.html">CPSOptionManager</a></span><span class="src-sym">::</span><span class="src-id">META_DEFAULTVALUE&nbsp;</span>=&gt;&nbsp;<span class="src-str">'1'</span><span class="src-sym">,&nbsp;</span><span class="src-id"><a href="../../psYiiExtensions/Base/CPSOptionManager.html">CPSOptionManager</a></span><span class="src-sym">::</span><span class="src-id">META_RULES&nbsp;</span>=&gt;&nbsp;<span class="src-key">array</span><span class="src-sym">(&nbsp;</span><span class="src-str">'valid'&nbsp;</span>=&gt;&nbsp;<span class="src-key">array</span><span class="src-sym">(&nbsp;</span><span class="src-str">'x'</span><span class="src-sym">,&nbsp;</span><span class="src-str">'y'</span><span class="src-sym">,&nbsp;</span><span class="src-str">'z'&nbsp;</span><span class="src-sym">)&nbsp;)&nbsp;)</span><span class="src-sym">;</span></div></li>
+</ol></div></span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetPrefixDelimiter" id="setPrefixDelimiter"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">setPrefixDelimiter</span> (line <span class="line-number">137</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Sets the default (@link $m_sPrefixDelimiter). Defaults to '::'.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setPrefixDelimiter
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sValue</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sValue</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetValidPattern" id="setValidPattern"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">setValidPattern</span> (line <span class="line-number">78</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setValidPattern
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$arValue</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$arValue</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method__get" id="__get"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">__get</span> (line <span class="line-number">402</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a property value, an event handler list or a behavior based on its name.</p>
+<p class="description"><p>Do not call this method. This is a PHP magic method that we override  to allow using the following syntax to read a property or obtain event handlers:  <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$value</span>=<span class="src-var">$component</span><span class="src-sym">-&gt;</span><span class="src-id">propertyName</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-var">$handlers</span>=<span class="src-var">$component</span><span class="src-sym">-&gt;</span><span class="src-id">eventName</span><span class="src-sym">;</span></div></li>
+</ol></div></p><p>Will also return a property from an attached behavior directly without the need for using the behavior name  <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$value&nbsp;</span>=&nbsp;<span class="src-var">$component</span><span class="src-sym">-&gt;</span><span class="src-id">behaviorPropertyName</span><span class="src-sym">;</span></div></li>
+</ol></div>  instead of  <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$value&nbsp;</span>=&nbsp;<span class="src-var">$component</span><span class="src-sym">-&gt;</span><span class="src-id">behaviorName</span><span class="src-sym">-&gt;</span><span class="src-id">propertyName</span></div></li>
+</ol></div></p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> the property value, event handlers attached to the event, or the named behavior</li>
+				<li><span class="field">see:</span> getBehaviorProperty</li>
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Behaviors/CPSComponentBehavior.html#method__set">CPSComponentBehavior::__set()</a></li>
+				<li><span class="field">throws:</span> CException if the property or event is not defined</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			&amp;__get
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sName</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sName</span><span class="var-description">: the property name or event name</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method__set" id="__set"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">__set</span> (line <span class="line-number">434</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Sets value of a component property.</p>
+<p class="description"><p>Do not call this method. This is a PHP magic method that we override  to allow using the following syntax to set a property or attach an event handler  <pre> $this->propertyName=$value;
+ $this->eventName=$callback;</pre></p><p>Will also set a property value in an attached behavior directly without the need for using the behavior name  <pre> $this->behaviorPropertyName = $value;</pre></p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> setBehaviorProperty</li>
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Behaviors/CPSComponentBehavior.html#method__get">CPSComponentBehavior::__get()</a></li>
+				<li><span class="field">throws:</span> CException if the property/event is not defined or the property is read only.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			__set
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sName</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$oValue</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sName</span><span class="var-description">: the property name or the event name</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$oValue</span><span class="var-description">: the property value or callback</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Thu, 11 Jun 2009 12:57:15 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.2</a>
+	</p>
+	</div></body>
+</html>

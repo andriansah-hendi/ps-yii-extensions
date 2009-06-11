@@ -60,9 +60,9 @@
 					<th class="class-table-header">Description</th>
 				</tr>
 								<tr>
-					<td style="padding-right: 2em"><a href="../../psYiiExtensions/Components/CPSTwitterApi.html">CPSTwitterApi</a></td>
+					<td style="padding-right: 2em"><a href="../../psYiiExtensions/Base/CPSOAuthComponent.html">CPSOAuthComponent</a></td>
 					<td>
-											CPSTwitterApi provides access to the Twitter API
+											The CPSOAuthComponent is the base class for all Pogostick widgets for Yii
 										</td>
 				</tr>
 								<tr>
@@ -90,7 +90,7 @@
 		</div>
 		<div class="info-box-body">			
 			<div class="method-summary">
-																																																																				
+																																																																												
 												<div class="method-definition">
 											<span class="method-result">CPSApiComponent</span>
 										<a href="#__construct" title="details" class="method-name">__construct</a>
@@ -105,6 +105,11 @@
 											<span class="method-result">void</span>
 										<a href="#beforeApiCall" title="details" class="method-name">beforeApiCall</a>
 											(<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>&nbsp;<span class="var-name">$oEvent</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#events" title="details" class="method-name">events</a>
+										()
 									</div>
 																<div class="method-definition">
 											<span class="method-result">string</span>
@@ -216,6 +221,10 @@
 		<div class="notes">Redefined in descendants as:</div>
 		<ul class="redefinitions">
 					<li>
+				<a href="../../psYiiExtensions/Base/CPSOAuthComponent.html#method__construct">CPSOAuthComponent::__construct()</a>
+								: Constructor
+							</li>
+					<li>
 				<a href="../../psYiiExtensions/Components/CPSTwitterApi.html#method__construct">CPSTwitterApi::__construct()</a>
 							</li>
 				</ul>
@@ -224,7 +233,7 @@
 <div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">afterApiCall</span> (line <span class="line-number">192</span>)
+		<span class="method-title">afterApiCall</span> (line <span class="line-number">211</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -253,7 +262,7 @@
 <div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">beforeApiCall</span> (line <span class="line-number">172</span>)
+		<span class="method-title">beforeApiCall</span> (line <span class="line-number">191</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -278,8 +287,42 @@
 		
 			
 	</div>
-<a name="methodmakeRequest" id="makeRequest"><!-- --></a>
+<a name="methodevents" id="events"><!-- --></a>
 <div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">events</span> (line <span class="line-number">172</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Declares events and the corresponding event handler methods.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> events (array keys) and the corresponding event handler methods (array values).</li>
+				<li><span class="field">see:</span> CBehavior::events</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			events
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../../psYiiExtensions/Base/CPSOAuthComponent.html#methodevents">CPSOAuthComponent::events()</a>
+								: Declares events and the corresponding event handler methods.
+							</li>
+				</ul>
+	</div>
+<a name="methodmakeRequest" id="makeRequest"><!-- --></a>
+<div class="oddrow">
 	
 	<div class="method-header">
 		<span class="method-title">makeRequest</span> (line <span class="line-number">53</span>)
@@ -313,16 +356,16 @@
 		<div class="notes">Redefined in descendants as:</div>
 		<ul class="redefinitions">
 					<li>
-				<a href="../../psYiiExtensions/Components/CPSTwitterApi.html#methodmakeRequest">CPSTwitterApi::makeRequest()</a>
-								: Makes the actual HTTP request based on settings
+				<a href="../../psYiiExtensions/Base/CPSOAuthComponent.html#methodmakeRequest">CPSOAuthComponent::makeRequest()</a>
+								: *  Fetches a protected resource using the tokens stored
 							</li>
 				</ul>
 	</div>
 <a name="methodonAfterApiCall" id="onAfterApiCall"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">onAfterApiCall</span> (line <span class="line-number">202</span>)
+		<span class="method-title">onAfterApiCall</span> (line <span class="line-number">221</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -348,10 +391,10 @@
 			
 	</div>
 <a name="methodonBeforeApiCall" id="onBeforeApiCall"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">onBeforeApiCall</span> (line <span class="line-number">182</span>)
+		<span class="method-title">onBeforeApiCall</span> (line <span class="line-number">201</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -377,10 +420,10 @@
 			
 	</div>
 <a name="methodonRequestComplete" id="onRequestComplete"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">onRequestComplete</span> (line <span class="line-number">222</span>)
+		<span class="method-title">onRequestComplete</span> (line <span class="line-number">241</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -406,10 +449,10 @@
 			
 	</div>
 <a name="methodrequestComplete" id="requestComplete"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">requestComplete</span> (line <span class="line-number">212</span>)
+		<span class="method-title">requestComplete</span> (line <span class="line-number">231</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -465,7 +508,7 @@
 
 
 	<p class="notes" id="credit">
-		Documentation generated on Wed, 03 Jun 2009 19:23:18 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.2</a>
+		Documentation generated on Wed, 10 Jun 2009 18:33:45 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.2</a>
 	</p>
 	</div></body>
 </html>

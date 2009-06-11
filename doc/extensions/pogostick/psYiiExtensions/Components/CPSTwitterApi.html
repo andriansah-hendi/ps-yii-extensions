@@ -1,0 +1,1762 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class CPSTwitterApi</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class CPSTwitterApi</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-vars">Vars</a>
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+											<a href="#sec-const-summary">Constants</a> (<a href="#sec-consts">details</a>)
+						
+			</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">CPSTwitterApi provides access to the <a href="http://apiwiki.twitter.com">Twitter API</a></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Jerry Ablan &lt;<a href="mailto:jablan@pogostick.com">jablan@pogostick.com</a>&gt;</li>
+				<li><span class="field">version:</span> SVN: $Id: CPSTwitterApi.php 233 2009-06-10 23:54:16Z jerryablan@gmail.com $</li>
+				<li><span class="field">todo:</span> Implement Block APIs</li>
+				<li><span class="field">todo:</span> Implement Direct Message API</li>
+				<li><span class="field">todo:</span> Complete Search API integdration</li>
+				<li><span class="field">todo:</span> Implement Trends API</li>
+				<li><span class="field">since:</span> 1.0.3</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_components---twitter---CPSTwitterApi.php.html">/components/twitter/CPSTwitterApi.php</a> (line <span class="field">25</span>)
+		</p>
+		
+				
+		<pre>CApplicationComponent
+   |
+   --<a href="../../psYiiExtensions/Base/CPSComponent.html">CPSComponent</a>
+      |
+      --<a href="../../psYiiExtensions/Base/CPSApiComponent.html">CPSApiComponent</a>
+         |
+         --<a href="../../psYiiExtensions/Base/CPSOAuthComponent.html">CPSOAuthComponent</a>
+            |
+            --CPSTwitterApi</pre>
+	
+			</div>
+</div>
+
+
+	<a name="sec-const-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Class Constant Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Constants</span> (<a href="#sec-consts">details</a>)
+												<a href="#sec-vars">Vars</a>
+				 
+				|
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<div class="const-summary">
+								<div class="const-title">
+					<img src="../../media/images/Constant.png" alt=" " />
+					<a href="#ACCOUNT_API" title="details" class="const-name">ACCOUNT_API</a> = 					<span class="var-type"> 'account'</span>
+
+				</div>
+								<div class="const-title">
+					<img src="../../media/images/Constant.png" alt=" " />
+					<a href="#BLOCK_API" title="details" class="const-name">BLOCK_API</a> = 					<span class="var-type"> 'blocks'</span>
+
+				</div>
+								<div class="const-title">
+					<img src="../../media/images/Constant.png" alt=" " />
+					<a href="#DIRECTMESSAGE_API" title="details" class="const-name">DIRECTMESSAGE_API</a> = 					<span class="var-type"> 'direct_message'</span>
+
+				</div>
+								<div class="const-title">
+					<img src="../../media/images/Constant.png" alt=" " />
+					<a href="#FAVORITE_API" title="details" class="const-name">FAVORITE_API</a> = 					<span class="var-type"> 'favorites'</span>
+
+				</div>
+								<div class="const-title">
+					<img src="../../media/images/Constant.png" alt=" " />
+					<a href="#FOLLOWER_API" title="details" class="const-name">FOLLOWER_API</a> = 					<span class="var-type"> 'followers'</span>
+
+				</div>
+								<div class="const-title">
+					<img src="../../media/images/Constant.png" alt=" " />
+					<a href="#FRIENDSHIP_API" title="details" class="const-name">FRIENDSHIP_API</a> = 					<span class="var-type"> 'friendships'</span>
+
+				</div>
+								<div class="const-title">
+					<img src="../../media/images/Constant.png" alt=" " />
+					<a href="#FRIEND_API" title="details" class="const-name">FRIEND_API</a> = 					<span class="var-type"> 'friends'</span>
+
+				</div>
+								<div class="const-title">
+					<img src="../../media/images/Constant.png" alt=" " />
+					<a href="#NOTIFICATION_API" title="details" class="const-name">NOTIFICATION_API</a> = 					<span class="var-type"> 'notifications'</span>
+
+				</div>
+								<div class="const-title">
+					<img src="../../media/images/Constant.png" alt=" " />
+					<a href="#SEARCH_API" title="details" class="const-name">SEARCH_API</a> = 					<span class="var-type"> 'search'</span>
+
+				</div>
+								<div class="const-title">
+					<img src="../../media/images/Constant.png" alt=" " />
+					<a href="#STATUS_API" title="details" class="const-name">STATUS_API</a> = 					<span class="var-type"> 'statuses'</span>
+
+				</div>
+								<div class="const-title">
+					<img src="../../media/images/Constant.png" alt=" " />
+					<a href="#TRENDS_API" title="details" class="const-name">TRENDS_API</a> = 					<span class="var-type"> 'trends'</span>
+
+				</div>
+								<div class="const-title">
+					<img src="../../media/images/Constant.png" alt=" " />
+					<a href="#USER_API" title="details" class="const-name">USER_API</a> = 					<span class="var-type"> 'users'</span>
+
+				</div>
+							</div>
+		</div>
+	</div>
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-const-summary">Constants</a> (<a href="#sec-consts">details</a>)
+							
+															<a href="#sec-vars">Vars</a>
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																																																																																																																												
+												<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#addFavorite" title="details" class="method-name">addFavorite</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sStatusId</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#addTwitterRequestMapping" title="details" class="method-name">addTwitterRequestMapping</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sAction</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$arParams</span> = <span class="var-default">null</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$arOptions</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sController</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#disableFollowNotifications" title="details" class="method-name">disableFollowNotifications</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#enableFollowNotifications" title="details" class="method-name">enableFollowNotifications</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#endSession" title="details" class="method-name">endSession</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#followUser" title="details" class="method-name">followUser</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bEnableNotifications</span> = <span class="var-default">false</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../../psYiiExtensions/Components/CPSTwitterApi.html">CPSTwitterApi</a></span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#getExtendedUserInfo" title="details" class="method-name">getExtendedUserInfo</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#getFavorites" title="details" class="method-name">getFavorites</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#getFollowerList" title="details" class="method-name">getFollowerList</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#getFollowers" title="details" class="method-name">getFollowers</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#getFollowingList" title="details" class="method-name">getFollowingList</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#getFriends" title="details" class="method-name">getFriends</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#getFriendsTimeline" title="details" class="method-name">getFriendsTimeline</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$sSinceId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sMaxId</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iCount</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#getMentions" title="details" class="method-name">getMentions</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$sSinceId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sMaxId</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iCount</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#getPublicTimeline" title="details" class="method-name">getPublicTimeline</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getRateLimitStatus" title="details" class="method-name">getRateLimitStatus</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#getStatus" title="details" class="method-name">getStatus</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#getUserTimeline" title="details" class="method-name">getUserTimeline</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sSinceId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sMaxId</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iCount</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#init" title="details" class="method-name">init</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#isFollowing" title="details" class="method-name">isFollowing</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sFolloweeId</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$sFollowerId</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#loadData" title="details" class="method-name">loadData</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bAuthorized</span> = <span class="var-default">false</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$arToken</span> = <span class="var-default">array()</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#removeFavorite" title="details" class="method-name">removeFavorite</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sStatusId</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#removeStatus" title="details" class="method-name">removeStatus</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sUpdateId</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#search" title="details" class="method-name">search</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sTerm</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$sCallback</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sLang</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iRPP</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sSinceId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sGeocode</span> = <span class="var-default">null</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bShowUser</span> = <span class="var-default">false</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#unfollowUser" title="details" class="method-name">unfollowUser</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#updateDeliveryDevice" title="details" class="method-name">updateDeliveryDevice</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sDevice</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#updateProfile" title="details" class="method-name">updateProfile</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$sName</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sEmail</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUrl</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sLocation</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sDescription</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#updateProfileBackgroundImage" title="details" class="method-name">updateProfileBackgroundImage</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sImageData</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bTiled</span> = <span class="var-default">false</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#updateProfileColors" title="details" class="method-name">updateProfileColors</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$sBG</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sText</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sLink</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sSBFill</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sSBBorder</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#updateProfileImage" title="details" class="method-name">updateProfileImage</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sImageData</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#updateStatus" title="details" class="method-name">updateStatus</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sStatus</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$sReplyId</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#verifyCredentials" title="details" class="method-name">verifyCredentials</a>
+										()
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+												<a href="#sec-const-summary">Constants</a> (<a href="#sec-consts">details</a>)
+							
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+										<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../../psYiiExtensions/Base/CPSComponent.html">CPSComponent</a></span></p>
+					<blockquote>
+													<span class="var-title">
+								<span class="var-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#var$m_arBehaviors">CPSComponent::$m_arBehaviors</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#var$m_bHasBehaviors">CPSComponent::$m_bHasBehaviors</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#var$m_sInternalName">CPSComponent::$m_sInternalName</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#var$m_sPrefixDelimiter">CPSComponent::$m_sPrefixDelimiter</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-vars">Vars</a>
+																			<a href="#sec-const-summary">Constants</a> (<a href="#sec-consts">details</a>)
+							
+										<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+
+<a name="methodaddFavorite" id="addFavorite"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">addFavorite</span> (line <span class="line-number">453</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			addFavorite
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sStatusId</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sStatusId</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddTwitterRequestMapping" id="addTwitterRequestMapping"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">addTwitterRequestMapping</span> (line <span class="line-number">904</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds a request to the requestMap array</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> True if operation succeeded</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			addTwitterRequestMapping
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sAction</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$arParams</span> = <span class="var-default">null</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$arOptions</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sController</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sAction</span><span class="var-description">: The action to call</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arParams</span><span class="var-description">: The parameters for this request</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arOptions</span><span class="var-description">: The options for this request</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sController</span><span class="var-description">: The API to call</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methoddisableFollowNotifications" id="disableFollowNotifications"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">disableFollowNotifications</span> (line <span class="line-number">492</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Disables notifications for updates from the specified user to the authenticating user</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Returns the specified user when successful</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			disableFollowNotifications
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sUserId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sScreenName</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodenableFollowNotifications" id="enableFollowNotifications"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">enableFollowNotifications</span> (line <span class="line-number">478</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Enables device notifications for updates from the specified user</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Returns the specified user when successful</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			enableFollowNotifications
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sUserId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sScreenName</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodendSession" id="endSession"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">endSession</span> (line <span class="line-number">366</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Ends the session of the authenticating user, returning a null cookie.</p>
+<p class="description"><p>Use this method to sign users out of client-facing applications like widgets</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			endSession
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodfollowUser" id="followUser"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">followUser</span> (line <span class="line-number">271</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Allows the authenticating users to follow the user specified in the $sId parameter.</p>
+<p class="description"><p>Returns the befriended user in the requested format when successful.  Returns a string describing the failure condition when unsuccessful.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			followUser
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bEnableNotifications</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sUserId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sScreenName</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$bEnableNotifications</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">52</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructs a CPSTwitterApi object</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../../psYiiExtensions/Components/CPSTwitterApi.html">CPSTwitterApi</a></span>
+		<span class="method-name">
+			__construct
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../../psYiiExtensions/Base/CPSOAuthComponent.html#method__construct">CPSOAuthComponent::__construct()</a></dt>
+						<dd>Constructor</dd>
+					</dl>
+			
+	</div>
+<a name="methodgetExtendedUserInfo" id="getExtendedUserInfo"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getExtendedUserInfo</span> (line <span class="line-number">178</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns extended information of a given user, specified by ID or screen name  as per the required id parameter.  The author's most recent status will be returned inline.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			getExtendedUserInfo
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sUserId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sScreenName</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetFavorites" id="getFavorites"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getFavorites</span> (line <span class="line-number">442</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			getFavorites
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sId</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$iPage</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetFollowerList" id="getFollowerList"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getFollowerList</span> (line <span class="line-number">331</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns an array of users whom are following the authenticated user</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			getFollowerList
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sUserId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sScreenName</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$iPage</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetFollowers" id="getFollowers"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getFollowers</span> (line <span class="line-number">254</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the authenticating user's followers, each with current status inline.</p>
+<p class="description"><p>They are ordered by the order in which they joined Twitter</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			getFollowers
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sUserId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sScreenName</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$iPage</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetFollowingList" id="getFollowingList"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getFollowingList</span> (line <span class="line-number">316</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">*  Returns an array of numeric IDs for every user the specified user is following.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			getFollowingList
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sUserId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sScreenName</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$iPage</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetFriends" id="getFriends"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getFriends</span> (line <span class="line-number">238</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a user's friends, each with current status inline.</p>
+<p class="description"><p>They are ordered by the order in which they were added as friends.  Defaults to the authenticated user's friends.  It's also possible to request another user's friends list via the $sId parameter.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			getFriends
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sUserId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sScreenName</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$iPage</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetFriendsTimeline" id="getFriendsTimeline"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getFriendsTimeline</span> (line <span class="line-number">127</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the 20 most recent statuses posted by the authenticating user and that user's friends.</p>
+<p class="description"><p>This is the equivalent of /timeline/home on the Web.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			getFriendsTimeline
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$sSinceId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sMaxId</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iCount</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sSinceId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sMaxId</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$iCount</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$iPage</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetMentions" id="getMentions"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getMentions</span> (line <span class="line-number">163</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the 20 most recent mentions (status containing @username) for the authenticating user.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			getMentions
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$sSinceId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sMaxId</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iCount</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sSinceId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sMaxId</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$iCount</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$iPage</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetPublicTimeline" id="getPublicTimeline"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getPublicTimeline</span> (line <span class="line-number">111</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the 20 most recent statuses from non-protected users who have set a custom user icon.</p>
+<p class="description"><p>The public timeline is cached for 60 seconds so requesting it more often than that is a waste of resources.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			getPublicTimeline
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetRateLimitStatus" id="getRateLimitStatus"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getRateLimitStatus</span> (line <span class="line-number">356</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the remaining number of API requests available to the requesting user before the  API limit is reached for the current hour. Calls to this do not count against the rate limit.</p>
+<p class="description"><p>If authentication credentials are provided, the rate limit status for the authenticating user is returned.  Otherwise, the rate limit status for the requester's IP address is returned.  Learn more about the <a href="http://apiwiki.twitter.com/Rate-limiting">REST API rate limiting</a>.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getRateLimitStatus
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetStatus" id="getStatus"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getStatus</span> (line <span class="line-number">191</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a single status, specified by the id parameter below.</p>
+<p class="description"><p>The status's author will be returned inline.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			getStatus
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sId</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetUserTimeline" id="getUserTimeline"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getUserTimeline</span> (line <span class="line-number">148</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the 20 most recent statuses posted from the authenticating user.</p>
+<p class="description"><p>It's also possible to request another user's timeline via the id parameter.  This is the equivalent of the Web /&lt;user&gt; page for your own user, or the profile  page for a third party</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			getUserTimeline
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sSinceId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sMaxId</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iCount</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sUserId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sScreenName</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sSinceId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sMaxId</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$iCount</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$iPage</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodinit" id="init"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">init</span> (line <span class="line-number">521</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			init
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../../psYiiExtensions/Base/CPSComponent.html#methodinit">CPSComponent::init()</a></dt>
+						<dd>Yii CComponent::init() override</dd>
+					</dl>
+			
+	</div>
+<a name="methodisFollowing" id="isFollowing"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">isFollowing</span> (line <span class="line-number">301</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Tests for the existence of friendship between two users.</p>
+<p class="description"><p>Will return true if $sFollowerId follows $sFolloweeId, otherwise will return false.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			isFollowing
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sFolloweeId</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$sFollowerId</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sFolloweeId</span><span class="var-description">: The user to test</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sFollowerId</span><span class="var-description">: The other user to test. If null, authenticated user id is used</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodloadData" id="loadData"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">loadData</span> (line <span class="line-number">93</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Loads data into the component from an alternate source (i.e. database, cookie, etc.)</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			loadData
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bAuthorized</span> = <span class="var-default">false</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$arToken</span> = <span class="var-default">array()</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sUserId</span><span class="var-description">: The Twitter user_id</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sScreenName</span><span class="var-description">: The Twitter screen_name</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$bAuthorized</span><span class="var-description">: Is user authorized?</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arToken</span><span class="var-description">: The access token</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodremoveFavorite" id="removeFavorite"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">removeFavorite</span> (line <span class="line-number">464</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			removeFavorite
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sStatusId</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sStatusId</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodremoveStatus" id="removeStatus"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">removeStatus</span> (line <span class="line-number">220</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Destroys the status specified by the required ID parameter.</p>
+<p class="description"><p>The authenticating user must be the author of the specified status</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			removeStatus
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sUpdateId</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sUpdateId</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsearch" id="search"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">search</span> (line <span class="line-number">511</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns tweets that match a specified query</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			search
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sTerm</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$sCallback</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sLang</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iRPP</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iPage</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sSinceId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sGeocode</span> = <span class="var-default">null</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bShowUser</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sTerm</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sCallback</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sLang</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$iRPP</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$iPage</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sSinceId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sGeocode</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$bShowUser</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodunfollowUser" id="unfollowUser"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">unfollowUser</span> (line <span class="line-number">287</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Allows the authenticating users to unfollow the user specified in the $sId parameter.</p>
+<p class="description"><p>Returns the unfollowed user in the requested format when successful.  Returns a string describing the failure condition when unsuccessful.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			unfollowUser
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUserId</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sScreenName</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sUserId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sScreenName</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodupdateDeliveryDevice" id="updateDeliveryDevice"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">updateDeliveryDevice</span> (line <span class="line-number">377</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			updateDeliveryDevice
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sDevice</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sDevice</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodupdateProfile" id="updateProfile"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">updateProfile</span> (line <span class="line-number">430</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			updateProfile
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$sName</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sEmail</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUrl</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sLocation</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sDescription</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sName</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sEmail</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sUrl</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sLocation</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sDescription</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodupdateProfileBackgroundImage" id="updateProfileBackgroundImage"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">updateProfileBackgroundImage</span> (line <span class="line-number">415</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			updateProfileBackgroundImage
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sImageData</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bTiled</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sImageData</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$bTiled</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodupdateProfileColors" id="updateProfileColors"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">updateProfileColors</span> (line <span class="line-number">392</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			updateProfileColors
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$sBG</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sText</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sLink</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sSBFill</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sSBBorder</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sBG</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sText</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sLink</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sSBFill</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sSBBorder</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodupdateProfileImage" id="updateProfileImage"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">updateProfileImage</span> (line <span class="line-number">403</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			updateProfileImage
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sImageData</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sImageData</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodupdateStatus" id="updateStatus"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">updateStatus</span> (line <span class="line-number">207</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Updates the authenticating user's status.</p>
+<p class="description"><p>Requires the status parameter specified below.  Request must be a POST.  A status update with text identical to the authenticating user's current  status will be ignored to prevent duplicates</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			updateStatus
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sStatus</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$sReplyId</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sStatus</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sReplyId</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodverifyCredentials" id="verifyCredentials"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">verifyCredentials</span> (line <span class="line-number">343</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns an HTTP 200 OK response code and a representation of the requesting user  if authentication was successful; returns a 401 status code and an error message if not.</p>
+<p class="description"><p>Use this method to test if supplied user credentials are valid.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			verifyCredentials
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../../psYiiExtensions/Base/CPSOAuthComponent.html">CPSOAuthComponent</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSOAuthComponent.html#method__construct">CPSOAuthComponent::__construct()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSOAuthComponent.html#methodevents">CPSOAuthComponent::events()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSOAuthComponent.html#methodmakeRequest">CPSOAuthComponent::makeRequest()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSOAuthComponent.html#methodonUserAuthorized">CPSOAuthComponent::onUserAuthorized()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSOAuthComponent.html#methoduserAuthorized">CPSOAuthComponent::userAuthorized()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../../psYiiExtensions/Base/CPSApiComponent.html">CPSApiComponent</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSApiComponent.html#method__construct">CPSApiComponent::__construct()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSApiComponent.html#methodafterApiCall">CPSApiComponent::afterApiCall()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSApiComponent.html#methodbeforeApiCall">CPSApiComponent::beforeApiCall()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSApiComponent.html#methodevents">CPSApiComponent::events()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSApiComponent.html#methodmakeRequest">CPSApiComponent::makeRequest()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSApiComponent.html#methodonAfterApiCall">CPSApiComponent::onAfterApiCall()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSApiComponent.html#methodonBeforeApiCall">CPSApiComponent::onBeforeApiCall()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSApiComponent.html#methodonRequestComplete">CPSApiComponent::onRequestComplete()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSApiComponent.html#methodrequestComplete">CPSApiComponent::requestComplete()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../../psYiiExtensions/Base/CPSComponent.html">CPSComponent</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#method__construct">CPSComponent::__construct()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodattachBehavior">CPSComponent::attachBehavior()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodattachBehaviors">CPSComponent::attachBehaviors()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodgetBehaviorProperty">CPSComponent::getBehaviorProperty()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodgetBehaviors">CPSComponent::getBehaviors()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodgetHasBehaviors">CPSComponent::getHasBehaviors()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodgetInternalName">CPSComponent::getInternalName()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodgetNamePrefix">CPSComponent::getNamePrefix()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodgetPrefixDelimiter">CPSComponent::getPrefixDelimiter()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodhasBehaviorMethod">CPSComponent::hasBehaviorMethod()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodhasBehaviorProperty">CPSComponent::hasBehaviorProperty()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodinit">CPSComponent::init()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodsetBehaviorProperty">CPSComponent::setBehaviorProperty()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodsetHasBehaviors">CPSComponent::setHasBehaviors()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodsetInternalName">CPSComponent::setInternalName()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodsetPrefixDelimiter">CPSComponent::setPrefixDelimiter()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#method__call">CPSComponent::__call()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#method__get">CPSComponent::__get()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#method__set">CPSComponent::__set()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+	<a name="sec-consts"></a>
+	<div class="info-box">
+		<div class="info-box-title">Class Constants</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Constants</a> (<span class="disabled">details</span>)
+						
+			
+												<a href="#sec-vars">Vars</a>
+														| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<a name="constACCOUNT_API" id="ACCOUNT_API"><!-- --></A>
+<div class="oddrow">
+
+	<div class="const-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="const-title">
+			<span class="const-name">ACCOUNT_API</span>
+			 = <span class="const-default"> 'account'</span>
+			(line <span class="line-number">37</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constBLOCK_API" id="BLOCK_API"><!-- --></A>
+<div class="evenrow">
+
+	<div class="const-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="const-title">
+			<span class="const-name">BLOCK_API</span>
+			 = <span class="const-default"> 'blocks'</span>
+			(line <span class="line-number">40</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constDIRECTMESSAGE_API" id="DIRECTMESSAGE_API"><!-- --></A>
+<div class="oddrow">
+
+	<div class="const-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="const-title">
+			<span class="const-name">DIRECTMESSAGE_API</span>
+			 = <span class="const-default"> 'direct_message'</span>
+			(line <span class="line-number">33</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constFAVORITE_API" id="FAVORITE_API"><!-- --></A>
+<div class="evenrow">
+
+	<div class="const-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="const-title">
+			<span class="const-name">FAVORITE_API</span>
+			 = <span class="const-default"> 'favorites'</span>
+			(line <span class="line-number">38</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constFOLLOWER_API" id="FOLLOWER_API"><!-- --></A>
+<div class="oddrow">
+
+	<div class="const-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="const-title">
+			<span class="const-name">FOLLOWER_API</span>
+			 = <span class="const-default"> 'followers'</span>
+			(line <span class="line-number">36</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constFRIENDSHIP_API" id="FRIENDSHIP_API"><!-- --></A>
+<div class="evenrow">
+
+	<div class="const-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="const-title">
+			<span class="const-name">FRIENDSHIP_API</span>
+			 = <span class="const-default"> 'friendships'</span>
+			(line <span class="line-number">34</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constFRIEND_API" id="FRIEND_API"><!-- --></A>
+<div class="oddrow">
+
+	<div class="const-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="const-title">
+			<span class="const-name">FRIEND_API</span>
+			 = <span class="const-default"> 'friends'</span>
+			(line <span class="line-number">35</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constNOTIFICATION_API" id="NOTIFICATION_API"><!-- --></A>
+<div class="evenrow">
+
+	<div class="const-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="const-title">
+			<span class="const-name">NOTIFICATION_API</span>
+			 = <span class="const-default"> 'notifications'</span>
+			(line <span class="line-number">39</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constSEARCH_API" id="SEARCH_API"><!-- --></A>
+<div class="oddrow">
+
+	<div class="const-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="const-title">
+			<span class="const-name">SEARCH_API</span>
+			 = <span class="const-default"> 'search'</span>
+			(line <span class="line-number">42</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constSTATUS_API" id="STATUS_API"><!-- --></A>
+<div class="evenrow">
+
+	<div class="const-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="const-title">
+			<span class="const-name">STATUS_API</span>
+			 = <span class="const-default"> 'statuses'</span>
+			(line <span class="line-number">31</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constTRENDS_API" id="TRENDS_API"><!-- --></A>
+<div class="oddrow">
+
+	<div class="const-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="const-title">
+			<span class="const-name">TRENDS_API</span>
+			 = <span class="const-default"> 'trends'</span>
+			(line <span class="line-number">41</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constUSER_API" id="USER_API"><!-- --></A>
+<div class="evenrow">
+
+	<div class="const-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="const-title">
+			<span class="const-name">USER_API</span>
+			 = <span class="const-default"> 'users'</span>
+			(line <span class="line-number">32</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+						
+		</div>
+	</div>
+
+	<p class="notes" id="credit">
+		Documentation generated on Thu, 11 Jun 2009 12:57:23 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.2</a>
+	</p>
+	</div></body>
+</html>
