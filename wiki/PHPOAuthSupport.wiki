@@ -1,0 +1,15 @@
+#summary How to enable OAuth on your PHP installation
+#labels Featured,Phase-Deploy,Phase-Implementation
+
+= Introduction =
+
+With the release of v1.0.3, the psYiiExtensions library supports the [http://pecl.php.net/package/oauth PHP oauth library]. In order to utilize this you must first install the library and enable it.
+
+This mini-guide will explain how to do it.
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
