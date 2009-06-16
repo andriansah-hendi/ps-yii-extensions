@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Installation and Configuration</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+	<table class="tutorial-nav-box">
+	<tr>
+		<td style="width: 30%">
+							<a href="../psYiiExtensions/tutorial_psYiiExtensions.pkg.html" class="nav-button">Previous</a>
+					</td>
+		<td style="text-align: center">
+							<a href="../psYiiExtensions/tutorial_psYiiExtensions.pkg.html" class="nav-button">Up</a>
+					</td>
+		<td style="text-align: right; width: 30%">
+							<a href="../psYiiExtensions/tutorial_components.pkg.html" class="nav-button">Next</a>
+					</td>
+	</tr>
+	<tr>
+		<td style="width: 30%">
+							<span class="detail">Pogostick Yii Extension Library</span>
+					</td>
+		<td style="text-align: center">
+							<span class="detail">Pogostick Yii Extension Library</span>
+					</td>
+		<td style="text-align: right; width: 30%">
+							<span class="detail">Building Blocks</span>
+					</td>
+	</tr>
+</table>
+	
+<div><a name=""></a><div class="ref-title-box"><h1 class="ref-title">Installation and Configuration</h1></div>
+	<div class="ref-synopsis"><span class="author">Jerry Ablan
+			<div class="author-blurb"><a href="mailto:yii@pogostick.com">yii@pogostick.com</a></div></span></div>
+	<h1 class="title">Table of Contents</h1>
+<ul class="toc">
+	
+			
+					<li><a href="../psYiiExtensions/tutorial_basics.pkg.html#basics">Installing the Library</a></li>
+					
+				  				<ul class="toc">
+					<li><a href="../psYiiExtensions/tutorial_basics.pkg.html#basics.linux_install">Linux/Mac Installation</a></li>
+						
+					
+				  																				<ul class="toc">
+							<li><a href="../psYiiExtensions/tutorial_basics.pkg.html#basics.win_install">Windows Installation</a></li>
+															
+					
+				  									</ul>
+					<li><a href="../psYiiExtensions/tutorial_basics.pkg.html#config">Using the Library</a></li>
+										
+					
+				  				<ul class="toc">
+					<li><a href="../psYiiExtensions/tutorial_basics.pkg.html#config.autoload">Importing the Library</a></li>
+						
+						</ul>
+		</ul>
+
+	<span><a name="basics"></a><h2 class="title">Installing the Library</h2><p>Installing the library is as simple as extracting the zip file. Choose a directory and unzip.</p>
+		<span><a name="basics.linux_install"></a><h3 class="title">Linux/Mac Installation</h3><p>After downloading the zip file, simply choose a directory in which to install the library.
+			In our example below, we'll use <em>/usr/local/psYiiExtensions</em>. If you do not have
+			<em>root</em> access to your web hosting environment, there is no reason you can't place
+			the library in your home directory. None of the files are required to be directly accessible from the web.</p>
+			<div class="src-code"><pre>
+# cd ~
+# wget http://ps-yii-extensions.googlecode.com/files/psYiiExtensions-1.0.0.zip
+# cd /usr/local/
+# unzip ~/psYiiExtensions-1.0.0.zip
+# chown -R apache:apache psYiiExtensions
+				</pre></div></span>
+
+		<a name="basics.win_install"></a><h4 class="title">Windows Installation</h4><p>Pretty much the same as linux except we'll install this in C:\InetPub.
+			Downloading the zip file and unzip.
+			In our example below, we'll use <em>C:\InetPub</em>. If you do not have
+			<em>administrator</em> access to your web hosting environment, there is no reason you can't place
+			the library in your home directory. None of the files are required to be directly accessible from the web.</p>
+			<div class="src-code"><pre>
+C:&gt; cd \InetPub
+C:&gt; unzip drive:\downloadpath\psYiiExtensions-1.0.0.zip
+				</pre></div><br /></span>
+
+	<span><a name="config"></a><h2 class="title">Using the Library</h2><p>In order to use the library within Yii, you must first add a new path alias to your <em>config/main.php</em> file.
+		Place the following line at the top of your configuration file:</p>
+		<p>Linux/Mac</p>
+		<div class="src-code"><ol><li><div class="src-line"><span class="src-id">Yii</span><span class="src-sym">::</span><span class="src-id">setPathOfAlias</span><span class="src-sym">(&nbsp;</span><span class="src-str">'pogostick'</span><span class="src-sym">,&nbsp;</span><span class="src-str">'/usr/local/psYiiExtensions/extensions/pogostick'&nbsp;</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+</ol></div>
+		<p>Windows</p>
+		<div class="src-code"><ol><li><div class="src-line"><span class="src-id">Yii</span><span class="src-sym">::</span><span class="src-id">setPathOfAlias</span><span class="src-sym">(&nbsp;</span><span class="src-str">'pogostick'</span><span class="src-sym">,&nbsp;</span><span class="src-str">'C:\inetpub\psYiiExtensions\extensions\pogostick'&nbsp;</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+</ol></div>
+
+		<span><a name="config.autoload"></a><h3 class="title">Importing the Library</h3><p>You may optionally have Yii import the components of the library for you by modifying the
+			import key in the configuration array. Only the components and behaviors directories
+			are required for use. However, I don't believe it harms to add all the direcotries:
+			<div class="src-code"><ol><li><div class="src-line"><span class="src-comm">//&nbsp;autoloading&nbsp;model&nbsp;and&nbsp;component&nbsp;classes</span></div></li>
+<li><div class="src-line"><span class="src-str">'import'&nbsp;</span>=&gt;&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line"><span class="src-str">'application.models.*'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><span class="src-str">'application.components.*'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><span class="src-str">'pogostick.base.*'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><span class="src-str">'pogostick.behaviors.*'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><span class="src-str">'pogostick.components.*'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><span class="src-str">'pogostick.events.*'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><span class="src-str">'pogostick.helpers.*'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><span class="src-str">'pogostick.widgets.*'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><span class="src-sym">)</span><span class="src-sym">,</span></div></li>
+</ol></div></p>
+			<p>You will notice there are two empty directories in the download package (controllers, models, and views).
+			We placed these in there to, again, be in alignment with Yii and for potential future use of our library
+			in extending these components. There is no need to import them.</p></span></span></div>
+
+	<table class="tutorial-nav-box">
+	<tr>
+		<td style="width: 30%">
+							<a href="../psYiiExtensions/tutorial_psYiiExtensions.pkg.html" class="nav-button">Previous</a>
+					</td>
+		<td style="text-align: center">
+							<a href="../psYiiExtensions/tutorial_psYiiExtensions.pkg.html" class="nav-button">Up</a>
+					</td>
+		<td style="text-align: right; width: 30%">
+							<a href="../psYiiExtensions/tutorial_components.pkg.html" class="nav-button">Next</a>
+					</td>
+	</tr>
+	<tr>
+		<td style="width: 30%">
+							<span class="detail">Pogostick Yii Extension Library</span>
+					</td>
+		<td style="text-align: center">
+							<span class="detail">Pogostick Yii Extension Library</span>
+					</td>
+		<td style="text-align: right; width: 30%">
+							<span class="detail">Building Blocks</span>
+					</td>
+	</tr>
+</table>
+	
+	<p class="notes" id="credit">
+		Documentation generated on Mon, 15 Jun 2009 22:58:07 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.2</a>
+	</p>
+	</div></body>
+</html>

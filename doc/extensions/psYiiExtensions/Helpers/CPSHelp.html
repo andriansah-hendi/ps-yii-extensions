@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class CPSHelp</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class CPSHelp</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">CPSHelp provides a slew of static helper methods</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Jerry Ablan &lt;<a href="mailto:jablan@pogostick.com">jablan@pogostick.com</a>&gt;</li>
+				<li><span class="field">version:</span> $Id: CPSHelp.php 248 2009-06-16 02:52:11Z jerryablan@gmail.com $</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_pogostick---helpers---CPSHelp.php.html">/pogostick/helpers/CPSHelp.php</a> (line <span class="field">19</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+												<div class="method-definition">
+					static 						<span class="method-result">void</span>
+										<a href="#arrayToXml" title="details" class="method-name">arrayToXml</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$arData</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$sRootNodeName</span> = <span class="var-default">'data'</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sXml</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">void</span>
+										<a href="#asXml" title="details" class="method-name">asXml</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$arData</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$arOptions</span> = <span class="var-default">null</span>], <span class="var-type">array</span>&nbsp;<span class="var-name">$oRS</span>)
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">string</span>
+										<a href="#getCurrentPageUrl" title="details" class="method-name">getCurrentPageUrl</a>
+										()
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">mixed|null</span>
+										<a href="#getOption" title="details" class="method-name">getOption</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$arOptions</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$oDefault</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">bool</span>
+										<a href="#isEmpty" title="details" class="method-name">isEmpty</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$oVar</span>)
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">boolean</span>
+										<a href="#isUrl" title="details" class="method-name">isUrl</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sData</span>)
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">mixed</span>
+										<a href="#makeHttpRequest" title="details" class="method-name">makeHttpRequest</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sUrl</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$sQueryString</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sMethod</span> = <span class="var-default">'GET'</span>], [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$sNewAgent</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iTimeOut</span> = <span class="var-default">60</span>])
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">mixed</span>
+										<a href="#setOption" title="details" class="method-name">setOption</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$arOptions</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$oValue</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">string</span>
+										<a href="#suckTag" title="details" class="method-name">suckTag</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sData</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$sTag</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$sTagEnd</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iStart</span> = <span class="var-default">0</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sNear</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">mixed</span>
+										<a href="#unsetOption" title="details" class="method-name">unsetOption</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$arOptions</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>)
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">string</span>
+										<a href="#wrappedLink" title="details" class="method-name">wrappedLink</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sText</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUrl</span> = <span class="var-default">'#'</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sWrapperId</span> = <span class="var-default">null</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$arHtmlOptions</span> = <span class="var-default">array()</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sClass</span> = <span class="var-default">null</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bUseDiv</span> = <span class="var-default">false</span>])
+									</div>
+								
+																																																																																												</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodarrayToXml" id="arrayToXml"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method arrayToXml</span> (line <span class="line-number">335</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Converts an array to Xml</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">void</span>
+		<span class="method-name">
+			arrayToXml
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$arData</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$sRootNodeName</span> = <span class="var-default">'data'</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sXml</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$arData</span><span class="var-description">: The array to convert</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$sRootNodeName</span><span class="var-description">: The name of the root node in the returned Xml</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sXml</span><span class="var-description">: The converted Xml</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodasXml" id="asXml"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method asXml</span> (line <span class="line-number">195</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns an Xml string representation of an array of CActiveRecords</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">void</span>
+		<span class="method-name">
+			asXml
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$arData</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$arOptions</span> = <span class="var-default">null</span>], <span class="var-type">array</span>&nbsp;<span class="var-name">$oRS</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$oRS</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arOptions</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$arData</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetCurrentPageUrl" id="getCurrentPageUrl"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method getCurrentPageUrl</span> (line <span class="line-number">375</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the Url of the currently loaded page.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getCurrentPageUrl
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetOption" id="getOption"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method getOption</span> (line <span class="line-number">79</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retrieves an option from the given array. $oDefault is set and returned if $sKey is not 'set'</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> if not found</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">mixed|null</span>
+		<span class="method-name">
+			getOption
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$arOptions</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$oDefault</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arOptions</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sKey</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$oDefault</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisEmpty" id="isEmpty"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method isEmpty</span> (line <span class="line-number">323</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks for an empty variable.</p>
+<p class="description"><p>Useful because the PHP empty() function cannot be reliably used with overridden __get methods.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			isEmpty
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$oVar</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$oVar</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisUrl" id="isUrl"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method isUrl</span> (line <span class="line-number">162</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks to see if the passed in data is an Url</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			isUrl
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sData</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sData</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodmakeHttpRequest" id="makeHttpRequest"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method makeHttpRequest</span> (line <span class="line-number">31</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Make an HTTP request</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The data returned from the HTTP request or null for no data</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			makeHttpRequest
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sUrl</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$sQueryString</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sMethod</span> = <span class="var-default">'GET'</span>], [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$sNewAgent</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iTimeOut</span> = <span class="var-default">60</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sUrl</span><span class="var-description">: The URL to call</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sQueryString</span><span class="var-description">: The query string to attach</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sMethod</span><span class="var-description">: The HTTP method to use. Can be 'GET' or 'SET'</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$sNewAgent</span><span class="var-description">: The custom user method to use. Defaults to 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; .NET CLR 2.0.50727; .NET CLR 3.0.04506; InfoPath.3)'</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$iTimeOut</span><span class="var-description">: The number of seconds to wait for a response. Defaults to 60 seconds</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetOption" id="setOption"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method setOption</span> (line <span class="line-number">96</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Sets an option in the given array</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The new value of the key</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			setOption
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$arOptions</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$oValue</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arOptions</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sKey</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$oValue</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsuckTag" id="suckTag"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method suckTag</span> (line <span class="line-number">124</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parse HTML field for a tag...</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">string</span>
+		<span class="method-name">
+			suckTag
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sData</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$sTag</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$sTagEnd</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$iStart</span> = <span class="var-default">0</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sNear</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sData</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sTag</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sTagEnd</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$iStart</span><span class="var-description">: Defaults to 0</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sNear</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodunsetOption" id="unsetOption"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method unsetOption</span> (line <span class="line-number">109</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Unsets an option in the given array</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The new value of the key</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			unsetOption
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$arOptions</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arOptions</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sKey</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodwrappedLink" id="wrappedLink"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method wrappedLink</span> (line <span class="line-number">178</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Generates a span or div wrapped hyperlink tag.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The generated hyperlink</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">string</span>
+		<span class="method-name">
+			wrappedLink
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sText</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$sUrl</span> = <span class="var-default">'#'</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sWrapperId</span> = <span class="var-default">null</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$arHtmlOptions</span> = <span class="var-default">array()</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$sClass</span> = <span class="var-default">null</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bUseDiv</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sText</span><span class="var-description">: The link body. It will NOT be HTML-encoded. Therefore you can pass in HTML code such as an image tag.</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sUrl</span><span class="var-description">: The Url of the link</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sWrapperId</span><span class="var-description">: The &quot;id&quot; of the created wrapper</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arHtmlOptions</span><span class="var-description">: Additional HTML attributes. Besides normal HTML attributes, a few special attributes are also recognized (see clientChange for more details.)</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sClass</span><span class="var-description">: The optional class of the created span</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$bUseDiv</span><span class="var-description">: If true, a &lt;div&gt; tag will be used instead of a &lt;span&gt;</span>			</li>
+				</ul>
+		
+			
+	</div>
+
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Mon, 15 Jun 2009 22:58:20 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.2</a>
+	</p>
+	</div></body>
+</html>

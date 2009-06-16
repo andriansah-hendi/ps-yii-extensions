@@ -1,0 +1,1287 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class CPSWidget</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class CPSWidget</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|											<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+											<a href="#sec-const-summary">Constants</a> (<a href="#sec-consts">details</a>)
+						
+			</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The CPSWidget is the base class for all Pogostick widgets for Yii</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Jerry Ablan &lt;<a href="mailto:jablan@pogostick.com">jablan@pogostick.com</a>&gt;</li>
+				<li><span class="field">version:</span> SVN: $Id: CPSWidget.php 243 2009-06-13 01:34:31Z jerryablan@gmail.com $</li>
+				<li><span class="field">since:</span> 1.0.0</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_pogostick---base---CPSWidget.php.html">/pogostick/base/CPSWidget.php</a> (line <span class="field">21</span>)
+		</p>
+		
+				
+		<pre>CInputWidget
+   |
+   --CPSWidget</pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|												<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+								|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+															<a href="#sec-const-summary">Constants</a> (<a href="#sec-consts">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../../psYiiExtensions/Base/CPSApiWidget.html">CPSApiWidget</a></td>
+					<td>
+											The CPSApiWidget is the base class for all Pogostick widgets for Yii
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../../psYiiExtensions/Widgets/CPSjQueryWidget.html">CPSjQueryWidget</a></td>
+					<td>
+											The CPSjQueryWidget is a wrapper for any jQuery widget
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../../psYiiExtensions/Widgets/CPSjqRatingWidget.html">CPSjqRatingWidget</a></td>
+					<td>
+											The CPSjqRatingWidget allows the <a href="http://www.fyneworks.com/jquery/star-rating/">JQ Rating</a> to be used in Yii.
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+	<a name="sec-const-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Class Constant Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendants</a> |
+						<span class="disabled">Constants</span> (<a href="#sec-consts">details</a>)
+												<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<div class="const-summary">
+								<div class="const-title">
+					<img src="../../media/images/Constant.png" alt=" " />
+					<a href="#BEHAVIOR_META_METHODS" title="details" class="const-name">BEHAVIOR_META_METHODS</a> = 					<span class="var-type"> '_classMethods'</span>
+
+				</div>
+								<div class="const-title">
+					<img src="../../media/images/Constant.png" alt=" " />
+					<a href="#BEHAVIOR_META_OBJECT" title="details" class="const-name">BEHAVIOR_META_OBJECT</a> = 					<span class="var-type"> '_object'</span>
+
+				</div>
+								<div class="const-title">
+					<img src="../../media/images/Constant.png" alt=" " />
+					<a href="#BEHAVIOR_META_VALID" title="details" class="const-name">BEHAVIOR_META_VALID</a> = 					<span class="var-type"> '_validOptions'</span>
+
+				</div>
+								<div class="const-title">
+					<img src="../../media/images/Constant.png" alt=" " />
+					<a href="#BEHAVIOR_META_VARS" title="details" class="const-name">BEHAVIOR_META_VARS</a> = 					<span class="var-type"> '_classVars'</span>
+
+				</div>
+							</div>
+		</div>
+	</div>
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+															<a href="#sec-const-summary">Constants</a> (<a href="#sec-consts">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$m_arBehaviors" title="details" class="var-name">$m_arBehaviors</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">bool</span>
+					<a href="#$m_bHasBehaviors" title="details" class="var-name">$m_bHasBehaviors</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">string</span>
+					<a href="#$m_sInternalName" title="details" class="var-name">$m_sInternalName</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">string</span>
+					<a href="#$m_sPrefixDelimiter" title="details" class="var-name">$m_sPrefixDelimiter</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+															<a href="#sec-const-summary">Constants</a> (<a href="#sec-consts">details</a>)
+							
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																																				
+												<div class="method-definition">
+											<span class="method-result">IBehavior</span>
+										<a href="#attachBehavior" title="details" class="method-name">attachBehavior</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sName</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$oBehavior</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#attachBehaviors" title="details" class="method-name">attachBehaviors</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$arBehaviors</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">CPSWidget</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+											([<span class="var-type">CBaseController</span>&nbsp;<span class="var-name">$oOwner</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#generateHtml" title="details" class="method-name">generateHtml</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#generateJavascript" title="details" class="method-name">generateJavascript</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getBehaviorProperty" title="details" class="method-name">&amp;getBehaviorProperty</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$sName</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getBehaviors" title="details" class="method-name">getBehaviors</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getHasBehaviors" title="details" class="method-name">getHasBehaviors</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getInternalName" title="details" class="method-name">getInternalName</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getNamePrefix" title="details" class="method-name">getNamePrefix</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getPrefixDelimiter" title="details" class="method-name">getPrefixDelimiter</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#hasBehaviorMethod" title="details" class="method-name">&amp;hasBehaviorMethod</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$sMethodName</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#hasBehaviorProperty" title="details" class="method-name">&amp;hasBehaviorProperty</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$sName</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#init" title="details" class="method-name">init</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">CClientScript</span>
+										<a href="#registerClientScripts" title="details" class="method-name">registerClientScripts</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setBehaviorProperty" title="details" class="method-name">setBehaviorProperty</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$sName</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$oValue</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setHasBehaviors" title="details" class="method-name">setHasBehaviors</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$bValue</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setInternalName" title="details" class="method-name">setInternalName</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$sValue</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setPrefixDelimiter" title="details" class="method-name">setPrefixDelimiter</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$sValue</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#__call" title="details" class="method-name">__call</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sName</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$arParams</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#__get" title="details" class="method-name">__get</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sName</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#__set" title="details" class="method-name">__set</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sName</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$oValue</span>)
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+												<a href="#sec-const-summary">Constants</a> (<a href="#sec-consts">details</a>)
+							
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<a name="var$m_arBehaviors" id="$m_arBehaviors"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$m_arBehaviors</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number">71</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">A private array containing all the attached behaviors information of this component.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$m_bHasBehaviors" id="$m_bHasBehaviors"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">bool</span>
+			<span class="var-name">$m_bHasBehaviors</span>
+			 = <span class="var-default"> false</span>			(line <span class="line-number">65</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">As behaviors are added to the object, this is set to true to quickly determine if the  component does in fact contain behaviors.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$m_sInternalName" id="$m_sInternalName"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$m_sInternalName</span>
+						(line <span class="line-number">49</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The internal name of the component. Used as the name of the behavior when attaching.</p>
+<p class="description"><p>In order to facilitate option separation, this value is used along with the prefix delimiter by the internal option  manager to distinguish between owners. During construction, it is set to the name of  the class, and includes special behavior for Pogostick classes. Example: CPSComponent  becomes psComponent. Use or override (@link setInternalName) to change the name at  runtime.</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Base/CPSWidget.html#methodsetInternalName">CPSWidget::setInternalName()</a></li>
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Base/CPSWidget.html#var$m_sPrefixDelimiter">CPSWidget::$m_sPrefixDelimiter</a></li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$m_sPrefixDelimiter" id="$m_sPrefixDelimiter"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$m_sPrefixDelimiter</span>
+			 = <span class="var-default"> '::'</span>			(line <span class="line-number">58</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The delimiter to use for prefixes. This must contain only characters that are not allowed  in variable names (i.e. '::', '||', '.', etc.). Defaults to '::'. There is no length limit,  but 2 works out. There is really no need to ever change this unless you have a strong dislike  of the '::' characters.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																			<a href="#sec-const-summary">Constants</a> (<a href="#sec-consts">details</a>)
+							
+										<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+
+<a name="methodattachBehavior" id="attachBehavior"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">attachBehavior</span> (line <span class="line-number">208</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Attaches a behavior to this component.</p>
+<p class="description"><p>This method will create the behavior object based on the given  configuration. After that, the behavior object will be initialized  by calling its IBehavior::attach method.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> the behavior object</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">IBehavior</span>
+		<span class="method-name">
+			attachBehavior
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sName</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$oBehavior</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sName</span><span class="var-description">: the behavior's name. It should uniquely identify this behavior.</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$oBehavior</span><span class="var-description">: the behavior configuration. This is passed as the first  parameter to YiiBase::createComponent to create the behavior object.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodattachBehaviors" id="attachBehaviors"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">attachBehaviors</span> (line <span class="line-number">192</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Attaches a list of behaviors to the component.</p>
+<p class="description"><p>Each behavior is indexed by its name and should be an instance of  IBehavior, a string specifying the behavior class, or an  array of the following structure:  <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'class'</span>=&gt;<span class="src-str">'path.to.BehaviorClass'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'property1'</span>=&gt;<span class="src-str">'value1'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'property2'</span>=&gt;<span class="src-str">'value2'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-sym">)</span></div></li>
+</ol></div></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			attachBehaviors
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$arBehaviors</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arBehaviors</span><span class="var-description">: list of behaviors to be attached to the component</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">117</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Attach behaviors during construction...</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">CPSWidget</span>
+		<span class="method-name">
+			__construct
+		</span>
+					([<span class="var-type">CBaseController</span>&nbsp;<span class="var-name">$oOwner</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">CBaseController</span>
+				<span class="var-name">$oOwner</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../../psYiiExtensions/Base/CPSApiWidget.html#method__construct">CPSApiWidget::__construct()</a>
+								: Constructor
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Components/CPSFacebookConnect.html#method__construct">CPSFacebookConnect::__construct()</a>
+								: Our init function
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSgApiWidget.html#method__construct">CPSgApiWidget::__construct()</a>
+								: Constructor
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjQueryWidget.html#method__construct">CPSjQueryWidget::__construct()</a>
+								: Constructs a CPSjqUIWraqpper
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjqToolsWrapper.html#method__construct">CPSjqToolsWrapper::__construct()</a>
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjqUIWrapper.html#method__construct">CPSjqUIWrapper::__construct()</a>
+								: Constructs a CPSjqUIWraqpper
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSMarkItUpWidget.html#method__construct">CPSMarkItUpWidget::__construct()</a>
+								: Constructs a CPSjqUIWraqpper
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjqRatingWidget.html#method__construct">CPSjqRatingWidget::__construct()</a>
+								: Constructs a CPSjqRatingWidget
+							</li>
+				</ul>
+	</div>
+<a name="methodgenerateHtml" id="generateHtml"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">generateHtml</span> (line <span class="line-number">262</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Generates the javascript code for the widget</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			generateHtml
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../../psYiiExtensions/Base/CPSApiWidget.html#methodgenerateHtml">CPSApiWidget::generateHtml()</a>
+								: Generates the javascript code for the widget
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Components/CPSFacebookConnect.html#methodgenerateHtml">CPSFacebookConnect::generateHtml()</a>
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSgApiWidget.html#methodgenerateHtml">CPSgApiWidget::generateHtml()</a>
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjqGridWidget.html#methodgenerateHtml">CPSjqGridWidget::generateHtml()</a>
+								: Generates the javascript code for the widget
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjqRatingWidget.html#methodgenerateHtml">CPSjqRatingWidget::generateHtml()</a>
+								: Generates the javascript code for the widget
+							</li>
+				</ul>
+	</div>
+<a name="methodgenerateJavascript" id="generateJavascript"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">generateJavascript</span> (line <span class="line-number">253</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Generates the javascript code for the widget</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			generateJavascript
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../../psYiiExtensions/Base/CPSApiWidget.html#methodgenerateJavascript">CPSApiWidget::generateJavascript()</a>
+								: Generates the javascript code for the widget
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Components/CPSFacebookConnect.html#methodgenerateJavascript">CPSFacebookConnect::generateJavascript()</a>
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSgApiWidget.html#methodgenerateJavascript">CPSgApiWidget::generateJavascript()</a>
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSgMapsWidget.html#methodgenerateJavascript">CPSgMapsWidget::generateJavascript()</a>
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjQueryWidget.html#methodgenerateJavascript">CPSjQueryWidget::generateJavascript()</a>
+								: Generates the javascript code for the widget
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjqToolsWrapper.html#methodgenerateJavascript">CPSjqToolsWrapper::generateJavascript()</a>
+								: Generates the javascript code for the widget
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjqGridWidget.html#methodgenerateJavascript">CPSjqGridWidget::generateJavascript()</a>
+								: Generates the javascript code for the widget
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjqRatingWidget.html#methodgenerateJavascript">CPSjqRatingWidget::generateJavascript()</a>
+								: Generates the javascript code for the widget
+							</li>
+				</ul>
+	</div>
+<a name="methodgetBehaviorProperty" id="getBehaviorProperty"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getBehaviorProperty</span> (line <span class="line-number">105</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			&amp;getBehaviorProperty
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$sName</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$sName</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetBehaviors" id="getBehaviors"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getBehaviors</span> (line <span class="line-number">97</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retrieves the behaviors attached to this component</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getBehaviors
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetHasBehaviors" id="getHasBehaviors"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getHasBehaviors</span> (line <span class="line-number">83</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getHasBehaviors
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetInternalName" id="getInternalName"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getInternalName</span> (line <span class="line-number">80</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Getters for internal members</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getInternalName
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetNamePrefix" id="getNamePrefix"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getNamePrefix</span> (line <span class="line-number">81</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getNamePrefix
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetPrefixDelimiter" id="getPrefixDelimiter"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getPrefixDelimiter</span> (line <span class="line-number">82</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getPrefixDelimiter
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodhasBehaviorMethod" id="hasBehaviorMethod"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">hasBehaviorMethod</span> (line <span class="line-number">103</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Convenience functions to access the behavior assets</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			&amp;hasBehaviorMethod
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$sMethodName</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$sMethodName</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodhasBehaviorProperty" id="hasBehaviorProperty"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">hasBehaviorProperty</span> (line <span class="line-number">104</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			&amp;hasBehaviorProperty
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$sName</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$sName</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodinit" id="init"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">init</span> (line <span class="line-number">144</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Yii widget init</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			init
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSgMapsWidget.html#methodinit">CPSgMapsWidget::init()</a>
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjQueryWidget.html#methodinit">CPSjQueryWidget::init()</a>
+								: Initialize the widget
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjqToolsWrapper.html#methodinit">CPSjqToolsWrapper::init()</a>
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjqUIWrapper.html#methodinit">CPSjqUIWrapper::init()</a>
+								: Initialize the widget
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjqGridWidget.html#methodinit">CPSjqGridWidget::init()</a>
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSMarkItUpWidget.html#methodinit">CPSMarkItUpWidget::init()</a>
+								: Initialize the widget
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSWysiwygWidget.html#methodinit">CPSWysiwygWidget::init()</a>
+								: *
+							</li>
+				</ul>
+	</div>
+<a name="methodregisterClientScripts" id="registerClientScripts"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">registerClientScripts</span> (line <span class="line-number">165</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">*  Handles registration of scripts &amp; css files...</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Returns the current applications CClientScript object CWebApplication::getClientScript</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">CClientScript</span>
+		<span class="method-name">
+			registerClientScripts
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../../psYiiExtensions/Components/CPSFacebookConnect.html#methodregisterClientScripts">CPSFacebookConnect::registerClientScripts()</a>
+								: Register the necessary Facebook Connect scripts...
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSgApiWidget.html#methodregisterClientScripts">CPSgApiWidget::registerClientScripts()</a>
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjQueryWidget.html#methodregisterClientScripts">CPSjQueryWidget::registerClientScripts()</a>
+								: Registers the needed CSS and JavaScript.
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjqToolsWrapper.html#methodregisterClientScripts">CPSjqToolsWrapper::registerClientScripts()</a>
+								: Registers the needed CSS and JavaScript.
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjqUIWrapper.html#methodregisterClientScripts">CPSjqUIWrapper::registerClientScripts()</a>
+								: Registers the needed CSS and JavaScript.
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjqGridWidget.html#methodregisterClientScripts">CPSjqGridWidget::registerClientScripts()</a>
+								: Registers the needed CSS and JavaScript.
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSMarkItUpWidget.html#methodregisterClientScripts">CPSMarkItUpWidget::registerClientScripts()</a>
+								: Registers the needed CSS and JavaScript.
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSWysiwygWidget.html#methodregisterClientScripts">CPSWysiwygWidget::registerClientScripts()</a>
+								: Registers the needed CSS and JavaScript.
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Widgets/CPSjqRatingWidget.html#methodregisterClientScripts">CPSjqRatingWidget::registerClientScripts()</a>
+								: Registers the needed CSS and JavaScript.
+							</li>
+				</ul>
+	</div>
+<a name="methodsetBehaviorProperty" id="setBehaviorProperty"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">setBehaviorProperty</span> (line <span class="line-number">106</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setBehaviorProperty
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$sName</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$oValue</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$sName</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$oValue</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetHasBehaviors" id="setHasBehaviors"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">setHasBehaviors</span> (line <span class="line-number">90</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setHasBehaviors
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$bValue</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$bValue</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetInternalName" id="setInternalName"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">setInternalName</span> (line <span class="line-number">88</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Setters for internal members</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setInternalName
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$sValue</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$sValue</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetPrefixDelimiter" id="setPrefixDelimiter"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">setPrefixDelimiter</span> (line <span class="line-number">89</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setPrefixDelimiter
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$sValue</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$sValue</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method__call" id="__call"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">__call</span> (line <span class="line-number">336</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Calls the named method which is not a class method.</p>
+<p class="description"><p>Do not call this method. This is a PHP magic method that we override</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The method return value</li>
+				<li><span class="field">throws:</span> CException if the property/event is not defined or the property is read only.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			__call
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sName</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$arParams</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sName</span><span class="var-description">: The method name</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arParams</span><span class="var-description">: The method parameters</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method__get" id="__get"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">__get</span> (line <span class="line-number">292</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a property value, an event handler list or a behavior based on its name.</p>
+<p class="description"><p>Do not call this method. This is a PHP magic method that we override  to allow using the following syntax to read a property or obtain event handlers:  <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$value</span>=<span class="src-var">$component</span><span class="src-sym">-&gt;</span><span class="src-id">propertyName</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-var">$handlers</span>=<span class="src-var">$component</span><span class="src-sym">-&gt;</span><span class="src-id">eventName</span><span class="src-sym">;</span></div></li>
+</ol></div></p><p>Will also return a property from an attached behavior directly without the need for using the behavior name  <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$value&nbsp;</span>=&nbsp;<span class="src-var">$component</span><span class="src-sym">-&gt;</span><span class="src-id">behaviorPropertyName</span><span class="src-sym">;</span></div></li>
+</ol></div>  instead of  <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$value&nbsp;</span>=&nbsp;<span class="src-var">$component</span><span class="src-sym">-&gt;</span><span class="src-id">behaviorName</span><span class="src-sym">-&gt;</span><span class="src-id">propertyName</span></div></li>
+</ol></div></p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> the property value, event handlers attached to the event, or the named behavior</li>
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Base/CPSWidget.html#method__set">CPSWidget::__set()</a></li>
+				<li><span class="field">throws:</span> CException if the property or event is not defined</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			__get
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sName</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sName</span><span class="var-description">: the property name or event name</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method__set" id="__set"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">__set</span> (line <span class="line-number">319</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Sets value of a component property.</p>
+<p class="description"><p>Do not call this method. This is a PHP magic method that we override  to allow using the following syntax to set a property or attach an event handler  <pre> $this->propertyName=$value;
+ $this->eventName=$callback;</pre></p><p>Will also set a property value in an attached behavior directly without the need for using the behavior name  <pre> $this->behaviorPropertyName = $value;</pre></p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../../psYiiExtensions/Base/CPSWidget.html#method__get">CPSWidget::__get()</a></li>
+				<li><span class="field">throws:</span> CException if the property/event is not defined or the property is read only.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			__set
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sName</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$oValue</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sName</span><span class="var-description">: the property name or the event name</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$oValue</span><span class="var-description">: the property value or callback</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+	<a name="sec-consts"></a>
+	<div class="info-box">
+		<div class="info-box-title">Class Constants</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendants</a> |
+										<a href="#sec-var-summary">Constants</a> (<span class="disabled">details</span>)
+						
+			
+												<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+														| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<a name="constBEHAVIOR_META_METHODS" id="BEHAVIOR_META_METHODS"><!-- --></A>
+<div class="oddrow">
+
+	<div class="const-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="const-title">
+			<span class="const-name">BEHAVIOR_META_METHODS</span>
+			 = <span class="const-default"> '_classMethods'</span>
+			(line <span class="line-number">27</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constBEHAVIOR_META_OBJECT" id="BEHAVIOR_META_OBJECT"><!-- --></A>
+<div class="evenrow">
+
+	<div class="const-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="const-title">
+			<span class="const-name">BEHAVIOR_META_OBJECT</span>
+			 = <span class="const-default"> '_object'</span>
+			(line <span class="line-number">28</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constBEHAVIOR_META_VALID" id="BEHAVIOR_META_VALID"><!-- --></A>
+<div class="oddrow">
+
+	<div class="const-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="const-title">
+			<span class="const-name">BEHAVIOR_META_VALID</span>
+			 = <span class="const-default"> '_validOptions'</span>
+			(line <span class="line-number">29</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+<a name="constBEHAVIOR_META_VARS" id="BEHAVIOR_META_VARS"><!-- --></A>
+<div class="evenrow">
+
+	<div class="const-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="const-title">
+			<span class="const-name">BEHAVIOR_META_VARS</span>
+			 = <span class="const-default"> '_classVars'</span>
+			(line <span class="line-number">30</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+</div>
+						
+		</div>
+	</div>
+
+	<p class="notes" id="credit">
+		Documentation generated on Mon, 15 Jun 2009 22:58:25 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.2</a>
+	</p>
+	</div></body>
+</html>

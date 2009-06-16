@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class CPSApiComponent</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class CPSApiComponent</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|											<a href="#sec-vars">Vars</a>
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">CPSApiComponent provides a convenient base class for APIs</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Jerry Ablan &lt;<a href="mailto:jablan@pogostick.com">jablan@pogostick.com</a>&gt;</li>
+				<li><span class="field">version:</span> SVN: $Id: CPSApiComponent.php 243 2009-06-13 01:34:31Z jerryablan@gmail.com $</li>
+				<li><span class="field">since:</span> 1.0.0</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_pogostick---base---CPSApiComponent.php.html">/pogostick/base/CPSApiComponent.php</a> (line <span class="field">20</span>)
+		</p>
+		
+				
+		<pre>CApplicationComponent
+   |
+   --<a href="../../psYiiExtensions/Base/CPSComponent.html">CPSComponent</a>
+      |
+      --CPSApiComponent</pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|												<a href="#sec-vars">Vars</a>
+								|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../../psYiiExtensions/Base/CPSOAuthComponent.html">CPSOAuthComponent</a></td>
+					<td>
+											The CPSOAuthComponent is the base class for all Pogostick widgets for Yii
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../../psYiiExtensions/Components/CPSYelpApi.html">CPSYelpApi</a></td>
+					<td>
+											CPSYelpApi provides access to the Yelp Business Reviews API
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+																		<a href="#sec-vars">Vars</a>
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																												
+												<div class="method-definition">
+											<span class="method-result">CPSApiComponent</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#afterApiCall" title="details" class="method-name">afterApiCall</a>
+											(<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>&nbsp;<span class="var-name">$oEvent</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#beforeApiCall" title="details" class="method-name">beforeApiCall</a>
+											(<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>&nbsp;<span class="var-name">$oEvent</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#events" title="details" class="method-name">events</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#makeRequest" title="details" class="method-name">makeRequest</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$sSubType</span> = <span class="var-default">null</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$arRequestData</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#onAfterApiCall" title="details" class="method-name">onAfterApiCall</a>
+											(<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>&nbsp;<span class="var-name">$oEvent</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#onBeforeApiCall" title="details" class="method-name">onBeforeApiCall</a>
+											(<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>&nbsp;<span class="var-name">$oEvent</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#onRequestComplete" title="details" class="method-name">onRequestComplete</a>
+											(<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>&nbsp;<span class="var-name">$oEvent</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#requestComplete" title="details" class="method-name">requestComplete</a>
+											(<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>&nbsp;<span class="var-name">$oEvent</span>)
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+										<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../../psYiiExtensions/Base/CPSComponent.html">CPSComponent</a></span></p>
+					<blockquote>
+													<span class="var-title">
+								<span class="var-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#var$m_arBehaviors">CPSComponent::$m_arBehaviors</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#var$m_bHasBehaviors">CPSComponent::$m_bHasBehaviors</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#var$m_sInternalName">CPSComponent::$m_sInternalName</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#var$m_sPrefixDelimiter">CPSComponent::$m_sPrefixDelimiter</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+															<a href="#sec-vars">Vars</a>
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">30</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">CPSApiComponent</span>
+		<span class="method-name">
+			__construct
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../../psYiiExtensions/Base/CPSComponent.html#method__construct">CPSComponent::__construct()</a></dt>
+						<dd>Constructor</dd>
+					</dl>
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../../psYiiExtensions/Base/CPSOAuthComponent.html#method__construct">CPSOAuthComponent::__construct()</a>
+								: Constructor
+							</li>
+					<li>
+				<a href="../../psYiiExtensions/Components/CPSTwitterApi.html#method__construct">CPSTwitterApi::__construct()</a>
+								: Constructs a CPSTwitterApi object
+							</li>
+				</ul>
+	</div>
+<a name="methodafterApiCall" id="afterApiCall"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">afterApiCall</span> (line <span class="line-number">211</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Call to raise the onAfterApiCall event</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			afterApiCall
+		</span>
+					(<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>&nbsp;<span class="var-name">$oEvent</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>
+				<span class="var-name">$oEvent</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodbeforeApiCall" id="beforeApiCall"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">beforeApiCall</span> (line <span class="line-number">191</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Call to raise the onBeforeApiCall event</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			beforeApiCall
+		</span>
+					(<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>&nbsp;<span class="var-name">$oEvent</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>
+				<span class="var-name">$oEvent</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodevents" id="events"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">events</span> (line <span class="line-number">172</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Declares events and the corresponding event handler methods.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> events (array keys) and the corresponding event handler methods (array values).</li>
+				<li><span class="field">see:</span> CBehavior::events</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			events
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../../psYiiExtensions/Base/CPSOAuthComponent.html#methodevents">CPSOAuthComponent::events()</a>
+								: Declares events and the corresponding event handler methods.
+							</li>
+				</ul>
+	</div>
+<a name="methodmakeRequest" id="makeRequest"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">makeRequest</span> (line <span class="line-number">53</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Makes the actual HTTP request based on settings</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			makeRequest
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$sSubType</span> = <span class="var-default">null</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$arRequestData</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sSubType</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arRequestData</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../../psYiiExtensions/Base/CPSOAuthComponent.html#methodmakeRequest">CPSOAuthComponent::makeRequest()</a>
+								: *  Fetches a protected resource using the tokens stored
+							</li>
+				</ul>
+	</div>
+<a name="methodonAfterApiCall" id="onAfterApiCall"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">onAfterApiCall</span> (line <span class="line-number">221</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Raises the onAfterApiCall event. $oEvent contains &quot;raw&quot; return data</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			onAfterApiCall
+		</span>
+					(<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>&nbsp;<span class="var-name">$oEvent</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>
+				<span class="var-name">$oEvent</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodonBeforeApiCall" id="onBeforeApiCall"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">onBeforeApiCall</span> (line <span class="line-number">201</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Raises the onBeforeApiCall event</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			onBeforeApiCall
+		</span>
+					(<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>&nbsp;<span class="var-name">$oEvent</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>
+				<span class="var-name">$oEvent</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodonRequestComplete" id="onRequestComplete"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">onRequestComplete</span> (line <span class="line-number">241</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Raises the onRequestComplete event. $oEvent contains &quot;processed&quot; return data (if applicable)</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			onRequestComplete
+		</span>
+					(<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>&nbsp;<span class="var-name">$oEvent</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>
+				<span class="var-name">$oEvent</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodrequestComplete" id="requestComplete"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">requestComplete</span> (line <span class="line-number">231</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Call to raise the onRequestComplete event</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			requestComplete
+		</span>
+					(<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>&nbsp;<span class="var-name">$oEvent</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../../psYiiExtensions/Events/CPSApiEvent.html">CPSApiEvent</a></span>
+				<span class="var-name">$oEvent</span>			</li>
+				</ul>
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../../psYiiExtensions/Base/CPSComponent.html">CPSComponent</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#method__construct">CPSComponent::__construct()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodattachBehavior">CPSComponent::attachBehavior()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodattachBehaviors">CPSComponent::attachBehaviors()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodgetBehaviorProperty">CPSComponent::getBehaviorProperty()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodgetBehaviors">CPSComponent::getBehaviors()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodgetHasBehaviors">CPSComponent::getHasBehaviors()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodgetInternalName">CPSComponent::getInternalName()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodgetNamePrefix">CPSComponent::getNamePrefix()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodgetPrefixDelimiter">CPSComponent::getPrefixDelimiter()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodhasBehaviorMethod">CPSComponent::hasBehaviorMethod()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodhasBehaviorProperty">CPSComponent::hasBehaviorProperty()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodinit">CPSComponent::init()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodsetBehaviorProperty">CPSComponent::setBehaviorProperty()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodsetHasBehaviors">CPSComponent::setHasBehaviors()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodsetInternalName">CPSComponent::setInternalName()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#methodsetPrefixDelimiter">CPSComponent::setPrefixDelimiter()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#method__call">CPSComponent::__call()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#method__get">CPSComponent::__get()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSComponent.html#method__set">CPSComponent::__set()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Mon, 15 Jun 2009 22:58:12 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.2</a>
+	</p>
+	</div></body>
+</html>

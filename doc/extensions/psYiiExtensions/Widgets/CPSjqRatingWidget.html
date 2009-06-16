@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class CPSjqRatingWidget</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class CPSjqRatingWidget</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-vars">Vars</a>
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+											<a href="#sec-consts">Constants</a>
+						
+			</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The CPSjqRatingWidget allows the <a href="http://www.fyneworks.com/jquery/star-rating/">JQ Rating</a> to be used in Yii.</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Jerry Ablan &lt;<a href="mailto:jablan@pogostick.com">jablan@pogostick.com</a>&gt;</li>
+				<li><span class="field">version:</span> SVN: $Id: CPSjqRatingWidget.php 229 2009-06-03 23:21:41Z jerryablan@gmail.com $</li>
+				<li><span class="field">since:</span> 1.0.0</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_pogostick---widgets---jqRating---CPSjqRatingWidget.php.html">/pogostick/widgets/jqRating/CPSjqRatingWidget.php</a> (line <span class="field">20</span>)
+		</p>
+		
+				
+		<pre>CInputWidget
+   |
+   --<a href="../../psYiiExtensions/Base/CPSWidget.html">CPSWidget</a>
+      |
+      --CPSjqRatingWidget</pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-consts">Constants</a>
+							
+															<a href="#sec-vars">Vars</a>
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																				<div class="method-definition">
+					static 						<span class="method-result"><a href="../../psYiiExtensions/Widgets/CPSjqRatingWidget.html">CPSjqRatingWidget</a></span>
+										<a href="#createRating" title="details" class="method-name">createRating</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$arOptions</span>)
+									</div>
+																																								
+												<div class="method-definition">
+											<span class="method-result">CPSjqRatingWidget</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+											([<span class="var-type"></span>&nbsp;<span class="var-name">$oOwner</span> = <span class="var-default">null</span>])
+									</div>
+																								<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#generateHtml" title="details" class="method-name">generateHtml</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#generateJavascript" title="details" class="method-name">generateJavascript</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#registerClientScripts" title="details" class="method-name">registerClientScripts</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#run" title="details" class="method-name">run</a>
+										()
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+												<a href="#sec-consts">Constants</a>
+							
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+										<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../../psYiiExtensions/Base/CPSWidget.html">CPSWidget</a></span></p>
+					<blockquote>
+													<span class="var-title">
+								<span class="var-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#var$m_arBehaviors">CPSWidget::$m_arBehaviors</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#var$m_bHasBehaviors">CPSWidget::$m_bHasBehaviors</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#var$m_sInternalName">CPSWidget::$m_sInternalName</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#var$m_sPrefixDelimiter">CPSWidget::$m_sPrefixDelimiter</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-vars">Vars</a>
+																			<a href="#sec-consts">Constants</a>
+							
+										<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodcreateRating" id="createRating"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method createRating</span> (line <span class="line-number">222</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Convenience function to create a star rating widget</p>
+<p class="description"><p>Available options:</p><p>suppressScripts	boolean		If true, scripts will be stored in the member variable 'scripts' and not output  returnString		boolean		If true, the output of this widget will be stored in a string and not echo'd. It is available through the member variable 'html'  baseUrl			string		The location of the jqRating installation  id				string		The HTML id of the widget. Defaults to null  name				string		The HTML name of the widget. Defaults to rating{x}, x is incremented with each use.  starClass			string		The HTML class name of the widget's output  split				integer		The number of times to split each star. Allows for 1/2 and 1/4 ratings, etc. Default 0  starCount			integer		The number of stars to display. Default 5  selectValue		integer		The value to mark as 'preselected' when displaying  readOnly			boolean		Makes the widget read-only, no input allowed.  required			boolean		Disables the 'cancel' button so user can only select one of the specified values  cancel			string		The tooltip text for the cancel button, defaults to 'Cancel Rating'  cancelValue		string		The value assigned to the widget when the cancel button is selected  ajaxCallback		function	The URL to call when a star is clicked. This URL is called via AJAX. Will be overriden by a value in 'callback' below...</p><p>Available Callbacks</p><p>callback			function	The Javascript function executed when a star is clicked  blur				function	The Javascript function executed when stars are blurred  focus				function	The Javascript function executed when stars are focused</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result"><a href="../../psYiiExtensions/Widgets/CPSjqRatingWidget.html">CPSjqRatingWidget</a></span>
+		<span class="method-name">
+			createRating
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$arOptions</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arOptions</span>			</li>
+				</ul>
+		
+			
+	</div>
+
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">30</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructs a CPSjqRatingWidget</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">CPSjqRatingWidget</span>
+		<span class="method-name">
+			__construct
+		</span>
+					([<span class="var-type"></span>&nbsp;<span class="var-name">$oOwner</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$oOwner</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../../psYiiExtensions/Base/CPSWidget.html#method__construct">CPSWidget::__construct()</a></dt>
+						<dd>Attach behaviors during construction...</dd>
+					</dl>
+			
+	</div>
+<a name="methodgenerateHtml" id="generateHtml"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">generateHtml</span> (line <span class="line-number">154</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Generates the javascript code for the widget</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			generateHtml
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../../psYiiExtensions/Base/CPSWidget.html#methodgenerateHtml">CPSWidget::generateHtml()</a></dt>
+						<dd>Generates the javascript code for the widget</dd>
+					</dl>
+			
+	</div>
+<a name="methodgenerateJavascript" id="generateJavascript"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">generateJavascript</span> (line <span class="line-number">125</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Generates the javascript code for the widget</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			generateJavascript
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../../psYiiExtensions/Base/CPSWidget.html#methodgenerateJavascript">CPSWidget::generateJavascript()</a></dt>
+						<dd>Generates the javascript code for the widget</dd>
+					</dl>
+			
+	</div>
+<a name="methodregisterClientScripts" id="registerClientScripts"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">registerClientScripts</span> (line <span class="line-number">97</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Registers the needed CSS and JavaScript.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			registerClientScripts
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sId</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sId</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../../psYiiExtensions/Base/CPSWidget.html#methodregisterClientScripts">CPSWidget::registerClientScripts()</a></dt>
+						<dd>*  Handles registration of scripts &amp; css files...</dd>
+					</dl>
+			
+	</div>
+<a name="methodrun" id="run"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">run</span> (line <span class="line-number">74</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">*</p>
+<p class="description"><p>Runs this widget</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			run
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../../psYiiExtensions/Base/CPSWidget.html">CPSWidget</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#method__construct">CPSWidget::__construct()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodattachBehavior">CPSWidget::attachBehavior()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodattachBehaviors">CPSWidget::attachBehaviors()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodgenerateHtml">CPSWidget::generateHtml()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodgenerateJavascript">CPSWidget::generateJavascript()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodgetBehaviorProperty">CPSWidget::getBehaviorProperty()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodgetBehaviors">CPSWidget::getBehaviors()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodgetHasBehaviors">CPSWidget::getHasBehaviors()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodgetInternalName">CPSWidget::getInternalName()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodgetNamePrefix">CPSWidget::getNamePrefix()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodgetPrefixDelimiter">CPSWidget::getPrefixDelimiter()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodhasBehaviorMethod">CPSWidget::hasBehaviorMethod()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodhasBehaviorProperty">CPSWidget::hasBehaviorProperty()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodinit">CPSWidget::init()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodregisterClientScripts">CPSWidget::registerClientScripts()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodsetBehaviorProperty">CPSWidget::setBehaviorProperty()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodsetHasBehaviors">CPSWidget::setHasBehaviors()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodsetInternalName">CPSWidget::setInternalName()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#methodsetPrefixDelimiter">CPSWidget::setPrefixDelimiter()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#method__call">CPSWidget::__call()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#method__get">CPSWidget::__get()</a></span><br>
+													<span class="method-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#method__set">CPSWidget::__set()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+	<a name="sec-consts"></a>
+	<div class="info-box">
+		<div class="info-box-title">Class Constants</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Constants</a> (<span class="disabled">details</span>)
+						
+			
+												<a href="#sec-vars">Vars</a>
+														| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+										<h4>Inherited Constants</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../../psYiiExtensions/Base/CPSWidget.html">CPSWidget</a></span></p>
+					<blockquote>
+													<img src="../../media/images/Variable.png" />
+							<span class="const-title">
+								<span class="const-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#constBEHAVIOR_META_METHODS">CPSWidget::BEHAVIOR_META_METHODS</a></span><br>
+							</span>
+													<img src="../../media/images/Variable.png" />
+							<span class="const-title">
+								<span class="const-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#constBEHAVIOR_META_OBJECT">CPSWidget::BEHAVIOR_META_OBJECT</a></span><br>
+							</span>
+													<img src="../../media/images/Variable.png" />
+							<span class="const-title">
+								<span class="const-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#constBEHAVIOR_META_VALID">CPSWidget::BEHAVIOR_META_VALID</a></span><br>
+							</span>
+													<img src="../../media/images/Variable.png" />
+							<span class="const-title">
+								<span class="const-name"><a href="../../psYiiExtensions/Base/CPSWidget.html#constBEHAVIOR_META_VARS">CPSWidget::BEHAVIOR_META_VARS</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+
+	<p class="notes" id="credit">
+		Documentation generated on Mon, 15 Jun 2009 22:58:21 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.2</a>
+	</p>
+	</div></body>
+</html>
