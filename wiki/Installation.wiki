@@ -20,7 +20,7 @@ place the library in your home directory. None of the files are required to be d
 
 ==Windows Installation==
 Pretty much the same as linux except we'll install this in C:\InetPub. Downloading the zip file and unzip. 
-In our example below, we'll use {*C:\InetPub*}. If you do not have *administrator* access to your web hosting environment, 
+In our example below, we'll use *C:\InetPub\*. If you do not have *administrator* access to your web hosting environment, 
 there is no reason you can't place the library in your home directory. None of the files are required to be directly 
 accessible from the web.
 
