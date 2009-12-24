@@ -1,4 +1,3 @@
-#summary Building Blocks
 #labels f,Phase-Implementation
 =Why do I need a mini-framework inside a framework?=
 After building a few projects using the [http://www.yiiframework.com Yii Framework], I found I 
