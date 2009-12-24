@@ -1,5 +1,4 @@
 #summary Installation and Configuration
-
 #sidebar TableOfContents
 
 =Installing the Library=
