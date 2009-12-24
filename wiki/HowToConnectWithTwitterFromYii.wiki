@@ -1,4 +1,5 @@
 #summary A short tutorial on how to use the extension library's Twitter widget to interact with Twitter.
+#labels Featured,Phase-Implementation
 
 First off, you must have the psYiiExtensions installed on your web server and Yii has to know about it. Please see the [Installation installation instructions] for more information.
 
