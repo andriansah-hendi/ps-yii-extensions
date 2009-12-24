@@ -7,7 +7,7 @@ Installing the library is as simple as extracting the zip file. Choose a directo
 
 ==Linux/Mac Installation==
 After downloading the zip file, simply choose a directory in which to install the library. In our example below, 
-we'll use */usr/local/psYiiExtensions*. If you do not have *root* access to your web hosting environment, you can 
+we'll use `/usr/local/psYiiExtensions`. If you do not have *root* access to your web hosting environment, you can 
 place the library in your home directory. None of the files are required to be directly accessible from the web.
 
 {{{
@@ -20,7 +20,7 @@ place the library in your home directory. None of the files are required to be d
 
 ==Windows Installation==
 Pretty much the same as linux except we'll install this in C:\InetPub. Downloading the zip file and unzip. 
-In our example below, we'll use *C:\InetPub\*. If you do not have *administrator* access to your web hosting environment, 
+In our example below, we'll use `C:\InetPub\`. If you do not have *administrator* access to your web hosting environment, 
 there is no reason you can't place the library in your home directory. None of the files are required to be directly 
 accessible from the web.
 
