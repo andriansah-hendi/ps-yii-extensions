@@ -1,4 +1,4 @@
-#labels f,Phase-Implementation
+#labels Featured,Phase-Implementation
 =Why do I need a mini-framework inside a framework?=
 After building a few projects using the [http://www.yiiframework.com Yii Framework], I found I 
 was repeating myself in a few areas. I decided I would separate out my common base of code to make it 
