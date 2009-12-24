@@ -10,7 +10,7 @@ This wiki will serve as additional documentation and other minutae.
 
 Where would you like to go?
   * [README]
-  * Installation
+  * [Installation Installation and Configuration]
   * Configuration
   * Usage
   * Documentation
