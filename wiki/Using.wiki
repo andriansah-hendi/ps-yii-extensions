@@ -1,5 +1,4 @@
 #summary Installation and Configuration
-#sidebar TableOfContents
 
 =Installing the Library=
 Installing the library is as simple as extracting the zip file. Choose a directory and unarchive.
