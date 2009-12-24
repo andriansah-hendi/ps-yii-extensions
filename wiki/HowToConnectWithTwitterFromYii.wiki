@@ -1,6 +1,4 @@
-#summary A short tutorial on how to use the extension library's Twitter widget to interact with [http://twitter.com Twitter].
-
-Here is a quick tutorial for connecting Yii with Twitter using the [http://www.yiiframework.com/extension/ps-yii-extensions/ Pogostick Yii Extensions Library].
+#summary A short tutorial on how to use the extension library's Twitter widget to interact with Twitter.
 
 First off, you must have the psYiiExtensions installed on your web server and Yii has to know about it. Please see the [Installation installation instructions] for more information.
 
