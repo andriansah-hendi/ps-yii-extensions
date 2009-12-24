@@ -1,5 +1,18 @@
 #summary Building Blocks
-=Building Blocks=
+#labels f,Phase-Implementation
+=Why do I need a mini-framework inside a framework?=
+After building a few projects using the {@link http://www.yiiframework.com Yii Framework}, I found I 
+was repeating myself in a few areas. I decided I would separate out my common base of code to make it 
+easier to reuse. During the separation, I started adding a few things here and there and finally ended 
+up with this base set of functionality.
+
+The major features of the psYiiExtension library are as follows
+
+ * A new base component and widget
+ * New behaviors that are closely linked to these objects
+ * Several components and widgets built upon this framework
+
+I will try my best to explain how to use these objects and hopefully you will find them useful.
 
 ==Library Foundation==
 The basic functionality built into the library is a dynamic variable, or options, system. Using this
