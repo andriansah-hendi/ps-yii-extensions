@@ -36,7 +36,9 @@ class CPSjqValidate extends CPSjQueryWidget
 	*/
 	const PS_EXTERNAL_PATH = '/jquery-plugins/validate';
 	const CDN_ROOT = 'http://ajax.microsoft.com/ajax/jquery.validate/1.6';
+	const CDN_SSL_ROOT = 'https://ajax.microsoft.com/ajax/jquery.validate/1.6';
 	const CDN_PATH = 'http://ajax.microsoft.com/ajax/jquery.validate/1.6/jquery.validate.min.js';
+	const CDN_SSL_PATH = 'https://ajax.microsoft.com/ajax/jquery.validate/1.6/jquery.validate.min.js';
 
 	//********************************************************************************
 	//* Public Methods
@@ -59,10 +61,10 @@ class CPSjqValidate extends CPSjQueryWidget
 		PS::_rsf( $this->extLibUrl . '/jquery-plugins/jquery.metadata.js', CClientScript::POS_HEAD );
 		
 		//	Register scripts necessary
-		PS::_rsf( self::CDN_ROOT . '/jquery.validate.min.js', CClientScript::POS_HEAD );
+		PS::_rsf( ( $_SERVER['HTTPS'] == 'on' ? self::CDN_SSL_ROOT : self::CDN_ROOT ) . '/jquery.validate.min.js', CClientScript::POS_HEAD );
 //		PS::_rsf( $this->baseUrl . '/jquery.validate.min.js', CClientScript::POS_HEAD );
 			
-		PS::_rsf( self::CDN_ROOT . '/additional-methods.js', CClientScript::POS_HEAD );
+		PS::_rsf( ( $_SERVER['HTTPS'] == 'on' ? self::CDN_SSL_ROOT : self::CDN_ROOT ) . '/additional-methods.js', CClientScript::POS_HEAD );
 //		PS::_rsf( $this->baseUrl . '/additional-methods.js', CClientScript::POS_HEAD );
 
 		//	Don't forget subclasses

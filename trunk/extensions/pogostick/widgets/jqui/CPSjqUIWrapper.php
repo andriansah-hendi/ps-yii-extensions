@@ -222,7 +222,7 @@ class CPSjqUIWrapper extends CPSjQueryWidget
 			$this->unsetOption( 'regional' );
 
 			//	Not en? Let's load i18n file...
-			if ( ! empty( $_sRegion ) ) PS::_rsf( "http://jquery-ui.googlecode.com/svn/tags/latest/ui/minified/i18n/jquery-ui-i18n.min.js" );
+			if ( ! empty( $_sRegion ) ) PS::_rsf( ( $_SERVER['HTTPS'] == 'on' ? 'https' : 'http' ) . "://jquery-ui.googlecode.com/svn/tags/latest/ui/minified/i18n/jquery-ui-i18n.min.js" );
 			
 			//	Set defaults for datepicker if this is one...
 			$_sRegion = "$.datepicker.setDefaults($.extend({showMonthAfterYear: false},$.datepicker.regional['{$_sRegion}']));";
@@ -289,7 +289,7 @@ class CPSjqUIWrapper extends CPSjQueryWidget
 			$_oWidget->theme = $_sTheme;
 			
 			//	Register scripts necessary
-			PS::_rsf( "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js" );
+			PS::_rsf( ( $_SERVER['HTTPS'] == 'on' ? 'https' : 'http' ) . "://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js" );
 
 			PS::_rsf( PS::makePath( $_oWidget->baseUrl, 'js', 'jquery.pogostick.hover.js' ), CClientScript::POS_END );
 
@@ -297,7 +297,7 @@ class CPSjqUIWrapper extends CPSjQueryWidget
 			if ( $_oWidget->theme )
 			{
 	//	Uncomment to use CDN
-				PS::_rcf( "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/{$_oWidget->theme}/jquery-ui.css" );
+				PS::_rcf( ( $_SERVER['HTTPS'] == 'on' ? 'https' : 'http' ) . "://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/{$_oWidget->theme}/jquery-ui.css" );
 	//			PS::_rcf( PS::makePath( $_oWidget->baseUrl, 'css', $_oWidget->theme, 'ui.all.css' ) );
 				PS::_rcf( PS::makePath( $_oWidget->baseUrl, 'css', 'ui.pogostick.css' ) );
 			}

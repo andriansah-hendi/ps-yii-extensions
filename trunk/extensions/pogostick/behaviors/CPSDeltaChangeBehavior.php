@@ -60,6 +60,8 @@ class CPSDeltaChangeBehavior extends CPSBaseActiveRecordBehavior
 	*/
 	public function afterFind( $oEvent )
 	{
+//		CPSLog::trace( __METHOD__, 'afterFind event raised' );
+
 		//	Get fresh values
 		$this->m_arLastAttributes = $oEvent->sender->getAttributes();
 		$this->m_bIsDirty = false;
@@ -74,12 +76,14 @@ class CPSDeltaChangeBehavior extends CPSBaseActiveRecordBehavior
 	*/
 	public function afterSave( $oEvent )
 	{
+//		CPSLog::trace( __METHOD__, 'afterSave event raised' );
+
 		//	Get fresh values
 		$this->m_arLastAttributes = $oEvent->sender->getAttributes();
 		$this->m_bIsDirty = false;
 
 		//	Let parents have a go...
-		return parent::afterFind( $oEvent );
+		return parent::afterSave( $oEvent );
 	}
 
 	//********************************************************************************

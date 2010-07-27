@@ -47,7 +47,7 @@ abstract class CPSController extends CController implements IPSBase
 	/**
 	 * The name of our command form field
 	 */
-	const	COMMAND_FIELD_NAME 		= '__psCommand';
+	const COMMAND_FIELD_NAME = '__psCommand';
 
 	//********************************************************************************
 	//* Member Variables
@@ -128,6 +128,22 @@ abstract class CPSController extends CController implements IPSBase
 		$this->m_arCurrentSearchCriteria = $arValue;
 		Yii::app()->user->setState( $this->m_sSearchStateId, $arValue );
 	}
+
+	/**
+	 * @var string the default layout for the controller view. Defaults to 'application.views.layouts.column1',
+	 * meaning using a single column layout. See 'protected/views/layouts/column1.php'.
+	 */
+	public $_pageLayout = 'main';
+	public function getPageLayout() { return $this->_pageLayout = $this->layout; }
+	public function setPageLayout( $value ) { $this->_pageLayout = $this->layout = $value; }
+
+	/**
+	 * @var string the layout of the content portion of this controller. If specified,
+	 * content is passed through this layout before it is sent to your main page layout.
+	 */
+	protected $_contentLayout = null;
+	public function getContentLayout() { return $this->_contentLayout; }
+	public function setContentLayout( $value ) { $this->_contentLayout = $value; }
 
 	/**
 	* @var boolean Try to find proper layout to use
@@ -227,7 +243,7 @@ abstract class CPSController extends CController implements IPSBase
 		parent::init();
 
 		//	Find layout...
-		if ( $this->m_bAutoLayout && ! Yii::app() instanceof CConsoleApplication ) if ( file_exists( Yii::app()->getBasePath() . '/views/layouts/' . $this->getId() . '.php' ) ) $this->layout = $this->getId();
+		if ( $this->m_bAutoLayout && ! Yii::app() instanceof CConsoleApplication ) if ( file_exists( Yii::app()->getBasePath() . '/views/layouts/' . $this->getId() . '.php' ) ) $this->_pageLayout = $this->getId();
 
 		//	Allow errors
 		$this->addUserAction( self::ACCESS_TO_ANY, 'error' );
@@ -347,6 +363,46 @@ abstract class CPSController extends CController implements IPSBase
 			$_oModule = Yii::app();
 
 		return $_oModule;
+	}
+
+	/**
+	 * Renders a view with a layout.
+	 *
+	 * This method first calls {@link renderPartial} to render the view (called content view).
+	 * It then renders the layout view which may embed the content view at appropriate place.
+	 * In the layout view, the content view rendering result can be accessed via variable
+	 * <code>$content</code>. At the end, it calls {@link processOutput} to insert scripts
+	 * and dynamic contents if they are available.
+	 *
+	 * By default, the layout view script is "protected/views/layouts/main.php".
+	 * This may be customized by changing {@link layout}.
+	 *
+	 * @param string name of the view to be rendered. See {@link getViewFile} for details
+	 * about how the view script is resolved.
+	 * @param array data to be extracted into PHP variables and made available to the view script
+	 * @param boolean whether the rendering result should be returned instead of being displayed to end users.
+	 * @return string the rendering result. Null if the rendering result is not required.
+	 * @see renderPartial
+	 * @see getLayoutFile
+	 */
+	public function render( $viewName, $viewData = null, $returnString = false )
+	{
+		$_output = $this->renderPartial( $viewName, $viewData, true );
+		
+		if ( $this->_pageLayout && false !== ( $_layoutFile = $this->getLayoutFile( $this->_pageLayout ) ) )
+		{
+			//	Process content layout if required
+			if ( $this->_contentLayout && false !== ( $_contentLayoutFile = $this->getLayoutFile( $this->_contentLayout ) ) )
+				$_output = $this->renderPartial( $_contentLayoutFile, $viewData, true );
+
+			$_output = $this->renderFile( $_layoutFile, array( 'content' => $_output ), true );
+			$_output = $this->processOutput( $_output );
+		}
+
+		if ( $returnString )
+			return $_output;
+		
+		echo $_output;
 	}
 
 	//********************************************************************************
