@@ -1778,4 +1778,24 @@ HTML;
 		return $_arData;
 	}
 
+	/**
+	* Returns the external url that was published.
+	* @return string
+	* @static
+	*/
+	public static function getExternalLibraryUrl()
+	{
+		return Yii::app()->getAssetManager()->getPublishedUrl( Yii::getPathOfAlias( 'pogostick.external' ), true );
+	}
+
+	/**
+	* Returns the path that was published.
+	* @return string
+	* @static
+	*/
+	public static function getExternalLibraryPath()
+	{
+		return Yii::app()->getAssetManager()->getPublishedPath( Yii::getPathOfAlias( 'pogostick.external' ), true );
+	}
+
 }

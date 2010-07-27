@@ -237,12 +237,7 @@ class CPSCodeTableModel extends CPSModel
 	*/
 	public function valueFilter( $iValue = null )
 	{
-		if ( null !== $iValue ) {
-			$this->getDbCriteria()->mergeWith( array( 'condition' => '( assoc_value_nbr is null or assoc_value_nbr = :assoc_value_nbr )', 'params' => array( ':assoc_value_nbr' => $iValue ) ) );
-			CPSLog::trace(__METHOD__,'added value');
-		}
-		else
-			CPSLog::trace(__METHOD__,'no value');
+		if ( null !== $iValue ) $this->getDbCriteria()->mergeWith( array( 'condition' => '( assoc_value_nbr is null or assoc_value_nbr = :assoc_value_nbr )', 'params' => array( ':assoc_value_nbr' => $iValue ) ) );
 		return $this;
 	}
 

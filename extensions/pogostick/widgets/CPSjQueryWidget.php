@@ -70,7 +70,7 @@ class CPSjQueryWidget extends CPSWidget
 	*/
 	public static function getExternalLibraryUrl()
 	{
-		return Yii::app()->getAssetManager()->getPublishedUrl( Yii::getPathOfAlias( 'pogostick.external' ), true );
+		return PS::getExternalLibraryUrl();
 	}
 
 	/**
@@ -80,7 +80,7 @@ class CPSjQueryWidget extends CPSWidget
 	*/
 	public static function getExternalLibraryPath()
 	{
-		return Yii::app()->getAssetManager()->getPublishedPath( Yii::getPathOfAlias( 'pogostick.external' ), true );
+		return PS::getExternalLibraryPath();
 	}
 
 	/**

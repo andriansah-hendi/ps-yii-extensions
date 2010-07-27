@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of the psYiiExtensions package.
- * 
+ *
  * @copyright Copyright &copy; 2009 Pogostick, LLC
  * @link http://www.pogostick.com Pogostick, LLC.
  * @license http://www.pogostick.com/licensing
@@ -9,14 +9,14 @@
 
 /**
  * Base functionality that I want in ALL helper classes
- * 
+ *
  * @package 	psYiiExtensions
  * @subpackage 	helpers
- * 
+ *
  * @author 		Jerry Ablan <jablan@pogostick.com>
  * @version 	SVN: $Id$
  * @since 		v1.0.5
- *  
+ *
  * @filesource
  */
 class CPSHelperBase extends CHtml implements IPSBase
@@ -31,7 +31,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 	const	OF_JSON 		= 0;
 	const	OF_HTTP 		= 1;
 	const	OF_ASSOC_ARRAY 	= 2;
-	
+
 	/**
 	* Pager locations
 	*/
@@ -39,7 +39,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 	const 	PL_TOP_RIGHT	= 1;
 	const 	PL_BOTTOM_LEFT	= 2;
 	const 	PL_BOTTOM_RIGHT	= 3;
-	
+
 	/***
 	* Predefined action types for CPSForm
 	*/
@@ -52,35 +52,58 @@ class CPSHelperBase extends CHtml implements IPSBase
 	const	ACTION_ADMIN 	= 6;
 	const	ACTION_LOCK 	= 7;
 	const	ACTION_UNLOCK 	= 8;
-	
+
 	//	Add your own in between 4 and 997...
 	const	ACTION_PREVIEW 		= 996;
 	const	ACTION_RETURN 		= 997;
 	const	ACTION_CANCEL 		= 998;
 	const	ACTION_GENERIC 		= 999;
-	
+
 	//********************************************************************************
 	//* Private Members
 	//********************************************************************************
-	
+
+	/**
+	* Cache the current app for speed
+	* @static CWebApplication
+	*/
+	protected static $_thisApp = null;
+
 	/**
 	* Cache the client script object for speed
-	* @var CClientScript
+	* @static CClientScript
 	*/
-	protected static $m_oClientScript = null;
-	
+	protected static $_clientScript = null;
+
+	/**
+	* Cache the user object for speed
+	* @static CWebUser
+	*/
+	protected static $_thisUser = null;
+
 	/**
 	 * An array of class names to search in for missing methods
-	 * @var array
+	 * @static array
 	 */
-	protected static $m_arClassPath = array();
-	public static function getClassPath() { return self::$m_arClassPath; }
-	public static function setClassPath( $arClasses ) { self::$m_arClassPath = $arClasses; }
-	public static function addClassToPath( $sClass ) { self::$m_arClassPath[] = $sClass; }
-	
+	protected static $_classPath = array();
+	public static function getClassPath() { return self::$_classPath; }
+	public static function setClassPath( $arClasses ) { self::$_classPath = $arClasses; }
+	public static function addClassToPath( $sClass ) { self::$_classPath[] = $sClass; }
+
 	//********************************************************************************
 	//* Public Methods
 	//********************************************************************************
+
+	/**
+	 * Intialize our private statics
+	 */
+	public static function init()
+	{
+		//	Intialize my variables...
+		self::$_thisApp = Yii::app();
+		self::$_clientScript = self::$_thisApp->getClientScript();
+		self::$_thisUser = self::$_thisApp->getUser();
+	}
 
 	/**
 	* Creates the internal name of a component/widget. Use (@link setInternalName) to change.
@@ -106,8 +129,8 @@ class CPSHelperBase extends CHtml implements IPSBase
 	* If value is not set or empty, last passed in argument is returned
 	* Allows for multiple nvl chains ( nvl(x,y,z,null) )
 	* Since PHP evaluates the arguments before calling a function, this is NOT a short-circuit method.
-	* 
-	* @param mixed 
+	*
+	* @param mixed
 	* @returns mixed
 	*/
 	public static function nvl()
@@ -115,18 +138,18 @@ class CPSHelperBase extends CHtml implements IPSBase
 		$_oDefault = null;
 		$_iArgs = func_num_args();
 		$_arArgs = func_get_args();
-		
+
 		for ( $_i = 0; $_i < $_iArgs; $_i++ )
 		{
 			if ( isset( $_arArgs[ $_i ] ) && ! empty( $_arArgs[ $_i ] ) )
 				return $_arArgs[ $_i ];
-				
+
 			$_oDefault = $_arArgs[ $_i ];
 		}
 
 		return $_oDefault;
 	}
-	
+
 	/**
 	 * Convenience "in_array" method. Takes variable args.
 	 *
@@ -142,19 +165,19 @@ class CPSHelperBase extends CHtml implements IPSBase
 	public static function in()
 	{
 		$_arArgs = func_get_args();
-		
+
 		if ( count( $_arArgs ) )
 		{
 			$_oNeedle = array_shift( $_arArgs );
 			return in_array( $_oNeedle, $_arArgs );
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	* Returns an analog to Java System.currentTimeMillis()
-	* 
+	*
 	* @returns integer
 	*/
 	public static function currentTimeMillis()
@@ -162,10 +185,10 @@ class CPSHelperBase extends CHtml implements IPSBase
 		list( $_uSec, $_sec ) = explode( ' ', microtime() );
 		return ( ( float )$_uSec + ( float )$_sec );
 	}
-	
+
 	/**
 	* Similar to {@link PS::o} except it will pull a value from a nested array.
-	* 
+	*
 	* @param array $arOptions
 	* @param integer|string $sKey
 	* @param integer|string $sSubKey
@@ -177,10 +200,10 @@ class CPSHelperBase extends CHtml implements IPSBase
 	{
 		return PS::o( PS::o( $arOptions, $sKey, array() ), $sSubKey, $oDefault, $bUnset );
 	}
-	
+
 	/**
 	* Alias for {@link CPSHelperBase::getOption)
-	* 
+	*
 	* @param array $arOptions
 	* @param integer|string $sKey
 	* @param integer|string $sSubKey
@@ -194,7 +217,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 	public static function o( &$arOptions = array(), $sKey, $oDefault = null, $bUnset = false )
 	{
 		$_oValue = $oDefault;
-		
+
 		if ( is_array( $arOptions ) )
 		{
 			if ( ! array_key_exists( $sKey, $arOptions ) )
@@ -211,13 +234,13 @@ class CPSHelperBase extends CHtml implements IPSBase
 					}
 				}
 	        }
-			
+
 			if ( isset( $arOptions[ $sKey ] ) )
 			{
 				$_oValue = $arOptions[ $sKey ];
 				if ( $bUnset ) unset( $arOptions[ $sKey ] );
 			}
-			               
+
 			//	Set it in the array if not an unsetter...
 			if ( ! $bUnset ) $arOptions[ $sKey ] = $_oValue;
 		}
@@ -225,9 +248,9 @@ class CPSHelperBase extends CHtml implements IPSBase
 		//	Return...
 		return $_oValue;
 	}
-	
+
 	/**
-	* Retrieves an option from the given array. 
+	* Retrieves an option from the given array.
 	* $oDefault is set and returned if $sKey is not 'set'. Optionally will unset option in array.
 	*
 	* @param array $arOptions
@@ -255,7 +278,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 	{
 		return $arOptions[ $sKey ] = $oValue;
 	}
-	
+
 	/**
 	* Sets an option in the given array
 	*
@@ -282,7 +305,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 	{
 		return self::o( $arOptions, $sKey, null, true );
 	}
-	
+
 	/**
 	* Unsets an option in the given array
 	*
@@ -295,7 +318,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 	{
 		return self::uo( $arOptions, $sKey );
 	}
-	
+
 	/**
 	* Merges an array without overwriting. Accepts multiple array arguments
 	* If an index exists in the target array, it is appended to the value.
@@ -305,7 +328,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 	{
 		$_iCount = func_num_args();
 		$_arResult = array();
-		
+
 		for ( $_i = 0; $_i < $_iCount; $_i++ )
 		{
 			foreach ( func_get_arg( $_i ) as $_sKey => $_oValue )
@@ -314,21 +337,21 @@ class CPSHelperBase extends CHtml implements IPSBase
 				$_arResult[ $_sKey ] = $_oValue;
 			}
 		}
-		
+
 		return $_arResult;
 	}
 
 	/**
 	 * Make an HTTP request
 	 *
-	 * @param string $sUrl The URL to call
+	 * @param string $url The URL to call
 	 * @param string $sQueryString The query string to attach
 	 * @param string $sMethod The HTTP method to use. Can be 'GET' or 'SET'
 	 * @param mixed $sNewAgent The custom user method to use. Defaults to 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; .NET CLR 2.0.50727; .NET CLR 3.0.04506; InfoPath.3)'
 	 * @param integer $iTimeOut The number of seconds to wait for a response. Defaults to 60 seconds
 	 * @return mixed The data returned from the HTTP request or null for no data
 	 */
-	public static function makeHttpRequest( $sUrl, $sQueryString = null, $sMethod = 'GET', $sNewAgent = null, $iTimeOut = 60 )
+	public static function makeHttpRequest( $url, $sQueryString = null, $sMethod = 'GET', $sNewAgent = null, $iTimeOut = 60 )
 	{
 		//	Our user-agent string
 		$_sAgent = PS::nvl( $sNewAgent, 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; .NET CLR 2.0.50727; .NET CLR 3.0.04506; InfoPath.3)' );
@@ -345,12 +368,12 @@ class CPSHelperBase extends CHtml implements IPSBase
 			curl_setopt( $_oCurl, CURLOPT_USERAGENT, $_sAgent );
 			curl_setopt( $_oCurl, CURLOPT_TIMEOUT, 60 );
 			curl_setopt( $_oCurl, CURLOPT_FOLLOWLOCATION, true );
-			curl_setopt( $_oCurl, CURLOPT_URL, $sUrl . ( 'GET' == $sMethod ? ( ! empty( $sQueryString ) ? "?" . $sQueryString : '' ) : '' ) );
+			curl_setopt( $_oCurl, CURLOPT_URL, $url . ( 'GET' == $sMethod ? ( ! empty( $sQueryString ) ? "?" . $sQueryString : '' ) : '' ) );
 
 			//	If this is a post, we have to put the post data in another field...
 			if ( 'POST' == $sMethod )
 			{
-				curl_setopt( $_oCurl, CURLOPT_URL, $sUrl );
+				curl_setopt( $_oCurl, CURLOPT_URL, $url );
 				curl_setopt( $_oCurl, CURLOPT_POST, true );
 				curl_setopt( $_oCurl, CURLOPT_POSTFIELDS, $sQueryString );
 			}
@@ -421,20 +444,20 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 * Generates a span or div wrapped hyperlink tag.
 	 *
 	 * @param string $sText The link body. It will NOT be HTML-encoded. Therefore you can pass in HTML code such as an image tag.
-	 * @param string $sUrl The Url of the link
+	 * @param string $url The Url of the link
 	 * @param string $sWrapperId The "id" of the created wrapper
 	 * @param array $arHtmlOptions Additional HTML attributes. Besides normal HTML attributes, a few special attributes are also recognized (see {@link clientChange} for more details.)
 	 * @param string $sClass The optional class of the created span
 	 * @param boolean $bUseDiv If true, a <div> tag will be used instead of a <span>
 	 * @return string The generated hyperlink
 	 */
-	public static function wrappedLink( $sText, $sUrl = '#', $sWrapperId = null, $arHtmlOptions = array(), $sClass = null, $bUseDiv = false )
+	public static function wrappedLink( $sText, $url = '#', $sWrapperId = null, $arHtmlOptions = array(), $sClass = null, $bUseDiv = false )
 	{
 		return( '<' .
 			( $bUseDiv ? 'div' : 'span' ) .
 			( null != $sWrapperId ? ' id="' . $sWrapperId . '"' : '' ) .
 			( null != $sClass ? ' class="' . $sClass . '"' : '' ) . '>' .
-			CHtml::link( $sText, $sUrl, $arHtmlOptions ) .
+			CHtml::link( $sText, $url, $arHtmlOptions ) .
 			'</' . ( $bUseDiv ? 'div' : 'span' ) . '>'
 		);
 	}
@@ -494,7 +517,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 
 		return( $sXml->asXML() );
 	}
-	
+
 	/**
 	* Returns the Url of the currently loaded page.
 	* @returns string
@@ -504,10 +527,10 @@ class CPSHelperBase extends CHtml implements IPSBase
 		$_bSSL = ( isset( $_SERVER[ 'HTTPS' ] ) && $_SERVER[ 'HTTPS' ] == 'on' );
 		return 'http' . ( ( $_bSSL ) ? 's' : '' ) . '://' . $_SERVER[ "SERVER_NAME" ] . ( ( $_SERVER[ "SERVER_PORT" ] != "80" ) ? ":" . $_SERVER[ "SERVER_PORT" ] : '' ) .  $_SERVER[ "REQUEST_URI" ];
 	}
-	
+
 	/**
 	* Go out and pull the {@link http://gravatar.com/ gravatar} url for the specificed email address.
-	* 
+	*
 	* @access public
 	* @static
 	* @param string $sEmailAddress
@@ -521,13 +544,13 @@ class CPSHelperBase extends CHtml implements IPSBase
 		$iSize = intval( $iSize );
 		if ( $iSize < 1 || $iSize > 512 ) throw new CPSException( '"$iSize" parameter is out of bounds. Must be between 1 and 512.' );
 		if ( ! in_array( $sRating, array( 'g', 'pg', 'r', 'x' ) ) ) throw new CPSException( '"$sRating" parameter must be either "G", "PG", "R", or "X".' );
-		
+
 		return "http://www.gravatar.com/avatar/" . md5( strtolower( $sEmailAddress ) ) . ".jpg?s={$iSize}&r={$sRating}";
 	}
-	
+
 	/**
 	* Takes parameters and returns an array of the values.
-	* 
+	*
 	* @param string|array $oData,... One or more values to read and put into the return array.
 	* @returns array
 	*/
@@ -535,7 +558,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 	{
 		$_arOut = array();
 		$_iCount = func_num_args();
-		
+
 		for ( $_i = 0; $_i < $_iCount; $_i++ )
 		{
     		//	Any other columns to touch?
@@ -550,11 +573,11 @@ class CPSHelperBase extends CHtml implements IPSBase
 				}
 			}
 		}
-		
+
 		//	Return the fresh array...
 		return $_arOut;
 	}
-	
+
 	/**
 	 * Takes the arguments and makes a file path out of them.
 	 * @param mixed File path parts
@@ -609,16 +632,34 @@ class CPSHelperBase extends CHtml implements IPSBase
 	//********************************************************************************
 	//* Yii Convenience Mappings
 	//********************************************************************************
-	
+
+	/**
+	 * Shorthand version of Yii::app()
+	 * @return CApplication the application singleton, null if the singleton has not been created yet.
+	 */
+	public static function _a()
+	{
+		return self::$_thisApp;
+	}
+
+	/**
+	 * Convienice methond Returns the base url of the current app
+	 * @see CWebApplication::getBaseUrl
+	 * @see CHttpRequest::getBaseUrl
+	 * @returns string
+	 */
+	public function getBaseUrl( $absolute = false ) { return self::$_thisApp->getBaseUrl( $absolute ); }
+	public function _gbu( $absolute = false ) { return self::$_thisApp->getBaseUrl( $absolute ); }
+
 	/***
 	 * Retrieves and caches the Yii ClientScript object
 	 * @returns CClientScript
  	 * @access public
 	 * @static
 	 */
-	public static function getClientScript() 
-	{ 
-		return self::_cs();
+	public static function getClientScript()
+	{
+		return self::$_clientScript;
 	}
 
 	/**
@@ -627,27 +668,14 @@ class CPSHelperBase extends CHtml implements IPSBase
 	* @access public
 	* @static
 	*/
-	public static function _cs() 
-	{ 
-		return self::$m_oClientScript ? self::$m_oClientScript : self::$m_oClientScript = Yii::app()->getClientScript(); 
-	}
-
-	/**
-	* Registers a CSS file
-	* 
-	* @param string URL of the CSS file
-	* @param string media that the CSS file should be applied to. If empty, it means all media types.
-	* @access public
-	* @static
-	*/
-	public static function _rcf( $sUrl, $sMedia = '' )
+	public static function _cs()
 	{
-		return self::_cs()->registerCssFile( $sUrl, $sMedia );
+		return self::$_clientScript;
 	}
 
 	/**
 	* Registers a javascript file.
-	* 
+	*
 	* @param string URL of the javascript file
 	* @param integer the position of the JavaScript code. Valid values include the following:
 	* <ul>
@@ -658,73 +686,113 @@ class CPSHelperBase extends CHtml implements IPSBase
 	* @access public
 	* @static
 	*/
-	public static function registerScriptFile( $sUrl, $ePosition = self::POS_HEAD )
+	public static function registerScriptFile( $url, $ePosition = self::POS_HEAD, $published = false )
 	{
-		return self::_rsf( $sUrl, $ePosition );
-	}
-
-	/**
-	* Registers a CSS file
-	* 
-	* @param string URL of the CSS file
-	* @param string media that the CSS file should be applied to. If empty, it means all media types.
-	* @access public
-	* @static
-	*/
-	public static function registerCssFile( $sUrl, $sMedia = '' )
-	{
-		return self::_rcf( $sUrl, $sMedia );
-	}
-
-	/**
-	* Registers a piece of CSS code.
-	* 
-	* @param string ID that uniquely identifies this piece of CSS code
-	* @param string the CSS code
-	* @param string media that the CSS code should be applied to. If empty, it means all media types.
-	* @access public
-	* @static
-	*/
-	public static function _rc( $sId, $sCss, $sMedia = '' )
-	{
-		return self::_cs()->registerCss( $sId, $sCss, $sMedia );
-	}
-
-	/**
-	* Registers a piece of CSS code.
-	* 
-	* @param string ID that uniquely identifies this piece of CSS code
-	* @param string the CSS code
-	* @param string media that the CSS code should be applied to. If empty, it means all media types.
-	* @access public
-	* @static
-	*/
-	public static function registerCss( $sId, $sCss, $sMedia = '' )
-	{
-		return self::_rc( $sId, $sCss, $sMedia );
+		return self::_rsf( $url, $ePosition, $published );
 	}
 
 	/**
 	* Registers a javascript file.
-	* 
-	* @param string URL of the javascript file
+	*
+	* @param array|string Urls of scripts to load. If first character is not a '/', the asset library directory is prepended.
 	* @param integer the position of the JavaScript code. Valid values include the following:
 	* <ul>
 	* <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
 	* <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
 	* <li>CClientScript::POS_END : the script is inserted at the end of the body section.</li>
 	* </ul>
+	* @param boolean If true, asset library directory is prepended to url
 	* @access public
 	* @static
 	*/
-	public static function _rsf( $sUrl, $ePosition = CClientScript::POS_HEAD )
+	public static function _rsf( $urlList, $pagePosition = CClientScript::POS_HEAD, $fromPublished = false )
 	{
-		self::_cs()->registerScriptFile( $sUrl, $ePosition );
+		if ( ! is_array( $urlList ) ) $urlList = array( $urlList );
+		$_prefix = ( $fromPublished ? PS::getExternalLibraryUrl() . DIRECTORY_SEPARATOR : null );
+
+		//	Need external library?
+		foreach ( $urlList as $_url )
+		{
+			if ( $_url[0] != '/' && $fromPublished ) $_url = $_prefix . $_url;
+			self::$_clientScript->registerScriptFile( $_url, $pagePosition );
+		}
+	}
+
+	/**
+	* Registers a CSS file
+	*
+	* @param string URL of the CSS file
+	* @param string media that the CSS file should be applied to. If empty, it means all media types.
+	* @param boolean If true, asset library directory is prepended to url
+	* @access public
+	* @static
+	*/
+	public static function registerCssFile( $url, $media = '', $published = false )
+	{
+		return self::_rcf( $url, $media, $published );
+	}
+
+	/**
+	* Registers a CSS file
+	*
+	* @param string URL of the CSS file
+	* @param string media that the CSS file should be applied to. If empty, it means all media types.
+	* @access public
+	* @static
+	*/
+	public static function _rcf( $url, $media = '', $published = false )
+	{
+		//	Need external library?
+		if ( $published ) $url = PS::getExternalLibraryUrl() . DIRECTORY_SEPARATOR . trim( $url, '/' );
+		return self::$_clientScript->registerCssFile( $url, $media );
+	}
+
+	/**
+	* Registers a CSS file relative to the current layout directory
+	*
+	* @param string relative URL of the CSS file
+	* @param string media that the CSS file should be applied to. If empty, it means all media types.
+	* @access public
+	* @static
+	*/
+	public static function _rlcf( $url, $media = '', $published = false )
+	{
+		//	Need external library?
+		if ( $published ) $url = Yii::getPathOfAlias('views.layouts') . DIRECTORY_SEPARATOR . trim( $url, '/' );
+		return self::$_clientScript->registerCssFile( $url, $media );
+	}
+
+	/**
+	* Registers a piece of CSS code.
+	*
+	* @param string ID that uniquely identifies this piece of CSS code
+	* @param string the CSS code
+	* @param string media that the CSS code should be applied to. If empty, it means all media types.
+	* @access public
+	* @static
+	*/
+	public static function registerCss( $sId = null, $sCss, $media = '' )
+	{
+		return self::_rc( $sId, $sCss, $media );
+	}
+
+	/**
+	* Registers a piece of CSS code.
+	*
+	* @param string ID that uniquely identifies this piece of CSS code
+	* @param string the CSS code
+	* @param string media that the CSS code should be applied to. If empty, it means all media types.
+	* @access public
+	* @static
+	*/
+	public static function _rc( $sId = null, $sCss, $media = '' )
+	{
+		return self::$_clientScript->registerCss( PS::nvl( $sId, CPSWidgetHelper::getWidgetId() ), $sCss, $media );
 	}
 
 	/**
 	* Registers a piece of javascript code.
-	* 
+	*
 	* @param string ID that uniquely identifies this piece of JavaScript code
 	* @param string the javascript code
 	* @param integer the position of the JavaScript code. Valid values include the following:
@@ -738,50 +806,35 @@ class CPSHelperBase extends CHtml implements IPSBase
 	* @access public
 	* @static
 	*/
-	public static function _rs( $sId, $sScript, $ePosition = CClientScript::POS_READY )
-	{
-		self::_cs()->registerScript( $sId, $sScript, $ePosition );
-	}
-
-	/**
-	* Registers a piece of javascript code.
-	* 
-	* @param string ID that uniquely identifies this piece of JavaScript code
-	* @param string the javascript code
-	* @param integer the position of the JavaScript code. Valid values include the following:
-	* <ul>
-	* <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
-	* <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
-	* <li>CClientScript::POS_END : the script is inserted at the end of the body section.</li>
-	* <li>CClientScript::POS_LOAD : the script is inserted in the window.onload() function.</li>
-	* <li>CClientScript::POS_READY : the script is inserted in the jQuery's ready function.</li>
-	* </ul>
-	* @access public
-	* @static
-	*/
-	public static function registerScript( $sId, $sScript, $ePosition = CClientScript::POS_READY )
+	public static function registerScript( $sId = null, $sScript, $ePosition = CClientScript::POS_READY )
 	{
 		return self::_rs( $sId, $sScript, $ePosition );
 	}
 
 	/**
-	* Registers a meta tag that will be inserted in the head section (right before the title element) of the resulting page.
-	* 
-	* @param string content attribute of the meta tag
-	* @param string name attribute of the meta tag. If null, the attribute will not be generated
-	* @param string http-equiv attribute of the meta tag. If null, the attribute will not be generated
-	* @param array other options in name-value pairs (e.g. 'scheme', 'lang')
+	* Registers a piece of javascript code.
+	*
+	* @param string ID that uniquely identifies this piece of JavaScript code
+	* @param string the javascript code
+	* @param integer the position of the JavaScript code. Valid values include the following:
+	* <ul>
+	* <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
+	* <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
+	* <li>CClientScript::POS_END : the script is inserted at the end of the body section.</li>
+	* <li>CClientScript::POS_LOAD : the script is inserted in the window.onload() function.</li>
+	* <li>CClientScript::POS_READY : the script is inserted in the jQuery's ready function.</li>
+	* </ul>
 	* @access public
 	* @static
 	*/
-	public static function _rmt( $sContent, $sName = null, $sHttpEquiv = null, $arOptions = array() )
+	public static function _rs( $sId = null, $sScript, $ePosition = CClientScript::POS_READY )
 	{
-		self::_cs()->registerMetaTag( $sContent, $sName, $sHttpEquiv, $arOptions );
+		self::$_clientScript->registerScript( PS::nvl( $sId, CPSWidgetHelper::getWidgetId() ), $sScript, $ePosition );
 	}
-	
+
 	/**
 	* Registers a meta tag that will be inserted in the head section (right before the title element) of the resulting page.
-	* 
+	*
 	* @param string content attribute of the meta tag
 	* @param string name attribute of the meta tag. If null, the attribute will not be generated
 	* @param string http-equiv attribute of the meta tag. If null, the attribute will not be generated
@@ -795,6 +848,21 @@ class CPSHelperBase extends CHtml implements IPSBase
 	}
 
 	/**
+	* Registers a meta tag that will be inserted in the head section (right before the title element) of the resulting page.
+	*
+	* @param string content attribute of the meta tag
+	* @param string name attribute of the meta tag. If null, the attribute will not be generated
+	* @param string http-equiv attribute of the meta tag. If null, the attribute will not be generated
+	* @param array other options in name-value pairs (e.g. 'scheme', 'lang')
+	* @access public
+	* @static
+	*/
+	public static function _rmt( $sContent, $sName = null, $sHttpEquiv = null, $arOptions = array() )
+	{
+		self::$_clientScript->registerMetaTag( $sContent, $sName, $sHttpEquiv, $arOptions );
+	}
+
+	/**
 	 * Creates a relative URL based on the given controller and action information.
 	 * @param string the URL route. This should be in the format of 'ControllerID/ActionID'.
 	 * @param array additional GET parameters (name=>value). Both the name and value will be URL-encoded.
@@ -803,12 +871,12 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 */
 	public static function _cu( $sRoute, $arParams = array(), $sAmpersand = '&' )
 	{
-		return Yii::app()->createUrl( $sRoute, $arParams, $sAmpersand );
+		return self::$_thisApp->createUrl( $sRoute, $arParams, $sAmpersand );
 	}
-	
+
 	/**
 	 * Convenience access to CAssetManager::publish()
-	 * 
+	 *
 	 * Publishes a file or a directory.
 	 * This method will copy the specified asset to a web accessible directory
 	 * and return the URL for accessing the published asset.
@@ -834,43 +902,87 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 */
 	public static function _publish( $sPath , $bHashByName = false, $iLevel = -1 )
 	{
-		return Yii::app()->getAssetManager()->publish( $sPath, $bHashByName, $iLevel );
+		return self::$_thisApp->getAssetManager()->publish( $sPath, $bHashByName, $iLevel );
 	}
-	
+
 	/**
 	 * Performs a redirect. See {@link CHttpRequest::redirect}
-	 * 
-	 * @param string $sUrl
+	 *
+	 * @param string $url
 	 * @param boolean $bTerminate
 	 * @param int $iStatusCode
 	 * @see CHttpRequest::redirect
 	 */
-	public static function redirect( $sUrl, $bTerminate = true, $iStatusCode = 302 )
+	public static function redirect( $url, $bTerminate = true, $iStatusCode = 302 )
 	{
-		Yii::app()->getRequest()->redirect( $sUrl, $bTerminate, $iStatusCode );
+		self::$_thisApp->getRequest()->redirect( $url, $bTerminate, $iStatusCode );
+	}
+
+	/**
+	 * Returns the value of a variable that is stored in the user session.
+	 *
+	 * This function is designed to be used by CWebUser descendant classes to
+	 * store additional user information the user's session. A variable, if
+	 * stored in the session using {@link _ss} can be retrieved back using this
+	 * function.
+	 *
+	 * @param string variable name
+	 * @param mixed default value
+	 * @return mixed the value of the variable. If it doesn't exist in the session, the provided default value will be returned
+	 * @see _ss
+	 * @see CWebUser::setState
+	 */
+	public static function _gs( $stateName, $defaultValue = null )
+	{
+		return self::$_thisUser->getState( $stateName, $defaultValue );
+	}
+
+	/**
+	 * Stores a variable from the user session
+	 *
+	 * This function is designed to be used by CWebUser descendant classes
+	 * who want to store additional user information in user session.
+	 * By storing a variable using this function, the variable may be retrieved
+	 * back later using {@link _gs}. The variable will be persistent
+	 * across page requests during a user session.
+	 *
+	 * @param string variable name
+	 * @param mixed variable value
+	 * @param mixed default value. If $value === $defaultValue (i.e. null), the variable will be removed from the session
+	 * @see _gs
+	 * @see CWebUser::getState
+	 */
+	public static function _ss( $stateName, $stateValue, $defaultValue = null )
+	{
+		return self::$_thisUser->setState( $stateName, $stateValue, $defaultValue );
 	}
 
 	//********************************************************************************
 	//* Magic Methods
 	//********************************************************************************
-	
+
 	/**
 	 * Calls a static method in classPath if not found here. Allows you to extend this object
 	 * at runtime with additional helpers.
-	 * 
+	 *
 	 * Only available in PHP 5.3+
-	 * 
+	 *
 	 * @param string $sMethod
 	 * @param array $arParams
 	 * @return mixed
 	 */
 	public static function __callStatic( $sMethod, $arParams )
 	{
-		foreach ( self::$m_arClassPath as $_sClass )
+		foreach ( self::$_classPath as $_sClass )
 		{
-			if ( method_exists( $_sClass, $sMethod ) ) 
+			if ( method_exists( $_sClass, $sMethod ) )
 				return call_user_func_array( $_sClass . '::' . $sMethod, $arParams );
 		}
 	}
 
 }
+
+/**
+ * Call our init method to populate our privates...
+ */
+CPSHelperBase::init();
