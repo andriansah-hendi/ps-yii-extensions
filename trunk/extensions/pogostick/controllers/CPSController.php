@@ -385,8 +385,11 @@ abstract class CPSController extends CController implements IPSBase
 	 * @see renderPartial
 	 * @see getLayoutFile
 	 */
-	public function render( $viewName, $viewData = null, $returnString = false )
+	public function newRender( $viewName, $viewData = null, $returnString = false )
 	{
+		//	make sure we're all on the same page...
+		$this->_pageLayout = $this->layout;
+		
 		$_output = $this->renderPartial( $viewName, $viewData, true );
 		
 		if ( $this->_pageLayout && false !== ( $_layoutFile = $this->getLayoutFile( $this->_pageLayout ) ) )
