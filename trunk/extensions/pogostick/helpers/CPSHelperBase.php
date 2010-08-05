@@ -107,22 +107,22 @@ class CPSHelperBase extends CHtml implements IPSBase
 
 	/**
 	* Creates the internal name of a component/widget. Use (@link setInternalName) to change.
-	* @param IPSBase $oComponent
+	* @param IPSBase $component
 	* @returns IPSComponent
 	*/
-	public static function createInternalName( IPSComponent $oComponent )
+	public static function createInternalName( IPSComponent $component )
 	{
 		//	Get the class...
-		$_sClass = get_class( $oComponent );
+		$_class = get_class( $component );
 
 		//	Set names (with a little Pogostick magic!)
-		$_sIntName = ( false !== strpos( $_sClass, 'CPS', 0 ) ) ? str_replace( 'CPS', 'ps', $_sClass ) : $_sClass;
+		$_internalName = ( false !== strpos( $_class, 'CPS', 0 ) ) ? str_replace( 'CPS', 'ps', $_class ) : $_class;
 
 		//	Set the names inside the object
-		$oComponent->setInternalName( $_sIntName );
+		$component->setInternalName( $_internalName );
 
 		//	Return
-		return $oComponent;
+		return $component;
 	}
 
 	/**
@@ -135,19 +135,19 @@ class CPSHelperBase extends CHtml implements IPSBase
 	*/
 	public static function nvl()
 	{
-		$_oDefault = null;
-		$_iArgs = func_num_args();
-		$_arArgs = func_get_args();
+		$_default = null;
+		$_args = func_num_args();
+		$_argumentList = func_get_args();
 
-		for ( $_i = 0; $_i < $_iArgs; $_i++ )
+		for ( $_i = 0; $_i < $_args; $_i++ )
 		{
-			if ( isset( $_arArgs[ $_i ] ) && ! empty( $_arArgs[ $_i ] ) )
-				return $_arArgs[ $_i ];
+			if ( isset( $_argumentList[ $_i ] ) && ! empty( $_argumentList[ $_i ] ) )
+				return $_argumentList[ $_i ];
 
-			$_oDefault = $_arArgs[ $_i ];
+			$_default = $_argumentList[ $_i ];
 		}
 
-		return $_oDefault;
+		return $_default;
 	}
 
 	/**
@@ -164,12 +164,12 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 */
 	public static function in()
 	{
-		$_arArgs = func_get_args();
+		$_argumentList = func_get_args();
 
-		if ( count( $_arArgs ) )
+		if ( count( $_argumentList ) )
 		{
-			$_oNeedle = array_shift( $_arArgs );
-			return in_array( $_oNeedle, $_arArgs );
+			$_oNeedle = array_shift( $_argumentList );
+			return in_array( $_oNeedle, $_argumentList );
 		}
 
 		return false;
@@ -585,8 +585,8 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 */
 	public static function makePath()
 	{
-		$_arArgs = func_get_args();
-		return implode( DIRECTORY_SEPARATOR, $_arArgs );
+		$_argumentList = func_get_args();
+		return implode( DIRECTORY_SEPARATOR, $_argumentList );
 	}
 
 	/**
@@ -973,10 +973,10 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 */
 	public static function __callStatic( $sMethod, $arParams )
 	{
-		foreach ( self::$_classPath as $_sClass )
+		foreach ( self::$_classPath as $_class )
 		{
-			if ( method_exists( $_sClass, $sMethod ) )
-				return call_user_func_array( $_sClass . '::' . $sMethod, $arParams );
+			if ( method_exists( $_class, $sMethod ) )
+				return call_user_func_array( $_class . '::' . $sMethod, $arParams );
 		}
 	}
 

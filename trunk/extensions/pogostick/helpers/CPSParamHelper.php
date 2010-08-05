@@ -19,7 +19,7 @@
  *  
  * @filesource
  */
-class CPSParamHelper extends IPSBase
+class CPSParamHelper implements IPSBase
 {
 	//********************************************************************************
 	//* Private Members

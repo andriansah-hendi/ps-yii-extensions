@@ -521,6 +521,7 @@ class CPSWidgetHelper extends CPSHelperBase
 			case self::TEXT_DISPLAY:
 				$arHtmlOptions['style'] = PS::o( $arHtmlOptions, 'style' ) . ' border:none; background-color: transparent;';
 				$arHtmlOptions['class'] = PS::addClass( $arOptions['class'], 'ps-text-display' );
+				$arHtmlOptions['readonly'] = 'readonly';
 				$arHtmlOptions['content'] = PS::tag( 'label', array( 'class' => 'ps-text-display', CPSTransform::valueOf( '*', $oModel->$sColName ) ) );
 				$eFieldType = self::TEXT;
 				break;
@@ -676,6 +677,7 @@ class CPSWidgetHelper extends CPSHelperBase
 
 			case self::TEXT_DISPLAY:
 				$arHtmlOptions['style'] = PS::o( $arHtmlOptions, 'style' ) . ' border:none; background-color: transparent;';
+				$arHtmlOptions['readonly'] = 'readonly';
 				$_sType = 'text';
 				break;
 
@@ -859,16 +861,18 @@ class CPSWidgetHelper extends CPSHelperBase
 	*/
 	public static function activeDataDropDownList( $oModel, $sAttribute, &$arHtmlOptions = array(), $iDefaultUID = 0 )
 	{
-		if ( null != ( $_sModel = PS::o( $arHtmlOptions, 'model', null, true ) ) )
+		if ( null != ( $_sModel = PS::o( $arHtmlOptions, 'dataModel', null, true ) ) )
 		{
-			$_oModel = new $_sModel();
+			$_oModel = new $_sModel;
 
-			$_sId = PS::o( $arHtmlOptions, 'id', 'id', true );
-			$_sName = PS::o( $arHtmlOptions, 'name', null, true );
+			$_sId = PS::o( $arHtmlOptions, 'dataId', 'id', true );
+			$_sName = PS::o( $arHtmlOptions, 'dataName', null, true );
+			$_condition = PS::o( $arHtmlOptions, 'dataCondition', null, true );
+			$_order = PS::o( $arHtmlOptions, 'dataOrder', null, true );
 
 			if ( $_sId && $_sName )
 			{
-				$_arOptions = self::listData( $_oModel->findAll( array( 'select' => $_sId . ',' . $_sName, 'order' => $_sName ) ), $_sId, $_sName );
+				$_arOptions = self::listData( $_oModel->findAll( array( 'select' => $_sId . ', ' . $_sName, 'order' => PS::nvl( $_order, $_sName ), 'condition' => $_condition ) ), $_sId, $_sName );
 
 				if ( isset( $arHtmlOptions[ 'multiple' ] ) )
 				{
@@ -1071,6 +1075,7 @@ CSS;
 		$_sMethod = PS::o( $arFormOptions, 'method', 'POST', true );
 		$_bSetPageTitle = PS::o( $arFormOptions, 'setPageTitle', true, true );
 		$_sErrorCss = PS::o( $arFormOptions, 'errorCss', 'ui-state-error' );
+		$_formClass = PS::o( $arFormOptions, 'formClass', 'yiiForm' );
 
 		//	Register form CSS if desired...
 		foreach ( PS::o( $arFormOptions, 'cssFiles', array( '/css/form.css' ), true ) as $_sFile )
@@ -1085,14 +1090,14 @@ CSS;
 		{
 			case self::UI_JQUERY:
 				$_sContainerClass = 'ui-edit-container ui-widget-content';
-				$_sContentClass = 'yiiForm';
+				$_sContentClass = $_formClass;
 				PS::$errorCss = $_sErrorClass = $_sErrorCss;
 				break;
 
 			case self::UI_DEFAULT:
 			default:
 				$_sContainerClass = 'ps-edit-container';
-				$_sContentClass = 'yiiForm';
+				$_sContentClass = $_formClass;
 				PS::$errorCss = $_sErrorClass = 'ps-validate-error';
 				break;
 		}
@@ -1249,7 +1254,7 @@ CSS;
 		
 		//	Make sure current form id is set if we have it...
 		$arHtmlOptions['formId'] = PS::o( $arHtmlOptions, 'formId', self::$m_sCurrentFormId );
-		if ( trim( PS::$afterRequiredLabel ) ) $_sLegend = '<span class="ps-form-legend"><span class="required">' . PS::$afterRequiredLabel . '</span> denotes required fields</span>';
+		if ( trim( self::$afterRequiredLabel ) ) $_sLegend = '<span class="ps-form-legend"><span class="required">' . self::$afterRequiredLabel . '</span> denotes required fields</span>';
 
 		return self::beginButtonBar( $arHtmlOptions ) . $_sLegend . self::submitButton( $sLabel, $arHtmlOptions ) . self::endButtonBar();
 	}
@@ -1755,13 +1760,14 @@ HTML;
 					break;
 
 				case self::DD_DATA_LOOKUP:
-					$_sId = PS::o( $arHtmlOptions, 'id' );
-					$_sName = PS::o( $arHtmlOptions, 'name' );
-					$_sModel = PS::o( $arHtmlOptions, 'model' );
+					$_sId = PS::o( $arHtmlOptions, 'dataId', null, true );
+					$_sName = PS::o( $arHtmlOptions, 'dataName', null, true );
+					$_sModel = PS::o( $arHtmlOptions, 'dataModel', null, true );
+					$_condition = PS::o( $arHtmlOptions, 'dataCondition', null, true );
 
 					if ( $_sId && $_sName && $_sModel )
 					{
-						if ( $_arModels = $_sModel::model()->findAll( array( 'select' => $_sId . ',' . $_sName ) ) )
+						if ( $_arModels = $_sModel::model()->findAll( array( 'select' => $_sId . ',' . $_sName, 'condition' => $_condition ) ) )
 						{
 							foreach ( $_arModel as $_oModel )
 								$_ardata[ $_oModel->getAttribute( $_sId ) ] = $_oModel->getAttribute( $_sName );
