@@ -168,6 +168,8 @@ abstract class CPSConsoleCommand extends CPSComponent
 			else
 				$_sContent = file_get_contents( $_sSource );
 
+			ob_flush();
+
 			if ( is_file( $_sTarget ) )
 			{
 				if ( ! $this->force && $_sContent === file_get_contents( $_sTarget ) )

@@ -83,12 +83,13 @@ abstract class CPSController extends CController implements IPSBase
 	* @access protected
 	*/
 	protected $m_sModelName = null;
+	protected $_modelName = null;
 	public function getModelName() { return $this->m_sModelName; }
-	protected function setModelName( $sValue )
+	protected function setModelName( $value )
 	{
-		$this->m_sModelName = $sValue;
-		$this->m_sSearchStateId = 'PS_' . strtoupper( $this->modelName ) . '_SEARCH_CRIT';
-		$this->m_arCurrentSearchCriteria = Yii::app()->user->getState( $this->m_sSearchStateId );
+		$this->_modelName = $this->m_sModelName = $value;
+		$this->m_sSearchStateId = 'PS_' . strtoupper( $value ) . '_SEARCH_CRIT';
+		$this->m_arCurrentSearchCriteria = PS::_gs( $this->m_sSearchStateId );
 	}
 
 	/**
@@ -243,7 +244,7 @@ abstract class CPSController extends CController implements IPSBase
 		parent::init();
 
 		//	Find layout...
-		if ( $this->m_bAutoLayout && ! Yii::app() instanceof CConsoleApplication ) if ( file_exists( Yii::app()->getBasePath() . '/views/layouts/' . $this->getId() . '.php' ) ) $this->_pageLayout = $this->getId();
+		if ( PHP_SAPI != 'cli' && $this->m_bAutoLayout && ! Yii::app() instanceof CConsoleApplication ) if ( file_exists( Yii::app()->getBasePath() . '/views/layouts/' . $this->getId() . '.php' ) ) $this->_pageLayout = $this->getId();
 
 		//	Allow errors
 		$this->addUserAction( self::ACCESS_TO_ANY, 'error' );
