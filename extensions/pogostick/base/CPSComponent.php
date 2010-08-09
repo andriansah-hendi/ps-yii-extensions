@@ -66,14 +66,21 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 	/**
 	* Constructs a component.
 	*/
-	public function __construct( $arConfig = array() )
+	public function __construct( $config = array() )
 	{
-		//	No parent constructor
+		//	Set any properties via standard config array
+		foreach ( $config as $_key => $_value)
+		{
+			//	Don't do anything that would trigger an exception...
+			if ( $this->hasProperty( $_key ) )
+				$this->{$_key} = $_value;
+			else if ( method_exists( $this, 'set' . $_key ) )
+				$this->{'set' . $_key} = $_value;
+			else if ( property_exists( $this, '_' . $_key ) )
+				$this->{'_' . $_key} = $_value;
+		}
 
-		//	Log it and check for issues...
-//		CPSLog::trace( 'pogostick.base', '{class} constructed', array( "{class}" => get_class( $this ) ) );
-
-		//	Preinitialize
+		//	Preinitialize, called before afterConstruct
 		$this->preinit();
 	}
 
@@ -170,19 +177,22 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 	 */
 	public function __get( $sName )
 	{
-		//	Ours?
-		if ( $this->hasProperty( $sName ) )
-			return $this->{$sName};
-
-		//	Then behaviors
-		foreach ( $this->m_arBehaviorCache as $_sBehavior )
+		try
 		{
-			if ( ( $_oBehave = $this->asa( $_sBehavior ) ) instanceof IPSOptionContainer && $_oBehave->contains( $sName ) )
-				return $_oBehave->getValue( $sName );
+			parent::__get( $name, $value );
 		}
+		catch ( CException $_ex )
+		{
+			//	Didn't work. Try our behavior cache...
+			foreach ( $this->m_arBehaviorCache as $_behaviorName )
+			{
+				if ( ( $_behavior = $this->asa( $_behaviorName ) ) instanceof IPSOptionContainer && $_behavior->contains( $name ) )
+					return $_behavior->getValue( $name, $value );
+			}
 
-		//	Try daddy...
-		return parent::__get( $sName );
+			//	If we get here, then bubble the exception...
+			throw $_ex;
+		}
 	}
 
 	/**
@@ -192,21 +202,24 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 	 * @throws CException if the property/event is not defined or the property is read only.
 	 * @see __get
 	 */
-	public function __set( $sName, $oValue )
+	public function __set( $name, $value )
 	{
-		//	Ours?
-		if ( $this->hasProperty( $sName ) )
-			return $this->{$sName} = $oValue;
-
-		//	Then behaviors
-		foreach ( $this->m_arBehaviorCache as $_sBehavior )
+		try
 		{
-			if ( ( $_oBehave = $this->asa( $_sBehavior ) ) instanceof IPSOptionContainer && $_oBehave->contains( $sName ) )
-				return $_oBehave->setValue( $sName, $oValue );
+			parent::__set( $name, $value );
 		}
+		catch ( CException $_ex )
+		{
+			//	Didn't work. Try our behavior cache...
+			foreach ( $this->m_arBehaviorCache as $_behaviorName )
+			{
+				if ( ( $_behavior = $this->asa( $_behaviorName ) ) instanceof IPSOptionContainer && $_behavior->contains( $name ) )
+					return $_behavior->setValue( $name, $value );
+			}
 
-		//	Let parent take a stab. He'll check getter/setters and Behavior methods
-		return parent::__set( $sName, $oValue );
+			//	If we get here, then bubble the exception...
+			throw $_ex;
+		}
 	}
 
 	/**
