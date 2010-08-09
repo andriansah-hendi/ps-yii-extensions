@@ -70,6 +70,12 @@ class CPSHelperBase extends CHtml implements IPSBase
 	protected static $_thisApp = null;
 
 	/**
+	 * Cache the current request
+	 * @var CHttpRequest
+	 */
+	protected static $_thisRequest = null;
+
+	/**
 	* Cache the client script object for speed
 	* @static CClientScript
 	*/
@@ -103,6 +109,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 		self::$_thisApp = Yii::app();
 		self::$_clientScript = self::$_thisApp->getClientScript();
 		self::$_thisUser = self::$_thisApp->getUser();
+		self::$_thisRequest = self::$_thisApp->getRequest();
 	}
 
 	/**
@@ -686,9 +693,9 @@ class CPSHelperBase extends CHtml implements IPSBase
 	* @access public
 	* @static
 	*/
-	public static function registerScriptFile( $url, $ePosition = self::POS_HEAD, $published = false )
+	public static function registerScriptFile( $url, $ePosition = self::POS_HEAD, $fromPublished = false )
 	{
-		return self::_rsf( $url, $ePosition, $published );
+		return self::_rsf( $url, $ePosition, $fromPublished );
 	}
 
 	/**
@@ -714,7 +721,9 @@ class CPSHelperBase extends CHtml implements IPSBase
 		foreach ( $urlList as $_url )
 		{
 			if ( $_url[0] != '/' && $fromPublished ) $_url = $_prefix . $_url;
-			self::$_clientScript->registerScriptFile( $_url, $pagePosition );
+
+			if ( ! self::$_clientScript->isScriptFileRegistered( $_url ) )
+				self::$_clientScript->registerScriptFile( $_url, $pagePosition );
 		}
 	}
 
@@ -727,9 +736,9 @@ class CPSHelperBase extends CHtml implements IPSBase
 	* @access public
 	* @static
 	*/
-	public static function registerCssFile( $url, $media = '', $published = false )
+	public static function registerCssFile( $url, $media = '', $fromPublished = false )
 	{
-		return self::_rcf( $url, $media, $published );
+		return self::_rcf( $url, $media, $fromPublished );
 	}
 
 	/**
@@ -740,11 +749,18 @@ class CPSHelperBase extends CHtml implements IPSBase
 	* @access public
 	* @static
 	*/
-	public static function _rcf( $url, $media = '', $published = false )
+	public static function _rcf( $urlList, $media = '', $fromPublished = false )
 	{
-		//	Need external library?
-		if ( $published ) $url = PS::getExternalLibraryUrl() . DIRECTORY_SEPARATOR . trim( $url, '/' );
-		return self::$_clientScript->registerCssFile( $url, $media );
+		if ( ! is_array( $urlList ) ) $urlList = array( $urlList );
+		$_prefix = ( $fromPublished ? PS::getExternalLibraryUrl() . DIRECTORY_SEPARATOR : null );
+
+		foreach ( $urlList as $_url )
+		{
+			if ( $_url[0] != '/' && $fromPublished ) $_url = $_prefix . $_url;
+
+			if ( ! self::$_clientScript->isCssFileRegistered( $_url ) )
+				self::$_clientScript->registerCssFile( $_url, $media );
+		}
 	}
 
 	/**
@@ -755,11 +771,18 @@ class CPSHelperBase extends CHtml implements IPSBase
 	* @access public
 	* @static
 	*/
-	public static function _rlcf( $url, $media = '', $published = false )
+	public static function _rlcf( $urlList, $media = '', $fromPublished = false )
 	{
-		//	Need external library?
-		if ( $published ) $url = Yii::getPathOfAlias('views.layouts') . DIRECTORY_SEPARATOR . trim( $url, '/' );
-		return self::$_clientScript->registerCssFile( $url, $media );
+		if ( ! is_array( $urlList ) ) $urlList = array( $urlList );
+		$_prefix = ( $fromPublished ? Yii::getPathOfAlias('views.layouts') . DIRECTORY_SEPARATOR : null );
+
+		foreach ( $urlList as $_url )
+		{
+			if ( $_url[0] != '/' && $fromPublished ) $_url = $_prefix . $_url;
+
+			if ( ! self::$_clientScript->isCssFileRegistered( $_url ) )
+				self::$_clientScript->registerCssFile( $_url, $media );
+		}
 	}
 
 	/**
@@ -787,7 +810,8 @@ class CPSHelperBase extends CHtml implements IPSBase
 	*/
 	public static function _rc( $sId = null, $sCss, $media = '' )
 	{
-		return self::$_clientScript->registerCss( PS::nvl( $sId, CPSWidgetHelper::getWidgetId() ), $sCss, $media );
+		if ( ! self::$_clientScript->isCssRegistered( $sId ) )
+			return self::$_clientScript->registerCss( PS::nvl( $sId, CPSWidgetHelper::getWidgetId() ), $sCss, $media );
 	}
 
 	/**
@@ -829,7 +853,8 @@ class CPSHelperBase extends CHtml implements IPSBase
 	*/
 	public static function _rs( $sId = null, $sScript, $ePosition = CClientScript::POS_READY )
 	{
-		self::$_clientScript->registerScript( PS::nvl( $sId, CPSWidgetHelper::getWidgetId() ), $sScript, $ePosition );
+		if ( ! self::$_clientScript->isScriptRegistered( $sId ) )
+			self::$_clientScript->registerScript( PS::nvl( $sId, CPSWidgetHelper::getWidgetId() ), $sScript, $ePosition );
 	}
 
 	/**
@@ -875,6 +900,39 @@ class CPSHelperBase extends CHtml implements IPSBase
 	}
 
 	/**
+	 * Returns the current request. Equivalent of {@link CApplication::getRequest}
+	 * @see CApplication::getRequest
+	 * @return CHttpRequest
+	 */
+	public static function getRequest() { return $this::_gr(); }
+	public static function _gr()
+	{
+		return self::$_thisRequest;
+	}
+
+	/**
+	 * Returns the current user. Equivalent of {@link CWebApplication::getUser}
+	 * @see CWebApplication::getUser
+	 * @return CUserIdentity
+	 */
+	public static function getUser() { return $this::_gu(); }
+	public static function _gu()
+	{
+		return self::$_thisUser;
+	}
+
+	/**
+	 * Returns the current user. Equivalent of {@link CWebApplication::getUser}
+	 * @see CWebApplication::getUser
+	 * @return CUserIdentity
+	 */
+	public static function getParam( $paramName ) { return $this::_gp( $paramName ); }
+	public static function _gp( $paramName )
+	{
+		return self::$_thisApp->params[ $paramName ];
+	}
+
+	/**
 	 * Convenience access to CAssetManager::publish()
 	 *
 	 * Publishes a file or a directory.
@@ -915,7 +973,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 */
 	public static function redirect( $url, $bTerminate = true, $iStatusCode = 302 )
 	{
-		self::$_thisApp->getRequest()->redirect( $url, $bTerminate, $iStatusCode );
+		self::$_thisRequest->redirect( $url, $bTerminate, $iStatusCode );
 	}
 
 	/**

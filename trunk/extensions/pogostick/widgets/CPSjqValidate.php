@@ -29,7 +29,7 @@ class CPSjqValidate extends CPSjQueryWidget
 	* The name of this widget
 	*/
 	const PS_WIDGET_NAME = 'validate';
-	
+
 	/**
 	* The path where the assets for this widget are stored (underneath the psYiiExtensions/external base
 	* Currently, a CDN is in use and no local files are required...
@@ -126,7 +126,7 @@ class CPSjqValidate extends CPSjQueryWidget
 		PS::_rs( '#psValidate.validator.addMethod#', $_sValidate );
 		
 		$this->script =<<<CODE
-$('{$_sId}').validate({$_arOptions});
+var _psValidator = $('{$_sId}').validate({$_arOptions});
 CODE;
 
 		return $this->script;

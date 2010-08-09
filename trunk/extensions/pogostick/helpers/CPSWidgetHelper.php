@@ -1064,7 +1064,7 @@ CSS;
 	 * @since 1.0.6
 	 * @see endForm
 	 */
-	public static function beginFormEx( $arFormOptions = array() )
+	public static function beginFormEx( &$arFormOptions = array() )
 	{
 		//	Make sure we have a form id...
 		if ( ! isset( $arFormOptions['id'] ) ) $arFormOptions['id'] = 'ps-edit-form';
@@ -1075,15 +1075,14 @@ CSS;
 		$_sMethod = PS::o( $arFormOptions, 'method', 'POST', true );
 		$_bSetPageTitle = PS::o( $arFormOptions, 'setPageTitle', true, true );
 		$_sErrorCss = PS::o( $arFormOptions, 'errorCss', 'ui-state-error' );
-		$_formClass = PS::o( $arFormOptions, 'formClass', 'yiiForm' );
+		$_formClass = PS::o( $arFormOptions, 'formClass', 'yiiForm', true );
+		$_formHeader = PS::o( $arFormOptions, 'formHeader', null, true );
 
 		//	Register form CSS if desired...
-		foreach ( PS::o( $arFormOptions, 'cssFiles', array( '/css/form.css' ), true ) as $_sFile )
-			PS::_rcf( $_sFile );
+		PS::_rcf( PS::o( $arFormOptions, 'cssFiles', array(), true ) );
 
 		//	And scripts
-		foreach ( PS::o( $arFormOptions, 'scriptFiles', array(), true ) as $_sFile )
-			PS::_rsf( $_sFile );
+		PS::_rsf( PS::o( $arFormOptions, 'scriptFiles', array(), true ) );
 
 		//	What type of form?
 		switch ( $_eUIStyle )
@@ -1115,21 +1114,21 @@ CSS;
 		$_sOut = null;
 
 		//	Form header info...
-		if ( $_sFormHeader = PS::o( $arFormOptions, 'formHeader', null, true ) )
+		if ( $_formHeader )
 		{
 			//	Page title...
-			if ( $_bSetPageTitle ) Yii::app()->getController()->pageTitle = Yii::app()->name . ' : ' . $_sFormHeader;
+			if ( $_bSetPageTitle ) Yii::app()->getController()->pageTitle = Yii::app()->name . ' : ' . $_formHeader;
 
 			//	Form title...
-			$_sFormHeaderTag = PS::o( $arFormOptions, 'formHeaderTag', 'H1', true );
+			$_formHeaderTag = PS::o( $arFormOptions, 'formHeaderTag', 'H1', true );
 			$_arFormHeaderOptions = PS::o( $arFormOptions, 'formHeaderOptions', array(), true );
-			$_sOut .= PS::tag( $_sFormHeaderTag, $_arFormHeaderOptions, $_sFormHeader );
+			$_sOut .= PS::tag( $_formHeaderTag, $_arFormHeaderOptions, $_formHeader );
 
-			if ( $_sFormHeaderContent = PS::o( $arFormOptions, 'formHeaderContent', null, true ) )
+			if ( $_formHeaderContent = PS::o( $arFormOptions, 'formHeaderContent', null, true ) )
 			{
-				$_sFormHeaderContentTag = PS::o( $arFormOptions, 'formHeaderContentTag', 'DIV', true );
+				$_formHeaderContentTag = PS::o( $arFormOptions, 'formHeaderContentTag', 'DIV', true );
 				$_arFormHeaderContentOptions = PS::o( $arFormOptions, 'formHeaderContentOptions', array(), true );
-				$_sOut .= PS::tag( $_sFormHeaderContentTag, $_arFormHeaderContentOptions, $_sFormHeaderContent );
+				$_sOut .= PS::tag( $_formHeaderContentTag, $_arFormHeaderContentOptions, $_formHeaderContent );
 			}
 		}
 
@@ -1590,8 +1589,14 @@ HTML;
 	public static function errorSummary( $oModel, $sHeader = null, $sFooter = null, $arHtmlOptions = array() )
 	{
 		$_sContent = null;
+		$_errorCount = 0;
 		$_arModel = $oModel;
 		$_bNoIcon = PS::o( $arHtmlOptions, 'noIcon', false, true );
+		$_iconClass = PS::o( $arHtmlOptions, 'errorIconClass', null, true );
+		$_headerTag = PS::o( $arHtmlOptions, 'headerTag', 'strong', true );
+		$_errorListClass = PS::o( $arHtmlOptions, 'errorListClass', null, true );
+		$_singleErrorListClass = PS::o( $arHtmlOptions, 'singleErrorListClass', $_errorListClass, true );
+
 		self::$errorSummaryCss = 'ps-error-summary ui-state-error';
 
 		if ( ! is_array( $_arModel ) ) $_arModel = array( $oModel );
@@ -1603,17 +1608,30 @@ HTML;
 			foreach ( $_arError as $_oError )
 			{
 				foreach ( $_oError as $_sError )
-					if ( ! empty( $_sError ) ) $_sContent .= PS::tag( 'li', array(), $_sError );
+				{
+					if ( ! empty( $_sError ) )
+					{
+						$_sContent .= PS::tag( 'li', array(), $_sError );
+						$_errorCount++;
+					}
+				}
 			}
 		}
 
 		if ( $_sContent !== null )
 		{
-			$_sIcon = ( ! $_bNoIcon ) ? '<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>' : null;
-			if ( ! $sHeader ) $sHeader = self::tag( 'strong', array(), Yii::t( 'yii', 'Please fix the following input errors:' ) );
+			if ( ! $_iconClass ) 
+				$_sIcon = ( ! $_bNoIcon ) ? '<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>' : null;
+			else
+				$_sIcon = '<span class="' . $_iconClass . '" style="float: left; margin-right: .3em;"></span>';
+
+			if ( null === $sHeader ) $sHeader = self::tag( $_headerTag, array(), Yii::t( 'yii', 'Please fix the following input errors:' ) );
+
+			//	Different class for single errors perhaps?
+			if ( $_errorCount == 1 ) $_errorListClass = $_singleErrorListClass;
 
 			$arHtmlOptions['class'] = PS::o( $arHtmlOptions, 'class', self::$errorSummaryCss, true );
-			return self::tag( 'div', $arHtmlOptions, $_sIcon . $sHeader . self::tag( 'ul', array(), $_sContent ) ) . $sFooter;
+			return self::tag( 'div', $arHtmlOptions, $_sIcon . $sHeader . self::tag( 'ul', array( 'class' => $_errorListClass ), $_sContent ) ) . $sFooter;
 		}
 	}
 

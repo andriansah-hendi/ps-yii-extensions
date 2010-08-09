@@ -48,7 +48,7 @@ class CPSForm implements IPSBase
 	* @return string
 	* @todo document this function
 	*/
-	public static function create( $arOptions = array() )
+	public static function create( &$arOptions = array() )
 	{
 		$_bHaveButtonBar = false;
 
@@ -61,6 +61,8 @@ class CPSForm implements IPSBase
 		$_bShowDates = PS::o( $arOptions, 'showDates', true, true );
 		$_bValidate = PS::o( $arOptions, 'validate', false );
 		$_bErrorSummary = PS::o( $arOptions, 'errorSummary', true, true );
+		$_errorSummaryOptions = PS::o( $arOptions, 'errorSummaryOptions', array(), true );
+		$_errorSummaryHeader = PS::o( $_errorSummaryOptions, 'header', null, true );
 		$_sFormId = PS::o( $arOptions, 'id', 'ps-edit-form' );
 		$_eUIStyle = PS::o( $arOptions, 'uiStyle', PS::UI_DEFAULT );
 		if ( ! isset( $arOptions['name'] ) ) $arOptions['name'] = $_sFormId;
@@ -73,7 +75,7 @@ class CPSForm implements IPSBase
 		
 		//	Error summary wanted?
 		if ( $_oModel && $_bErrorSummary )
-			$_sOut .= PS::errorSummary( $_oModel );
+			$_sOut .= PS::errorSummary( $_oModel, $_errorSummaryHeader, null, $_errorSummaryOptions );
 			
 		//	Now create form fields...
 		foreach ( $_arFields as $_arValue )
