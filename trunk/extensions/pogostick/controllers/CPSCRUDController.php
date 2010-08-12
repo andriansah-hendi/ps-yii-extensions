@@ -30,9 +30,25 @@ abstract class CPSCRUDController extends CPSController
 	*
 	* @var string
 	*/
-	protected $m_sLoginFormClass = null;
-	public function getLoginFormClass() { return PS::nvl( $this->m_sLoginFormClass, 'LoginForm' ); }
-	public function setLoginFormClass( $sValue ) { $this->m_sLoginFormClass = $sValue; }
+	protected $_loginFormClass = null;
+	public function getLoginFormClass() { return PS::nvl( $this->_loginFormClass, 'LoginForm' ); }
+	public function setLoginFormClass( $value ) { $this->_loginFormClass = $value; }
+
+	/***
+	 * Mimic Gii's breadcrumbs property
+	 * @var array
+	 */
+	protected $_breadcrumbs = array();
+	public function getBreadcrumbs() { return $this->_breadcrumbs; }
+	public function setBreadcrumbs( $value ) { $this->_breadcrumbs = $value; }
+
+	/***
+	 * Mimic Gii's menu property
+	 * @var array
+	 */
+	protected $_menu = array();
+	public function getMenu() { return $this->_menu; }
+	public function setMenu( $value ) { $this->_menu = $value; }
 
 	//********************************************************************************
 	//* Public Methods
@@ -56,7 +72,7 @@ abstract class CPSCRUDController extends CPSController
 		//	Set our access rules..
 		$this->addUserAction( self::ACCESS_TO_ALL, 'error' );
 		$this->addUserActions( self::ACCESS_TO_GUEST, array( 'login', 'show', 'list', 'contact' ) );
-		$this->addUserActions( self::ACCESS_TO_AUTH, array( 'login', 'logout', 'admin', 'create', 'delete', 'update', 'index' ) );
+		$this->addUserActions( self::ACCESS_TO_AUTH, array( 'login', 'logout', 'admin', 'create', 'delete', 'update', 'index', 'view' ) );
 	}
 
 	/**
@@ -81,19 +97,20 @@ abstract class CPSCRUDController extends CPSController
 	*/
 	public function accessRules()
 	{
-		static $_arRules;
-		static $_bInit;
+		static $_ruleList;
+		static $_isInitialized;
 
-		if ( Yii::app() instanceof CConsoleApplication ) return array();
+		//	Console apps can bypass this...
+		if ( PS::_a() instanceof CConsoleApplication ) return array();
 
 		//	Build access rule array...
-		if ( ! isset( $_bInit ) )
+		if ( ! isset( $_isInitialized ) )
 		{
-			$_arRules = array();
+			$_ruleList = array();
 
 			for ( $_i = 0; $_i <= self::ACCESS_TO_NONE; $_i++ )
 			{
-				$_sVerb = $_sValid = null;
+				$_theVerb = $_validMatch = null;
 
 				//	Get the user type
 				switch ( $_i )
@@ -101,51 +118,51 @@ abstract class CPSCRUDController extends CPSController
 					case self::ACCESS_TO_ALL:
 					case self::ACCESS_TO_ANY:
 					case self::ACCESS_TO_ANON:
-						$_sVerb = 'allow';
-						$_sValid = '*';
+						$_theVerb = 'allow';
+						$_validMatch = '*';
 						break;
 
 					case self::ACCESS_TO_GUEST:
-						$_sVerb = 'allow';
-						$_sValid = '?';
+						$_theVerb = 'allow';
+						$_validMatch = '?';
 						break;
 
 					case self::ACCESS_TO_AUTH:
-						$_sVerb = 'allow';
-						$_sValid = '@';
+						$_theVerb = 'allow';
+						$_validMatch = '@';
 						break;
 
 					case self::ACCESS_TO_ADMIN:
-						$_sVerb = 'allow';
-						$_sValid = 'admin';
+						$_theVerb = 'allow';
+						$_validMatch = 'admin';
 						break;
 
 					case self::ACCESS_TO_NONE:
-						$_sVerb = 'deny';
-						$_sValid = '*';
+						$_theVerb = 'deny';
+						$_validMatch = '*';
 						break;
 				}
 
 				//	Add to rules array
-				if ( $_sVerb && $_sValid )
+				if ( $_theVerb && $_validMatch )
 				{
-					$_arTemp = array(
-						$_sVerb,
+					$_tempList = array(
+						$_theVerb,
 						'actions' => PS::o( $this->m_arUserActionList, $_i ),
-						'users' => array( $_sValid )
+						'users' => array( $_validMatch )
 					);
 
-					if ( $_arTemp['actions'] == null ) unset( $_arTemp['actions'] );
+					if ( $_tempList['actions'] == null ) unset( $_tempList['actions'] );
 
-					$_arRules[] = $_arTemp;
+					$_ruleList[] = $_tempList;
 				}
 			}
 
-			$_bInit = true;
+			$_isInitialized = true;
 		}
 
 		//	Return the rules...
-		return $_arRules;
+		return $_ruleList;
 	}
 
 	//********************************************************************************
@@ -193,25 +210,35 @@ abstract class CPSCRUDController extends CPSController
 	*
 	* @param array If specified, also passed to the view.
 	*/
-	public function actionCreate( $arExtraParams = array() )
+	public function actionCreate( $options = array() )
 	{
-		$_oModel = new $this->m_sModelName;
-		if ( Yii::app()->request->isPostRequest ) $this->saveModel( $_oModel, $_POST, 'update' );
-		$this->genericAction( 'create', $_oModel, $arExtraParams );
+		$_model = new $this->m_sModelName;
+		if ( Yii::app()->request->isPostRequest ) $this->saveModel( $_model, $_POST, 'update' );
+		$this->genericAction( 'create', $_model, $options );
 	}
 
 	/**
 	* Update the model
 	*
 	*/
-	public function actionUpdate( $arExtraParams = array() )
+	public function actionUpdate( $options = array() )
 	{
-		$_oModel = $this->loadModel();
+		$_model = $this->loadModel();
 		if ( Yii::app()->request->isPostRequest )
 		{
-			$this->saveModel( $_oModel, $_POST, 'update' );
+			$this->saveModel( $_model, $_POST, 'update' );
 		}
-		$this->genericAction( 'update', $_oModel, $arExtraParams );
+		$this->genericAction( 'update', $_model, $options );
+	}
+
+	/**
+	* View the model
+	*
+	*/
+	public function actionView( $options = array() )
+	{
+		$_model = $this->loadModel();
+		$this->genericAction( 'view', $_model, $options );
 	}
 
 	/**
@@ -245,10 +272,10 @@ abstract class CPSCRUDController extends CPSController
 	/**
 	* Manages all models.
 	*/
-	public function actionAdmin( $arExtraParams = array(), $oCriteria = null )
+	public function actionAdmin( $options = array(), $oCriteria = null )
 	{
 		if ( $this->m_sModelName ) @list( $_arModels, $_oCrit, $_oPage, $_oSort ) = $this->loadPaged( true, $oCriteria );
-		$this->render( 'admin', array_merge( $arExtraParams, array( 'models' => $_arModels, 'pages' => $_oPage, 'sort' => $_oSort ) ) );
+		$this->render( 'admin', array_merge( $options, array( 'models' => $_arModels, 'pages' => $_oPage, 'sort' => $_oSort ) ) );
 	}
 
 	//********************************************************************************

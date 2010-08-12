@@ -38,6 +38,9 @@ class CPSWidgetHelper extends CPSHelperBase
 	 * A prefix for generated ids
 	 */
 	const ID_PREFIX = 'pye';
+	const STD_JQUI_FORM_CONTAINER_CLASS = 'ui-edit-container ui-widget-content';
+	const STD_FORM_CONTAINER_CLASS = 'ps-edit-form';
+	const STD_FORM_CLASS = 'yiiForm';
 
 	/**
 	* These are a list of form elements that can be used along with the methods in this class.
@@ -332,8 +335,8 @@ class CPSWidgetHelper extends CPSHelperBase
 			$arOptions['transform'] = '*';
 			$arOptions['name'] = $arOptions['id'] = 'disp_' . self::getNextIdCount() . '_' . $sColName;
 			$arOptions['class'] = PS::addClass( $arOptions['class'], 'ps-text-display' );
-			$_sOut = PS::activeHiddenField( $oModel, $sColName );
-			$_sOut .= PS::field( $eFieldType, $oModel, $sColName, $arOptions );
+			$_output = PS::activeHiddenField( $oModel, $sColName );
+			$_output .= PS::field( $eFieldType, $oModel, $sColName, $arOptions );
 		}
 		else if ( $eFieldType == PS::MULTISELECT )
 		{
@@ -392,7 +395,7 @@ class CPSWidgetHelper extends CPSHelperBase
 				$arOptions[ 'class' ] = self::$m_sOffClass;
 
 			if ( null == $oModel )
-				$_sOut = self::label( $_sLabel, $arOptions[ 'id' ], $_arLabelOptions );
+				$_output = self::label( $_sLabel, $arOptions[ 'id' ], $_arLabelOptions );
 			else
 			{
 				//	Set label name
@@ -400,16 +403,16 @@ class CPSWidgetHelper extends CPSHelperBase
 					$_arLabelOptions['label'] = false;
 				else
 					$_arLabelOptions['label'] = PS::nvl( $_sLabel, PS::nvl( $oModel->getAttributeLabel( $sColName ), $sColName ) ) . $_sSuffixToUse;
-				$_sOut = ( $eFieldType == PS::TEXT_DISPLAY ? self::activeLabel( $oModel, $sColName, $_arLabelOptions ) : self::activeLabelEx( $oModel, $sColName, $_arLabelOptions ) );
+				$_output = ( $eFieldType == PS::TEXT_DISPLAY ? self::activeLabel( $oModel, $sColName, $_arLabelOptions ) : self::activeLabelEx( $oModel, $sColName, $_arLabelOptions ) );
 			}
 
 			//	Do a value transform if requested
 			if ( $_sTransform && $oModel ) $oModel->{$sColName} = CPSTransform::valueOf( $_sTransform, $oModel->$sColName );
 
 			//	Build our field
-			$_sOut .= $_sPrependHtml;
-			$_sOut .= ( null !== $_sContent ) ? $_sContent : self::activeField( $eFieldType, $oModel, $sColName, $arOptions, $_arWidgetOptions, $_arData );
-			$_sOut .= $_sHtml;
+			$_output .= $_sPrependHtml;
+			$_output .= ( null !== $_sContent ) ? $_sContent : self::activeField( $eFieldType, $oModel, $sColName, $arOptions, $_arWidgetOptions, $_arData );
+			$_output .= $_sHtml;
 
 			//	Construct the div...
 			$_arDivOpts = array_merge(
@@ -424,7 +427,7 @@ class CPSWidgetHelper extends CPSHelperBase
 		//	Any hints?
 		if ( $_sHint ) $_sHint = str_ireplace( '%%HINT%%', $_sHint, self::$m_sHintTemplate );
 
-		return PS::tag( self::$m_sFormFieldContainer, $_arDivOpts, $_sOut . $_sHint );
+		return PS::tag( self::$m_sFormFieldContainer, $_arDivOpts, $_output . $_sHint );
 	}
 
 	/**
@@ -547,25 +550,25 @@ class CPSWidgetHelper extends CPSHelperBase
 				$_sValueColumn = PS::o( $arHtmlOptions, 'valueColumn' );
 
 				//	Insert text field...
-				$_sOut = PS::textField( $arHtmlOptions['name'], $_oValue, array( 'id' => $arHtmlOptions['id'] ) );
+				$_output = PS::textField( $arHtmlOptions['name'], $_oValue, array( 'id' => $arHtmlOptions['id'] ) );
 
 				//	Create menu...
-				$_sOut .= CPSTransform::asUnorderedList( $arData, array( 'class' => 'mcdropdown_menu', 'valueColumn' => $_sValueColumn, 'linkText' => false, 'id' => $_sTargetMenu ) );
+				$_output .= CPSTransform::asUnorderedList( $arData, array( 'class' => 'mcdropdown_menu', 'valueColumn' => $_sValueColumn, 'linkText' => false, 'id' => $_sTargetMenu ) );
 
 				$arWidgetOptions['target'] = $_sTarget;
 				$arWidgetOptions['targetMenu'] = $_sTargetMenu;
 
 				CPSMcDropdownWidget::create( null, $arWidgetOptions );
-				return $_sBeforeHtml . $_sOut . $_sAppendHtml;
+				return $_sBeforeHtml . $_output . $_sAppendHtml;
 
 			//	Build a Filament Group menu
 			case self::FG_MENU:
 				ob_start();
 				$arWidgetOptions[ 'prompt' ] = PS::o( $arHtmlOptions, 'prompt', 'Select One...', true );
 				CPSfgMenu::create( null, $arWidgetOptions );
-				$_sOut = ob_get_contents();
+				$_output = ob_get_contents();
 				ob_end_clean();
-				return $_sBeforeHtml . $_sOut . $_sAppendHtml;
+				return $_sBeforeHtml . $_output . $_sAppendHtml;
 
 			//	Default for text field
 			case self::TEXT:
@@ -746,9 +749,9 @@ class CPSWidgetHelper extends CPSHelperBase
 				ob_start();
 				$arWidgetOptions[ 'prompt' ] = PS::o( $arHtmlOptions, 'prompt', 'Select One...', true );
 				CPSfgMenu::create( null, $arWidgetOptions );
-				$_sOut = ob_get_contents();
+				$_output = ob_get_contents();
 				ob_end_clean();
-				return $_sBeforeHtml . $_sOut . $_sAppendHtml;
+				return $_sBeforeHtml . $_output . $_sAppendHtml;
 
 			//	Default for text field
 			case self::TEXT:
@@ -993,11 +996,11 @@ CSS;
 	*/
 	public static function dropDown( $eType, $sName, $sLabel = null, $arOptions = array() )
 	{
-		$_sOut = null;
+		$_output = null;
 		$_sValue = PS::o( $arOptions, 'value', null, true );
 		$_sLabelClass = PS::o( $arOptions, 'labelClass', null, true );
 
-		if ( $sLabel ) $_sOut = self::label( $sLabel, $sName, $arOptions );
+		if ( $sLabel ) $_output = self::label( $sLabel, $sName, $arOptions );
 
 		if ( null == ( $_arOptions = self::getGenericDropDownValues( $eType, $arOptions ) ) )
 			return false;
@@ -1015,10 +1018,10 @@ CSS;
 			}
 
 			$arOptions['name'] = $sName;
-			$_sOut .= self::tag( 'SELECT', $arOptions, $_sInner );
+			$_output .= self::tag( 'SELECT', $arOptions, $_sInner );
 		}
 
-		return $_sOut;
+		return $_output;
 	}
 
 	/**
@@ -1034,13 +1037,13 @@ CSS;
 	 */
 	public static function beginForm( $sAction = '', $sMethod = 'POST', $arHtmlOptions = array() )
 	{
-		$_arValidateOptions = PS::o( $arHtmlOptions, 'validateOptions', array(), true );
+		$_validListateOptions = PS::o( $arHtmlOptions, 'validateOptions', array(), true );
 
 		if ( PS::o( $arHtmlOptions, 'validate', false, true ) )
 		{
 			self::$m_bValidating = true;
-			if ( ! isset( $_arValidateOptions['target'] ) ) $_arValidateOptions['target'] = self::getFormSelector( $arHtmlOptions );
-			CPSjqValidate::create( null, $_arValidateOptions );
+			if ( ! isset( $_validListateOptions['target'] ) ) $_validListateOptions['target'] = self::getFormSelector( $arHtmlOptions );
+			CPSjqValidate::create( null, $_validListateOptions );
 		}
 
 		if ( PS::o( $arHtmlOptions, 'selectmenu', false, true ) )
@@ -1059,86 +1062,85 @@ CSS;
 	 * Generates an opening form tag.
 	 * Note, only the open tag is generated. A close tag should be placed manually
 	 * at the end of the form.
-	 * @param array $arFormOptions The options for building this form
+	 * @param array $formOptions The options for building this form
 	 * @return string the generated form tag.
 	 * @since 1.0.6
 	 * @see endForm
 	 */
-	public static function beginFormEx( &$arFormOptions = array() )
+	public static function beginFormEx( &$formOptions = array() )
 	{
 		//	Make sure we have a form id...
-		if ( ! isset( $arFormOptions['id'] ) ) $arFormOptions['id'] = 'ps-edit-form';
+		if ( ! isset( $formOptions['id'] ) ) $formOptions['id'] = 'ps-edit-form';
 
 		//	Get the rest of our options
-		$_eUIStyle = PS::o( $arFormOptions, 'uiStyle', self::UI_DEFAULT, true );
-		$_sAction = PS::o( $arFormOptions, 'action', '', true );
-		$_sMethod = PS::o( $arFormOptions, 'method', 'POST', true );
-		$_bSetPageTitle = PS::o( $arFormOptions, 'setPageTitle', true, true );
-		$_sErrorCss = PS::o( $arFormOptions, 'errorCss', 'ui-state-error' );
-		$_formClass = PS::o( $arFormOptions, 'formClass', 'yiiForm', true );
-		$_formHeader = PS::o( $arFormOptions, 'formHeader', null, true );
+		$_uiStyle = PS::o( $formOptions, 'uiStyle', self::UI_DEFAULT, true );
+		$_action = PS::o( $formOptions, 'action', '', true );
+		$_method = PS::o( $formOptions, 'method', 'POST', true );
+		$_setPageTitle = PS::o( $formOptions, 'setPageTitle', true, true );
+		$_errorCss = PS::o( $formOptions, 'errorCss', 'ui-state-error' );
+		$_formHeader = PS::o( $formOptions, 'formHeader', null, true );
 
 		//	Register form CSS if desired...
-		PS::_rcf( PS::o( $arFormOptions, 'cssFiles', array(), true ) );
+		PS::_rcf( PS::o( $formOptions, 'cssFiles', array(), true ) );
 
 		//	And scripts
-		PS::_rsf( PS::o( $arFormOptions, 'scriptFiles', array(), true ) );
+		PS::_rsf( PS::o( $formOptions, 'scriptFiles', array(), true ) );
 
 		//	What type of form?
-		switch ( $_eUIStyle )
+		switch ( $_uiStyle )
 		{
 			case self::UI_JQUERY:
-				$_sContainerClass = 'ui-edit-container ui-widget-content';
-				$_sContentClass = $_formClass;
-				PS::$errorCss = $_sErrorClass = $_sErrorCss;
+				$_formContainerClass = PS::o( $formOptions, 'formContainerClass', self::STD_JQUI_FORM_CONTAINER_CLASS, true );
+				$_formClass = PS::o( $formOptions, 'formClass', self::STD_FORM_CLASS, true );
+				PS::$errorCss = $_errorClass = $_errorCss;
 				break;
 
 			case self::UI_DEFAULT:
 			default:
-				$_sContainerClass = 'ps-edit-container';
-				$_sContentClass = $_formClass;
-				PS::$errorCss = $_sErrorClass = 'ps-validate-error';
+				$_formContainerClass = PS::o( $formOptions, 'formContainerClass', self::STD_FORM_CONTAINER_CLASS, true );
+				$_formClass = PS::o( $formOptions, 'formClass', self::STD_FORM_CLASS, true );
+				PS::$errorCss = $_errorClass = 'ps-validate-error';
 				break;
 		}
 
 		//	Set validation error class...
-		if ( PS::o( $arFormOptions, 'validate', false ) == true )
+		if ( PS::o( $formOptions, 'validate', false ) == true )
 		{
-			$_arValid = PS::o( $arFormOptions, 'validateOptions', array(), true );
-			$_arValid['errorClass'] = PS::o( $_arValid, 'errorClass', self::$errorCss );
-			$_arValid['ignoreTitle'] = PS::o( $_arValid, 'ignoreTitle', true );
-			$arFormOptions['validateOptions'] = $_arValid;
+			$_validList = PS::o( $formOptions, 'validateOptions', array(), true );
+			$_validList['errorClass'] = PS::o( $_validList, 'errorClass', self::$errorCss );
+			$_validList['ignoreTitle'] = PS::o( $_validList, 'ignoreTitle', true );
+			$formOptions['validateOptions'] = $_validList;
 		}
 
 		//	So it begins...
-		$_sOut = null;
+		$_output = null;
 
 		//	Form header info...
 		if ( $_formHeader )
 		{
 			//	Page title...
-			if ( $_bSetPageTitle ) Yii::app()->getController()->pageTitle = Yii::app()->name . ' : ' . $_formHeader;
+			if ( $_setPageTitle ) PS::_gc()->pageTitle = PS::_a()->name . ' : ' . $_formHeader;
 
 			//	Form title...
-			$_formHeaderTag = PS::o( $arFormOptions, 'formHeaderTag', 'H1', true );
-			$_arFormHeaderOptions = PS::o( $arFormOptions, 'formHeaderOptions', array(), true );
-			$_sOut .= PS::tag( $_formHeaderTag, $_arFormHeaderOptions, $_formHeader );
+			$_formHeaderTag = PS::o( $formOptions, 'formHeaderTag', 'H1', true );
+			$_arFormHeaderOptions = PS::o( $formOptions, 'formHeaderOptions', array(), true );
+			$_output .= PS::tag( $_formHeaderTag, $_arFormHeaderOptions, $_formHeader );
 
-			if ( $_formHeaderContent = PS::o( $arFormOptions, 'formHeaderContent', null, true ) )
+			if ( $_formHeaderContent = PS::o( $formOptions, 'formHeaderContent', null, true ) )
 			{
-				$_formHeaderContentTag = PS::o( $arFormOptions, 'formHeaderContentTag', 'DIV', true );
-				$_arFormHeaderContentOptions = PS::o( $arFormOptions, 'formHeaderContentOptions', array(), true );
-				$_sOut .= PS::tag( $_formHeaderContentTag, $_arFormHeaderContentOptions, $_formHeaderContent );
+				$_formHeaderContentTag = PS::o( $formOptions, 'formHeaderContentTag', 'DIV', true );
+				$_formHeaderContentOptions = PS::o( $formOptions, 'formHeaderContentOptions', array(), true );
+				$_output .= PS::tag( $_formHeaderContentTag, $_formHeaderContentOptions, $_formHeaderContent );
 			}
 		}
 
 		//	Build out begining of form...
-		$_sOut .= PS::openTag( 'div', array( 'class' => $_sContainerClass ) );
-		$_sOut .= PS::openTag( 'div', array( 'class' => $_sContentClass ) );
+		$_output .= PS::openTag( 'div', array( 'class' => $_formContainerClass ) );
+		$_output .= PS::openTag( 'div', array( 'class' => $_formClass ) );
 
 		//	Build the form
 		self::$m_bInForm = true;
-		return $_sOut . self::beginForm( $_sAction, $_sMethod, $arFormOptions );
+		return $_output . self::beginForm( $_action, $_method, $formOptions );
 	}
 
 	/**
@@ -1302,14 +1304,14 @@ CSS;
 
 				if ( ! $_bRegistered )
 				{
-					$_sAction = $_bSubmit ? 'return oForm.submit();' : 'window.location.href = sHref;';
+					$_action = $_bSubmit ? 'return oForm.submit();' : 'window.location.href = sHref;';
 					$_sScript = <<<HTML
 function confirmAction( oForm, sMessage, sHref )
 {
 	jConfirm( sMessage, 'Please Confirm Your Action', function( bVal ) {
 		if ( bVal )
 		{
-			{$_sAction}
+			{$_action}
 			return true;
 		}
 
@@ -1358,7 +1360,7 @@ HTML;
 	*/
 	public static function showDates( $oModel, $sCreatedColumn = 'created', $sModifiedColumn = 'modified', $sDateFormat = 'm/d/Y h:i:s A' )
 	{
-		$_sOut = null;
+		$_output = null;
 
 		if ( $oModel->hasAttribute( $sCreatedColumn ) && $oModel->hasAttribute( $sModifiedColumn ) )
 		{
@@ -1369,12 +1371,12 @@ HTML;
 			$_dtCreate = date( $sDateFormat, $_dtCreate );
 			$_dtLMod = date( $sDateFormat, $_dtLMod );
 
-			$_sOut = '<div class="ps-form-footer">';
-			$_sOut .= '<span><strong>Created:</strong>&nbsp;' . $_dtCreate . '</span>' . self::pipe( '/' ) . '<span><strong>Modified:</strong>&nbsp;' . $_dtLMod . '</span>';
-			$_sOut .= '</div>';
+			$_output = '<div class="ps-form-footer">';
+			$_output .= '<span><strong>Created:</strong>&nbsp;' . $_dtCreate . '</span>' . self::pipe( '/' ) . '<span><strong>Modified:</strong>&nbsp;' . $_dtLMod . '</span>';
+			$_output .= '</div>';
 		}
 
-		return $_sOut;
+		return $_output;
 	}
 
 	/**

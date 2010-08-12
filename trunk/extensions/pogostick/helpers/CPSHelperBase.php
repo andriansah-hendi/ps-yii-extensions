@@ -701,7 +701,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 	/**
 	* Registers a javascript file.
 	*
-	* @param array|string Urls of scripts to load. If first character is not a '/', the asset library directory is prepended.
+	* @param array|string Urls of scripts to load. If URL starts with '!', asset library will be prepended. If first character is not a '/', the asset library directory is prepended.
 	* @param integer the position of the JavaScript code. Valid values include the following:
 	* <ul>
 	* <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
@@ -930,6 +930,16 @@ class CPSHelperBase extends CHtml implements IPSBase
 	public static function _gp( $paramName )
 	{
 		return self::$_thisApp->params[ $paramName ];
+	}
+
+	/**
+	 * @return CController the currently active controller
+	 * @see CWebApplication::getController
+	 */
+	public static function getController() { return $this::_gc(); }
+	public static function _gc()
+	{
+		return self::$_thisApp->getController();
 	}
 
 	/**
