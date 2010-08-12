@@ -309,6 +309,23 @@ class CPSModel extends CActiveRecord implements IPSBase
 	}
 
 	/**
+	 * Retrieves a list of models based on the current search/filter conditions. Override for more specific search criteria.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 */
+	public function search()
+	{
+		$_criteria = new CDbCriteria();
+
+		foreach ( $this->getTableSchema()->columns as $_column )
+		{
+			if ( $_column->type == 'string' )
+				$_criteria->compare( $_column->name, $this->{$_column->name}, true );
+		}
+
+		return new CActiveDataProvider( get_class( $this ), array( 'criteria' => $_criteria ) );
+	}
+
+	/**
 	 * Convenience method to get a database command model's database
 	 * @returns CDbCommand
 	 */
