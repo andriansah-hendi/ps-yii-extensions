@@ -170,16 +170,16 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 
 	/**
 	 * Gets an option from the collection or passes through to parent.
-	 * @param string $sName the option, property or event name
+	 * @param string $name the option, property or event name
 	 * @return mixed
 	 * @throws CException if the property or event is not defined
 	 * @see __set
 	 */
-	public function __get( $sName )
+	public function __get( $name )
 	{
 		try
 		{
-			parent::__get( $name, $value );
+			return parent::__get( $name );
 		}
 		catch ( CException $_ex )
 		{
@@ -187,7 +187,7 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 			foreach ( $this->m_arBehaviorCache as $_behaviorName )
 			{
 				if ( ( $_behavior = $this->asa( $_behaviorName ) ) instanceof IPSOptionContainer && $_behavior->contains( $name ) )
-					return $_behavior->getValue( $name, $value );
+					return $_behavior->getValue( $name );
 			}
 
 			//	If we get here, then bubble the exception...

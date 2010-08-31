@@ -25,17 +25,21 @@ class CPSWebModule extends CWebModule implements IPSBase
 	//* Private Members & Accessors
 	//********************************************************************************
 	
-	protected $m_sConfigPath = null;
-	public function getConfigPath() { return $this->m_sConfigPath; }
-	public function setConfigPath( $sValue ) { $this->m_sConfigPath = $sValue; }	
+	protected $_debugMode = null;
+	public function getDebugMode() { return $this->_debugMode; }
+	public function setDebugMode( $value ) { $this->_debugMode = $value; }
 
-	protected $m_sAssetPath = null;
-	public function getAssetPath() { return $this->m_sAssetPath; }
-	public function setAssetPath( $sValue ) { $this->m_sAssetPath = $sValue; }	
+	protected $_configPath = null;
+	public function getConfigPath() { return $this->_configPath; }
+	public function setConfigPath( $sValue ) { $this->_configPath = $sValue; }
+
+	protected $_assetPath = null;
+	public function getAssetPath() { return $this->_assetPath; }
+	public function setAssetPath( $sValue ) { $this->_assetPath = $sValue; }
 	
-	protected $m_sAssetUrl = null;
-	public function getAssetUrl() { return $this->m_sAssetUrl; }
-	protected function setAssetUrl( $sUrl ) { $this->m_sAssetUrl = $sUrl; }
+	protected $_assetUrl = null;
+	public function getAssetUrl() { return $this->_assetUrl; }
+	protected function setAssetUrl( $sUrl ) { $this->_assetUrl = $sUrl; }
 
 	//	Accessor to app's db...
 	public function getDB() { return Yii::app()->getDB(); }
@@ -62,16 +66,28 @@ class CPSWebModule extends CWebModule implements IPSBase
 		);
 
 		//	Read private configuration...
-		if ( ! empty( $this->m_sConfigPath ) ) $this->configure( require( $this->basePath . $this->m_sConfigPath ) );
+		if ( ! empty( $this->_configPath ) ) $this->configure( require( $this->basePath . $this->_configPath ) );
 		
-		//	Set our asset url...
-		$_oAM = Yii::app()->getAssetManager();
-		if ( ! $this->m_sAssetPath ) $this->m_sAssetPath = $_oAM->getBasePath() . DIRECTORY_SEPARATOR . $this->getId();
-		if ( ! is_dir( $this->m_sAssetPath ) ) @mkdir( $this->m_sAssetPath );
-		$this->m_sAssetUrl = $_oAM->publish( $this->m_sAssetPath, true, -1 );
-		
+		//	Get our asset manager going...
+		$this->_setAssetPaths();
+
 		//	Who doesn't need this???
 		PS::_cs()->registerCoreScript( 'jquery' );
-	}                                                                                                          	
+	}
+
+	//********************************************************************************
+	//* Private Methods
+	//********************************************************************************
+
+	/**
+	 * Initializes the asset manager for this module
+	 */
+	protected function _setAssetPaths()
+	{
+		$_assetManager = PS::_a()->getAssetManager();
+		if ( ! $this->_assetPath ) $this->_assetPath = $_assetManager->getBasePath() . DIRECTORY_SEPARATOR . $this->getId();
+		if ( ! is_dir( $this->_assetPath ) ) @mkdir( $this->_assetPath );
+		$this->_assetUrl = $_assetManager->publish( $this->_assetPath, true, -1 );
+	}
 	
 }

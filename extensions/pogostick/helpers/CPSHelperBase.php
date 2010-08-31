@@ -366,6 +366,17 @@ class CPSHelperBase extends CHtml implements IPSBase
 		//	Our return results
 		$_sResult = null;
 
+		//	Convert array to KVPs...
+		if ( is_array( $sQueryString ) )
+		{
+			$_payload = null;
+
+			foreach ( $sQueryString as $_key => $_value )
+				$_payload .= "&{$_key}={$_value}";
+		}
+		else
+			$_payLoad = $sQueryString;
+
 		// Use CURL if installed...
 		if ( function_exists( 'curl_init' ) )
 		{
@@ -375,14 +386,14 @@ class CPSHelperBase extends CHtml implements IPSBase
 			curl_setopt( $_oCurl, CURLOPT_USERAGENT, $_sAgent );
 			curl_setopt( $_oCurl, CURLOPT_TIMEOUT, 60 );
 			curl_setopt( $_oCurl, CURLOPT_FOLLOWLOCATION, true );
-			curl_setopt( $_oCurl, CURLOPT_URL, $url . ( 'GET' == $sMethod ? ( ! empty( $sQueryString ) ? "?" . $sQueryString : '' ) : '' ) );
+			curl_setopt( $_oCurl, CURLOPT_URL, $url . ( 'GET' == $sMethod ? ( ! empty( $_payload ) ? "?" . trim( $_payload, '&' ) : '' ) : '' ) );
 
 			//	If this is a post, we have to put the post data in another field...
 			if ( 'POST' == $sMethod )
 			{
 				curl_setopt( $_oCurl, CURLOPT_URL, $url );
 				curl_setopt( $_oCurl, CURLOPT_POST, true );
-				curl_setopt( $_oCurl, CURLOPT_POSTFIELDS, $sQueryString );
+				curl_setopt( $_oCurl, CURLOPT_POSTFIELDS, $_payload );
 			}
 
 			$_sResult = curl_exec( $_oCurl );
@@ -681,6 +692,15 @@ class CPSHelperBase extends CHtml implements IPSBase
 	}
 
 	/**
+	 * @return CDbConnection the database connection
+	 */
+	public static function getDb() { return self::_db(); }
+	public static function _db()
+	{
+		return self::$_thisApp->getDb();
+	}
+
+	/**
 	* Registers a javascript file.
 	*
 	* @param string URL of the javascript file
@@ -904,7 +924,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 * @see CApplication::getRequest
 	 * @return CHttpRequest
 	 */
-	public static function getRequest() { return $this::_gr(); }
+	public static function getRequest() { return self::_gr(); }
 	public static function _gr()
 	{
 		return self::$_thisRequest;
@@ -915,18 +935,21 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 * @see CWebApplication::getUser
 	 * @return CUserIdentity
 	 */
-	public static function getUser() { return $this::_gu(); }
+	public static function getUser() { return self::_gu(); }
 	public static function _gu()
 	{
 		return self::$_thisUser;
 	}
+
+	public static function isGuest() { return self::_ig(); }
+	public static function _ig() { return self::_gu()->isGuest; }
 
 	/**
 	 * Returns the current user. Equivalent of {@link CWebApplication::getUser}
 	 * @see CWebApplication::getUser
 	 * @return CUserIdentity
 	 */
-	public static function getParam( $paramName ) { return $this::_gp( $paramName ); }
+	public static function getParam( $paramName ) { return self::_gp( $paramName ); }
 	public static function _gp( $paramName )
 	{
 		return self::$_thisApp->params[ $paramName ];
@@ -936,7 +959,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 * @return CController the currently active controller
 	 * @see CWebApplication::getController
 	 */
-	public static function getController() { return $this::_gc(); }
+	public static function getController() { return self::_gc(); }
 	public static function _gc()
 	{
 		return self::$_thisApp->getController();
@@ -1002,7 +1025,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 */
 	public static function _gs( $stateName, $defaultValue = null )
 	{
-		return self::$_thisUser->getState( $stateName, $defaultValue );
+		return self::_gu()->getState( $stateName, $defaultValue );
 	}
 
 	/**
@@ -1022,7 +1045,36 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 */
 	public static function _ss( $stateName, $stateValue, $defaultValue = null )
 	{
-		return self::$_thisUser->setState( $stateName, $stateValue, $defaultValue );
+		return self::_gu()->setState( $stateName, $stateValue, $defaultValue );
+	}
+
+	/**
+	 * Creates and returns a CDbCommand object from the specified SQL
+	 * 
+	 * @param string $sql
+	 * @return CDbCommand
+	 */
+	public static function _sql( $sql, $dbToUse = null )
+	{
+		if ( null !== ( $_db = PS::nvl( $dbToUse, self::$_thisApp->getDb() ) ) )
+			return $_db->createCommand( $sql );
+
+		return null;
+	}
+
+	/**
+	 * Executes the given sql statement and returns all results
+	 * @param string $sql
+	 * @param array $parameterList List of parameters for call
+	 * @param CDbConnection $dbToUse
+	 * @return mixed
+	 */
+	public static function _sqlAll( $sql, $parameterList = null, $dbToUse = null )
+	{
+		if ( null !== ( $_db = PS::nvl( $dbToUse, self::$_thisApp->getDb() ) ) )
+			return $_db->createCommand( $sql )->queryAll( $parameterList );
+
+		return null;
 	}
 
 	//********************************************************************************

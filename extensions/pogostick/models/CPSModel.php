@@ -345,6 +345,68 @@ class CPSModel extends CActiveRecord implements IPSBase
 	}
 
 	//********************************************************************************
+	//* REST Methods
+	//********************************************************************************
+
+	/**
+	 * If a model has a REST mapping, attributes are mapped an returned in an array.
+	 * @return array|null The resulting view
+	 */
+	public function getRestAttributes()
+	{
+		if ( method_exists( $this, 'attributeRestMap' ) )
+		{
+			$_resultList = array();
+			$_columnList = $this->getSchema();
+
+			foreach ( $this->attributeRestMap() as $_key => $_value )
+			{
+				$_attributeValue = $this->getAttribute( $_key );
+
+				//	Apply formats
+				switch ( $_columnList[$_key]->dbType )
+				{
+					case 'date':
+					case 'datetime':
+					case 'timestamp':
+						//	Handle blanks
+						if ( null !== $_attributeValue && $_attributeValue != '0000-00-00' && $_attributeValue != '0000-00-00 00:00:00' )
+							$_attributeValue = date( 'c', strtotime( $_attributeValue ) );
+						break;
+				}
+				
+				$_resultList[ $_value ] = $_attributeValue;
+			}
+
+			return $_resultList;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Sets the values in the model based on REST attribute names
+	 * @param array $attributeList
+	 */
+	public function setRestAttributes( $attributeList )
+	{
+		if ( method_exists( $this, 'attributeRestMap' ) )
+		{
+			CPSLog::trace( __METHOD__, '  - Setting REST attributes' );
+			
+			$_map = $this->attributeRestMap();
+
+			foreach ( $attributeList as $_key => $_value )
+			{
+				if ( false !== ( $_mapKey = array_search( $_key, $_map ) ) )
+					$this->setAttribute( $_mapKey, $_value );
+			}
+
+			CPSLog::trace( __METHOD__, '  - REST attributes set' );
+		}
+	}
+
+	//********************************************************************************
 	//* Event Handlers
 	//********************************************************************************
 	

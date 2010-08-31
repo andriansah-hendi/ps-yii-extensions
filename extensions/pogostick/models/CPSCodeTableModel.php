@@ -32,44 +32,69 @@ class CPSCodeTableModel extends CPSModel
 	const DDL_TABLE_NAME = 'code_t';
 	const DDL_DATA_NAME = 'code_install_data.sql';
 
-	protected $m_iValueFilter = null;
-	public function getValueFilter() { return $this->m_iValueFilter; }
-	public function setValueFilter( $iValue ) { $this->m_iValueFilter = $iValue; }
+	//********************************************************************************
+	//* Private Members
+	//********************************************************************************
+
+	/**
+	 * @var integer A value filter
+	 */
+	protected $_valueFilter = null;
+	public function getValueFilter() { return $this->_valueFilter; }
+	public function setValueFilter( $value ) { $this->_valueFilter = $value; }
+
+	/**
+	 * @var string The column name for our "active" attribute.
+	 */
+	protected $_activeAttributeName = 'active_ind';
+
+	/**
+	 * @var string The class name of our "code" model
+	 */
+	protected $_modelClass = 'Codes';
 
 	//********************************************************************************
 	//* Public Methods
 	//********************************************************************************
 
+	public function init()
+	{
+		parent::init();
+
+		//	Get our model class
+		$this->_modelClass = self::_findModelClass();
+	}
+
 	/**
 	* Installs a standard code table into the database.
 	*
-	* @param CDbConnnection $oDB Defaults to Yii::app()->db
-	* @param string $sName The code table name. Defaults to 'code_t'
+	* @param CDbConnection $dbConnection Defaults to PS::_a()->db
+	* @param string $name The code table name. Defaults to 'code_t'
 	* @returns boolean
 	*/
-	public static function install( $oDB = null, $sName = self::DDL_TABLE_NAME )
+	public static function install( $dbConnection = null, $name = self::DDL_TABLE_NAME )
 	{
-		$_oDB = PS::nvl( $oDB, Yii::app()->db );
+		$_db = PS::nvl( $dbConnection, PS::_db() );
 
-		if ( $sName && $_oDB )
+		if ( $name && $_db )
 		{
-			$_sPath = Yii::getPathOfAlias( 'pogostick.templates.ddl' );
+			$_path = Yii::getPathOfAlias( 'pogostick.templates.ddl' );
 
-			$_sSQL = file_get_contents( $_sPath . self::DDL_NAME );
-			if ( strlen( $_sSQL ) )
+			$_sql = file_get_contents( $_path . self::DDL_NAME );
+			if ( strlen( $_sql ) )
 			{
-				$_sSQL = str_ireplace( '%%TABLE_NAME', $sName, $_sSQL );
-				$_oCmd = $_oDB->createCommand( $_sSQL );
-				if ( $_oCmd->execute() )
+				$_sql = str_ireplace( '%%TABLE_NAME', $name, $_sql );
+				$_command = $_db->createCommand( $_sql );
+				if ( $_command->execute() )
 				{
-					$_sSQL = file_get_contents( $_sPath . self::DDL_DATA_NAME );
+					$_sql = file_get_contents( $_path . self::DDL_DATA_NAME );
 
 					//	Load some codes...
-					if ( strlen( $_sSQL ) )
+					if ( strlen( $_sql ) )
 					{
-						$_sSQL = str_ireplace( '%%TABLE_NAME', $sName, $_sSQL );
-						$_oCmd = $_oDB->createCommand( $_sSQL );
-						$_oCmd->execute();
+						$_sql = str_ireplace( '%%TABLE_NAME', $name, $_sql );
+						$_command = $_db->createCommand( $_sql );
+						$_command->execute();
 					}
 				}
 
@@ -82,65 +107,50 @@ class CPSCodeTableModel extends CPSModel
 
 	/**
 	* Get code rows
-	*
-	* @param int $iId Specific code ID to retrieve
-	* @param string $sType Retrieves all codes that are of this type
-	* @param string $sAbbr Retrieves all codes that are of this abbreviation. If type specicifed, further filters return set
-	* @param string $sOrder Optional sort order of result set. Defaults to PK (i.e. id)
+	* @param int $codeId Specific code ID to retrieve
+	* @param string $codeType Retrieves all codes that are of this type
+	* @param string $codeAbbreviation Retrieves all codes that are of this abbreviation. If type specicifed, further filters return set
+	* @param string $sortOrder Optional sort order of result set. Defaults to PK (i.e. id)
 	* @return array|string Depending on the parameters supplied, either returns a code row, an array of code rows, or a string.
 	*/
-	protected static function getCodes( $iId = null, $sType = null, $sAbbr = null, $sOrder = null, $bActiveOnly = true, $iValueFilter = null )
+	protected static function getCodes( $codeId = null, $codeType = null, $codeAbbreviation = null, $sortOrder = null, $activeCodesOnly = true, $valueFilter = null )
 	{
-		//	Can't really use get_called_class with 5.2...
-		if ( version_compare( PHP_VERSION, '5.3.0' ) < 0 )
-		{
-			$_sModelClass = 'Codes';
-//			if ( ! $_sModelClass = $this->modelName )
-//				throw new CDbException( 'You must set the $modelName property before calling this method.' );
-		}
-		else
-			$_sModelClass = get_called_class();
+		$_criteria = null;
+		$_modelClass = self::_findModelClass();
+		$_model = call_user_func( array( $_modelClass, 'model' ) );
 
-		$_arCrit = null;
-		$_oModel = call_user_func( array( $_sModelClass, 'model' ) );
-
-		$sOrder = $_oModel->getMetaData()->tableSchema->primaryKey;
+		if ( null === $sortOrder ) $sortOrder = $_model->primaryKey;
 
 		//	Get a single code...
-		if ( null !== $iId ) return $_oModel->valueFilter( $iValueFilter )->active()->findByPk( $iId );
+		if ( null !== $codeId ) return $_model->valueFilter( $valueFilter )->active( $activeCodesOnly )->findByPk( $codeId );
+
+		$_condition = array();
+		$_params = array();
 
 		//	Get a specific code by type/abbr
-		if ( null !== $sType && null !== $sAbbr )
+		if ( null !== $codeType )
 		{
-			$_arCrit = array(
-				'condition' => 'code_type_text = :code_type_text and code_abbr_text = :code_abbr_text',
-				'params' => array( ':code_type_text' => $sType, ':code_abbr_text' => $sAbbr ),
-				'order' => PS::nvl( $sOrder ),
-			);
-
-			return $_oModel->valueFilter( $iValueFilter )->active()->find( $_arCrit );
+			$_condition[] = 'code_type_text = :code_type_text';
+			$_params[':code_type_text'] = $codeType;
 		}
 
-		//	Codes By Type
-		if ( null !== $sType && null === $sAbbr )
+		if ( null !== $codeAbbreviation )
 		{
-			$_arCrit = array(
-				'condition' => 'code_type_text = :code_type_text',
-				'params' => array( ':code_type_text' => $sType ),
-				'order' => PS::nvl( $sOrder ),
-			);
-		}
-		//	Codes By Abbreviation
-		else if ( null === $sType && null !== $sAbbr )
-		{
-			$_arCrit = array(
-				'condition' => 'code_abbr_text = :code_abbr_text',
-				'params' => array( ':code_abbr_text' => $sAbbr ),
-				'order' => PS::nvl( $sOrder ),
-			);
+			$_condition[] = 'code_abbr_text = :code_abbr_text';
+			$_params[':code_abbr_text'] = $codeAbbreviation;
 		}
 
-		return $_arCrit ? $_oModel->valueFilter( $iValueFilter )->active()->findAll( $_arCrit ) : null;
+		//	No conditions? Bail...
+		if ( empty( $_condition ) )
+			return null;
+		
+		$_criteria = array(
+			'condition' => implode( ' AND ', $_condition ),
+			'params' => $_params,
+			'order' => PS::nvl( $sortOrder ),
+		);
+
+		return $_model->valueFilter( $valueFilter )->active( $activeCodesOnly )->findAll( $_criteria );
 	}
 
 	/**
@@ -194,25 +204,25 @@ class CPSCodeTableModel extends CPSModel
 	/**
 	* Find a code by type
 	*
-	* @param string $sType
+	* @param string $codeType
 	* @return array
 	* @static
 	*/
-	public static function findAllByType( $sType, $sOrder = 'code_desc_text', $iValueFilter = null )
+	public static function findAllByType( $codeType, $sortOrder = 'code_desc_text', $valueFilter = null )
 	{
-		return self::getCodes( null, $sType, null, $sOrder, true, $iValueFilter );
+		return self::getCodes( null, $codeType, null, $sortOrder, true, $valueFilter );
 	}
 
 	/**
 	* Find a code by type
 	*
-	* @param string $sType
+	* @param string $codeType
 	* @return array
 	* @static
 	*/
-	public static function findAllByAbbreviation( $sAbbr, $sType = null, $sOrder = 'code_desc_text' )
+	public static function findAllByAbbreviation( $codeAbbreviation, $codeType = null, $sortOrder = 'code_desc_text' )
 	{
-		return self::getCodes( null, $sType, $sAbbr, $sOrder );
+		return self::getCodes( null, $codeType, $codeAbbreviation, $sortOrder );
 	}
 
 	/**
@@ -232,84 +242,119 @@ class CPSCodeTableModel extends CPSModel
 	/**
 	* Retrieves the associated value for a code
 	*
-	* @param int $iId
+	* @param int $codeId
 	* @return double
 	*/
-	public function valueFilter( $iValue = null )
+	public function valueFilter( $value = null )
 	{
-		if ( null !== $iValue ) $this->getDbCriteria()->mergeWith( array( 'condition' => '( assoc_value_nbr is null or assoc_value_nbr = :assoc_value_nbr )', 'params' => array( ':assoc_value_nbr' => $iValue ) ) );
+		//	Nothing? Move along...
+		if ( null === $value )
+			return $this;
+		
+		//	Not an array? Make one...
+		if ( ! is_array( $value ) ) $value = array( $value );
+
+		//	No items?
+		if ( empty( $value ) )
+			return $this;
+		
+		//	Make string...
+		if ( count( $value ) == 1 )
+			$_condition = '( assoc_value_nbr is null or assoc_value_nbr = ' . $value[0] . ')';
+		else
+			$_condition = '( assoc_value_nbr is null or assoc_value_nbr in (' . implode( ',', $value ) . '))';
+
+		$this->getDbCriteria()->mergeWith( array( 'condition' => $_condition ) );
 		return $this;
 	}
 
 	/**
 	* Returns a code's description
 	*
-	* @param int $iId
+	* @param int $codeId
 	* @return string
 	*/
-	public static function getCodeDescription( $iId )
+	public static function getCodeDescription( $codeId )
 	{
-		$_oCode = self::getCodes( $iId );
-		return $_oCode ? $_oCode->code_desc_text : null;
+		$_code = self::getCodes( $codeId );
+		return $_code ? $_code->code_desc_text : null;
 	}
 
 	/**
 	* Returns a code's abbreviation
 	*
-	* @param int $iId
+	* @param int $codeId
 	* @return string
 	*/
-	public static function getCodeAbbreviation( $iId )
+	public static function getCodeAbbreviation( $codeId )
 	{
-		$_oCode = self::getCodes( $iId );
-		return $_oCode ? $_oCode->code_abbr_text : null;
+		$_code = self::getCodes( $codeId );
+		return $_code ? $_code->code_abbr_text : null;
 	}
 
 	/**
 	* Retrieves the associated text for a code
 	*
-	* @param int $iId
+	* @param int $codeId
 	* @return string
 	*/
-	public static function getAssociatedText( $iId )
+	public static function getAssociatedText( $codeId )
 	{
-		$_oCode = self::getCodes( $iId );
-		return $_oCode ? $_oCode->assoc_text : null;
+		$_code = self::getCodes( $codeId );
+		return $_code ? $_code->assoc_text : null;
 	}
 
 	/**
 	* Retrieves the associated value for a code
 	*
-	* @param int $iId
+	* @param int $codeId
 	* @return double
 	*/
-	public static function getAssociatedValue( $iId )
+	public static function getAssociatedValue( $codeId )
 	{
-		$_oCode = self::getCodes( $iId );
-		return $_oCode ? $_oCode->assoc_value_nbr : null;
+		$_code = self::getCodes( $codeId );
+		return $_code ? $_code->assoc_value_nbr : null;
 	}
 
 	/**
 	* Returns all rows based on type/abbr given
 	* If it's a specific request, (i.e. type & abbr given) a single row is returned.
 	*
-	* @param string $sType
-	* @param string $sAbbr
+	* @param string $codeType
+	* @param string $codeAbbreviation
 	* @return int|CPSCodeTableModel|array
 	*/
-	public static function lookup( $sType, $sAbbr = null, $bReturnIdOnly = true )
+	public static function lookup( $codeType, $codeAbbreviation = null, $returnIdOnly = true )
 	{
-		$_oCode = self::getCodes( null, $sType, $sAbbr );
-		return $_oCode ? ( $bReturnIdOnly ? $_oCode->id : $_oCode ) : null;
+		$_code = self::getCodes( null, $codeType, $codeAbbreviation );
+		return $_code ? ( $returnIdOnly ? $_code->id : $_code ) : null;
 	}
 
 	/**
 	 * Only return active code records as designated by the active_ind
 	 * @returns CPSCodeTableModel
 	 */
-	public function active()
+	public function active( $activeOnly = true )
 	{
-		$this->getDbCriteria()->mergeWith( array( 'condition' => 'active_ind = :active_ind', 'params' => array( ':active_ind' => 1 ) ) );
+		if ( $activeOnly && $this->hasAttribute( $this->_activeAttributeName ) ) $this->getDbCriteria()->mergeWith( array( 'condition' => 'active_ind = :active_ind', 'params' => array( ':active_ind' => 1 ) ) );
 		return $this;
+	}
+
+	/**
+	 * Finds and sets the model class for this object.
+	 * If your model class is not "Codes" and you're not running PHP 5.3.x+, override
+	 * this method to provide your own model name.
+	 * 
+	 * @return string The name of the model class
+	 */
+	protected static function _findModelClass()
+	{
+		$_modelClass = 'Codes';
+
+		//	Can't really use get_called_class with 5.2...
+		if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 )
+			$_modelClass = get_called_class();
+
+		return $_modelClass;
 	}
 }

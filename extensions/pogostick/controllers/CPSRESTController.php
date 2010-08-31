@@ -183,7 +183,71 @@ class CPSRESTController extends CPSController
 		}
 
 		//	All rest methods echo their output
+		CPSLog::trace( __METHOD__, 'Calling: ' . $_sMethod . ' with ' . count( $_arUrlParams ) . ' parameter(s) : ' . print_r( $_arUrlParams, true ) );
+
 		echo call_user_func_array( array( $this, $_sMethod ), array_values( $_arUrlParams ) );
 	}
 
+	/**
+	 * Creates a JSON encoded array (as a string) with a standard REST response. Override to provide
+	 * a different response format.
+	 *
+	 * @param array $resultList
+	 * @param boolean $isError
+	 * @param string $errorText
+	 * @param integer $errorCode
+	 * @return string JSON encoded array
+	 */
+	protected function _createResponse( $resultList = array(), $isError = false, $errorMessage = 'failure', $errorCode = 0 )
+	{
+		if ( $isError )
+		{
+			$_response = array(
+				'result' => 'failure',
+				'errorMessage' => $errorMessage,
+				'errorCode' => $errorCode,
+			);
+
+			if ( $resultList )
+				$_response['resultData'] = $resultList;
+		}
+		else
+		{
+			$_response = array(
+				'result' => 'success',
+			);
+			
+			if ( $resultList )
+				$_response['resultData'] = $resultList;
+		}
+
+		return json_encode( $_response );
+	}
+
+	/***
+	 * Translates errors from normal model attribute names to REST map names
+	 * @param CActiveRecord $model
+	 * @return array
+	 */
+	protected function _translateErrors( CActiveRecord $model )
+	{
+		if ( $_errorList = $model->getErrors() )
+		{
+			if ( method_exists( $this, 'attributeRestMap' ) )
+			{
+				$_restMap = $model->attributeRestMap();
+				$_resultList = array();
+
+				foreach ( $_errorList as $_key => $_value )
+				{
+					if ( in_array( $_key, array_keys( $_restMap ) ) )
+						$_resultList[ $_restMap[ $_key ] ] = $_value;
+				}
+
+				$_errorList = $_resultList;
+			}
+		}
+
+		return $_errorList;
+	}
 }

@@ -54,6 +54,22 @@ abstract class CPSController extends CController implements IPSBase
 	//********************************************************************************
 
 	/**
+	 * @var array context menu items. This property will be assigned to {@link CMenu::items}.
+	 */
+	protected $_menu = array();
+	public function getMenu() { return $this->_menu; }
+	public function setMenu( $value ) { $this->_menu = $value; }
+
+	/**
+	 * @var array the breadcrumbs of the current page. The value of this property will
+	 * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
+	 * for more details on how to specify this property.
+	 */
+	protected $_breadcrumbs = array();
+	public function getBreadcrumbs() { return $this->_breadcrumbs; }
+	public function setBreadcrumbs( $value ) { $this->_breadcrumbs = $value; }
+
+	/**
 	 * An optional, additional page heading
 	 * @var string
 	 */
@@ -230,6 +246,14 @@ abstract class CPSController extends CController implements IPSBase
 			$this->addUserAction( $eWhich, $_sAction );
 	}
 
+	protected $_displayName;
+	protected function setDisplayName( $value ) { $this->_displayName = $value; }
+	protected function getDisplayName() { return $this->_displayName; }
+
+	protected $_cleanTrail;
+	protected function setCleanTrail( $value ) { $this->_cleanTrail = $value; }
+	protected function getCleanTrail() { return $this->_cleanTrail; }
+
 	//********************************************************************************
 	//* Public Methods
 	//********************************************************************************
@@ -251,6 +275,52 @@ abstract class CPSController extends CController implements IPSBase
 
 		//	Pull any search criteria we've stored...
 		if ( $this->getModelName() ) $this->m_arCurrentSearchCriteria = Yii::app()->user->getState( $this->m_sSearchStateId );
+
+		//	And some defaults...
+		$this->_cleanTrail = $this->_displayName;
+		$this->defaultAction = 'index';
+	}
+
+	/**
+	 * How about a default action that displays static pages? Huh? Huh?
+	 *
+	 * In your configuration file, configure the urlManager as follows:
+	 *
+	 *	'urlManager' => array(
+	 *		'urlFormat' => 'path',
+	 *		'showScriptName' => false,
+	 *		'rules' => array(
+	 *			... all your rules should be first ...
+	 *			//	Add this as the last line in your rules.
+	 *			'<view:\w+>' => 'default/_static',
+	 *		),
+	 *
+	 * The above assumes your default controller is DefaultController. If is different
+	 * simply change the route above (default/_static) to your default route.
+	 *
+	 * Finally, create a directory under your default controller's view path:
+	 *
+	 *		/path/to/your/app/protected/views/default/_static
+	 *
+	 * Place your static files in there, for example:
+	 *
+	 *		/path/to/your/app/protected/views/default/_static/aboutUs.php
+	 *		/path/to/your/app/protected/views/default/_static/contactUs.php
+	 *		/path/to/your/app/protected/views/default/_static/help.php
+	 *
+	 * @return array
+	 */
+	public function actions()
+	{
+		return array_merge(
+			array(
+				'_static' => array(
+					'class' => 'CViewAction',
+					'basePath' => '_static',
+				),
+			),
+			parent::actions()
+		);
 	}
 
 	/**
