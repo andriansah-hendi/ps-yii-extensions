@@ -88,19 +88,19 @@ class CPSTimeStampBehavior extends CPSBaseActiveRecordBehavior
 		//	Handle created stamp
 		if ( $oEvent->sender->isNewRecord )
 		{
-			if ( $this->m_sCreatedColumn && $oEvent->sender->hasAttribute( $this->m_sCreatedColumn ) ) 
-					$this->owner->setAttribute( $this->m_sCreatedColumn, ( null === $this->m_sDateTimeFunction ) ? date('Y-m-d H:i:s') : eval('return ' . $this->m_sDateTimeFunction . ';') );
+			if ( $this->m_sCreatedColumn && $oEvent->sender->hasAttribute( $this->m_sCreatedColumn ) )
+				$this->owner->setAttribute( $this->m_sCreatedColumn, ( null === $this->m_sDateTimeFunction ) ? date('Y-m-d H:i:s') : eval('return ' . $this->m_sDateTimeFunction . ';') );
 					
-			if ( $this->m_sCreatedByColumn && $oEvent->sender->hasAttribute( $this->m_sCreatedByColumn ) )
+			if ( $this->m_sCreatedByColumn && $oEvent->sender->hasAttribute( $this->m_sCreatedByColumn ) && ! $oEvent->sender->getAttribute( $this->m_sCreatedByColumn ) )
 				$this->owner->setAttribute( $this->m_sCreatedByColumn, Yii::app()->user->getId() );
 		}
 			
 		//	Handle lmod stamp
-		if ( $this->m_sLModColumn && $oEvent->sender->hasAttribute( $this->m_sLModColumn ) ) 
+		if ( $this->m_sLModColumn && $oEvent->sender->hasAttribute( $this->m_sLModColumn ) )
 				$this->owner->setAttribute( $this->m_sLModColumn, ( null === $this->m_sDateTimeFunction ) ? date('Y-m-d H:i:s') : eval('return ' . $this->m_sDateTimeFunction . ';') );
 				
 		//	Handle user id stamp
-		if ( $this->m_sLModByColumn && $oEvent->sender->hasAttribute( $this->m_sLModByColumn ) )
+		if ( $this->m_sLModByColumn && $oEvent->sender->hasAttribute( $this->m_sLModByColumn ) && ! $oEvent->sender->getAttribute( $this->m_sLModByColumn ) )
 			$this->owner->setAttribute( $this->m_sLModByColumn, Yii::app()->user->getId() );
 				
 		return parent::beforeValidate( $oEvent );
@@ -125,35 +125,35 @@ class CPSTimeStampBehavior extends CPSBaseActiveRecordBehavior
  	* This is useful for updating not only the lmod column but a last login date for example.
  	* Only the columns that have been touched are updated. If no columns are updated, no database action is performed.
  	* 
- 	* @param mixed $oOtherCols The single column name or array of columns to touch in addition to configured lmod column
+ 	* @param mixed $additionalColumns The single column name or array of columns to touch in addition to configured lmod column
  	* @returns boolean
  	*/
-    public function touch( $oOtherCols = null )
+    public function touch( $additionalColumns = null )
     {
-    	$_sTouchVal = ( null === $this->m_sDateTimeFunction ) ? date('Y-m-d H:i:s') : eval( 'return ' . $this->m_sDateTimeFunction . ';' );
-    	$_arUpdate = array();
+    	$_touchValue = ( null === $this->m_sDateTimeFunction ) ? date( 'Y-m-d H:i:s' ) : eval( 'return ' . $this->m_sDateTimeFunction . ';' );
+    	$_updateList = array();
     	
     	//	Any other columns to touch?
-    	if ( null !== $oOtherCols )
+    	if ( null !== $additionalColumns )
     	{
-    		foreach ( PS::makeArray( $oOtherCols ) as $_sColumn )
+    		foreach ( PS::makeArray( $additionalColumns ) as $_attribute )
     		{
-    			if ( $this->owner->hasAttribute( $_sColumn ) )
+    			if ( $this->owner->hasAttribute( $_attribute ) )
     			{
-    				$this->owner->setAttribute( $_sColumn, $_sTouchVal );
-    				$_arUpdate[] = $_sColumn;
+    				$this->owner->setAttribute( $_attribute, $_touchValue );
+    				$_updateList[] = $_attribute;
 				}
     		}
 		}
     	
 		if ( $this->m_sLModColumn && $this->owner->hasAttribute( $this->m_sLModColumn ) ) 
 		{
-			$this->owner->setAttribute( $this->m_sLModColumn, ( null === $this->m_sDateTimeFunction ) ? date('Y-m-d H:i:s') : eval('return ' . $this->m_sDateTimeFunction . ';') );
-    		$_arUpdate[] = $this->m_sLModColumn;
+			$this->owner->setAttribute( $this->m_sLModColumn, $_touchValue );
+    		$_updateList[] = $this->m_sLModColumn;
 		}
 			
 		//	Only update if and what we've touched...
-		return count( $_arUpdate ) ? $this->owner->save() : true;
+		return count( $_updateList ) ? $this->owner->update( $_updateList ) : true;
 	}
 	
 }

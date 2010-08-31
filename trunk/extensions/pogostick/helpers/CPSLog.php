@@ -21,6 +21,8 @@
  */
 class CPSLog implements IPSBase
 {
+	public static $echoData = false;
+	
 	//********************************************************************************
 	//* Public Methods
 	//********************************************************************************
@@ -36,7 +38,15 @@ class CPSLog implements IPSBase
 	 */
 	protected static function log( $sCategory, $sMessage, $sLevel = 'info', $arParams = array(), $sSource = null, $sLanguage = null )
 	{
-		Yii::log( Yii::t( $sCategory, $sMessage, $arParams, $sSource, $sLanguage ), $sLevel, $sCategory );
+		$_logEntry = Yii::t( $sCategory, $sMessage, $arParams, $sSource, $sLanguage );
+
+		if ( self::$echoData )
+		{
+			echo date( 'Y-m-d h:i:s' ) . '[' . $sLevel . '] ' . '[' . $sCategory . '] ' . $_logEntry . '<br />';
+			flush();
+		}
+
+		Yii::log( $_logEntry, $sLevel, $sCategory );
 	}
 	
 	/**

@@ -822,25 +822,25 @@ class CPSWidgetHelper extends CPSHelperBase
 	{
 		if ( null != ( $_sCodeModel = PS::o( $arHtmlOptions, 'codeModel', self::$m_sCodeModel, true ) ) )
 		{
-			$_oCodeModel = new $_sCodeModel;
+			$_model = new $_sCodeModel;
 
-			if ( $_oCodeModel instanceof CPSCodeTableModel )
+			if ( $_model instanceof CPSCodeTableModel )
 			{
 				$_sValType = strtoupper( PS::o( $arHtmlOptions, 'codeType', $sAttribute, true ) );
 				$_sValAbbr = strtoupper( PS::o( $arHtmlOptions, 'codeAbbr', null, true ) );
-				$_iValFilter = PS::o( $arHtmlOptions, 'valueFilter', null, true );
-				$_oCodeModel->setValueFilter( $_iValFilter );
+				$_valueFilter = PS::o( $arHtmlOptions, 'valueFilter', null, true );
+				$_model->setValueFilter( $_valueFilter );
 				if ( ! $_sValAbbr ) $_sValAbbr = PS::o( $arHtmlOptions, 'codeAbbreviation', null, true );
 				$_sValId = PS::o( $arHtmlOptions, 'codeId', null, true );
 				$_sSort = PS::o( $arHtmlOptions, 'sortOrder', 'code_desc_text', true );
 				$_arOptions = array();
 
 				if ( $_sValId )
-					$_arOptions = self::listData( $_oCodeModel->findById( $_sValId ), 'id', 'code_desc_text' );
+					$_arOptions = self::listData( $_model->findById( $_sValId ), 'id', 'code_desc_text' );
 				elseif ( ! $_sValAbbr )
-					$_arOptions = self::listData( $_oCodeModel->findAllByType( $_sValType, $_sSort, $_iValFilter ), 'id', 'code_desc_text' );
+					$_arOptions = self::listData( $_model->findAllByType( $_sValType, $_sSort, $_valueFilter ), 'id', 'code_desc_text' );
 				elseif ( $_sValAbbr )
-					$_arOptions = self::listData( $_oCodeModel->findAllByAbbreviation( $_sValAbbr, $_sValType, $_sSort ), 'id', 'code_desc_text' );
+					$_arOptions = self::listData( $_model->findAllByAbbreviation( $_sValAbbr, $_sValType, $_sSort ), 'id', 'code_desc_text' );
 
 				if ( isset( $arHtmlOptions[ 'multiple' ] ) )
 				{
