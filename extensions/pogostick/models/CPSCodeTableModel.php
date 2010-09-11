@@ -293,6 +293,19 @@ class CPSCodeTableModel extends CPSModel
 	}
 
 	/**
+	* Returns a code's id given a type and abbreviation
+	*
+	* @param string $codeType
+	* @param string $codeAbbreviation
+	* @return integer
+	*/
+	public static function getCodeFromAbbreviation( $codeType, $codeAbbreviation )
+	{
+		$_codeList = self::getCodes( null, $codeType, $codeAbbreviation );
+		return ! empty( $_codeList )  ? $_codeList[0]->id : null;
+	}
+
+	/**
 	* Retrieves the associated text for a code
 	*
 	* @param int $codeId

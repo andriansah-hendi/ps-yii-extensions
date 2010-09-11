@@ -479,6 +479,61 @@ abstract class CPSController extends CController implements IPSBase
 		echo $_output;
 	}
 
+	/**
+	 * Renders a view.
+	 *
+	 * The named view refers to a PHP script (resolved via {@link getViewFile})
+	 * that is included by this method. If $data is an associative array,
+	 * it will be extracted as PHP variables and made available to the script.
+	 *
+	 * This method differs from {@link render()} in that it does not
+	 * apply a layout to the rendered result. It is thus mostly used
+	 * in rendering a partial view, or an AJAX response.
+	 *
+	 * This override adds the current user to the data automatically in the $_currentUser variable
+	 *
+	 * @param string name of the view to be rendered. See {@link getViewFile} for details
+	 * about how the view script is resolved.
+	 * @param array data to be extracted into PHP variables and made available to the view script
+	 * @param boolean whether the rendering result should be returned instead of being displayed to end users
+	 * @param boolean whether the rendering result should be postprocessed using {@link processOutput}.
+	 * @return string the rendering result. Null if the rendering result is not required.
+	 * @throws CException if the view does not exist
+	 * @see getViewFile
+	 * @see processOutput
+	 * @see render
+	 */
+	public function renderPartial( $view, $data = null, $return = false, $processOutput = false )
+	{
+		if ( false === ( $_viewFile = $this->getViewFile( $view ) ) )
+		{
+			throw new CException(
+				Yii::t(
+					'yii',
+					'{controller} cannot find the requested view "{view}".',
+					array(
+						'{controller}' => get_class( $this ),
+						'{view}' => $view
+					)
+				)
+			);
+		}
+
+		//	Add the current user automagically
+		if ( null === $data ) $data = array();
+		$data['_currentUser'] = PS::_gcu();
+
+		$_output = $this->renderFile( $_viewFile, $data, true );
+
+		if ( $processOutput )
+			$_output = $this->processOutput( $_output );
+
+		if ( $return )
+			return $_output;
+
+		echo $_output;
+	}
+
 	//********************************************************************************
 	//* Private Methods
 	//********************************************************************************

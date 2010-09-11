@@ -365,6 +365,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 
 		//	Our return results
 		$_sResult = null;
+		$_payload = $sQueryString;
 
 		//	Convert array to KVPs...
 		if ( is_array( $sQueryString ) )
@@ -374,8 +375,6 @@ class CPSHelperBase extends CHtml implements IPSBase
 			foreach ( $sQueryString as $_key => $_value )
 				$_payload .= "&{$_key}={$_value}";
 		}
-		else
-			$_payLoad = $sQueryString;
 
 		// Use CURL if installed...
 		if ( function_exists( 'curl_init' ) )
@@ -941,6 +940,17 @@ class CPSHelperBase extends CHtml implements IPSBase
 		return self::$_thisUser;
 	}
 
+	/**
+	 * Returns the currently logged in user
+	 * @return CWebUser
+	 */
+	public static function getCurrentUser() { return self::_gcu(); }
+	public static function _gcu() { return self::_gs( 'currentUser' ); }
+
+	/**
+	 * Returns boolean indicating if user is logged in or not
+	 * @return boolean
+	 */
 	public static function isGuest() { return self::_ig(); }
 	public static function _ig() { return self::_gu()->isGuest; }
 
