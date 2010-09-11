@@ -183,7 +183,7 @@ class CPSRESTController extends CPSController
 		}
 
 		//	All rest methods echo their output
-		CPSLog::trace( __METHOD__, 'Calling: ' . $_sMethod . ' with ' . count( $_arUrlParams ) . ' parameter(s) : ' . print_r( $_arUrlParams, true ) );
+//		CPSLog::trace( __METHOD__, 'Calling: ' . $_sMethod . ' with ' . count( $_arUrlParams ) . ' parameter(s) : ' . print_r( $_arUrlParams, true ) );
 
 		echo call_user_func_array( array( $this, $_sMethod ), array_values( $_arUrlParams ) );
 	}
@@ -233,7 +233,7 @@ class CPSRESTController extends CPSController
 	{
 		if ( $_errorList = $model->getErrors() )
 		{
-			if ( method_exists( $this, 'attributeRestMap' ) )
+			if ( method_exists( $model, 'attributeRestMap' ) )
 			{
 				$_restMap = $model->attributeRestMap();
 				$_resultList = array();

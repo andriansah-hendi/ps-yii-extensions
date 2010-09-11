@@ -102,41 +102,39 @@ class CPSUserIdentity extends CUserIdentity
 			throw new CException( Yii::t( 'psYiiExtensions', '{class}::authModel must be set or {class}::authenticate() must be overridden.', array( '{class}' => get_class( $this ) ) ) );
 
 		//	Attach our event handlers
-		$this->attachEventHandler( 'onLoginFailure', array( $this, 'loginFailure' ) );
-		$this->attachEventHandler( 'onLoginSuccess', array( $this, 'loginSuccess' ) );
+		if ( ! $this->hasEventHandler( 'onLoginFailure' ) ) $this->attachEventHandler( 'onLoginFailure', array( $this, 'loginFailure' ) );
+		if ( ! $this->hasEventHandler( 'onLoginSuccess' ) ) $this->attachEventHandler( 'onLoginSuccess', array( $this, 'loginSuccess' ) );
 
 		$this->username = trim( strtolower( $this->username ) );
 		if ( null !== $mUserType ) $this->m_mUserType = $mUserType;
 
-		$_arCondition = array( $this->m_arAuthAttributes['username'] . ' = :' . $this->m_arAuthAttributes['username'] );
-		$_arParams = array( ':' . $this->m_arAuthAttributes['username'] => $this->username );
+		$_conditionList = array( $this->m_arAuthAttributes['username'] . ' = :' . $this->m_arAuthAttributes['username'] );
+		$_parameterList = array( ':' . $this->m_arAuthAttributes['username'] => $this->username );
 
 		if ( $this->m_bAllowEmailLogins && $this->m_arAuthAttributes['email'] )
 		{
-			$_arCondition[] = $this->m_arAuthAttributes['email'] . ' = :' . $this->m_arAuthAttributes['email'];
-			$_arParams[ ':' . $this->m_arAuthAttributes['email'] ] = $this->username;
+			$_conditionList[] = $this->m_arAuthAttributes['email'] . ' = :' . $this->m_arAuthAttributes['email'];
+			$_parameterList[ ':' . $this->m_arAuthAttributes['email'] ] = $this->username;
 		}
 
-		$_oUser = $this->m_oAuthModel->find( implode( ' OR ', $_arCondition ), $_arParams );
-
-		if ( $_oUser === null )
+		if ( null === ( $_user = $this->m_oAuthModel->find( implode( ' OR ', $_conditionList ), $_parameterList ) ) )
 			$this->errorCode = self::ERROR_USERNAME_INVALID;
 		else
 		{
 			//	Get our event
-			$_oEvent = new CPSAuthenticationEvent( $this, $_oUser, $this );
+			$_event = new CPSAuthenticationEvent( $this, $_user, $this );
 
-			if ( $this->password !== $_oUser->{$this->m_arAuthAttributes['password']} )
+			if ( $this->password !== $_user->getAttribute( $this->m_arAuthAttributes['password'] ) )
 			{
 				$this->errorCode = self::ERROR_PASSWORD_INVALID;
-				$this->onLoginFailure( $_oEvent );
+				$this->onLoginFailure( $_event );
 			}
 			else
 			{
 				$this->errorCode = self::ERROR_NONE;
-				$this->setId( $_oUser->id );
-				$this->setUserType( $_oUser->user_type_code );
-				$this->onLoginSuccess( $_oEvent );
+				$this->setId( $_user->id );
+				$this->setUserType( $_user->user_type_code );
+				$this->onLoginSuccess( $_event );
 			}
 		}
 
