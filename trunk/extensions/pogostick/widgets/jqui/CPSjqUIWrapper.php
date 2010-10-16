@@ -289,7 +289,7 @@ class CPSjqUIWrapper extends CPSjQueryWidget
 			$_oWidget->theme = $_sTheme;
 			
 			//	Register scripts necessary
-			PS::_rsf( ( PS::o( $_SERVER, 'HTTPS' ) == 'on' ? 'https' : 'http' ) . "://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js" );
+			PS::_rsf( ( PS::o( $_SERVER, 'HTTPS' ) == 'on' ? 'https' : 'http' ) . "://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" );
 
 			PS::_rsf( PS::makePath( $_oWidget->baseUrl, 'js', 'jquery.pogostick.hover.js' ), CClientScript::POS_END );
 
@@ -297,7 +297,7 @@ class CPSjqUIWrapper extends CPSjQueryWidget
 			if ( $_oWidget->theme )
 			{
 	//	Uncomment to use CDN
-				PS::_rcf( ( PS::o( $_SERVER, 'HTTPS' ) == 'on' ? 'https' : 'http' ) . "://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/{$_oWidget->theme}/jquery-ui.css" );
+				PS::_rcf( ( PS::o( $_SERVER, 'HTTPS' ) == 'on' ? 'https' : 'http' ) . "://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/{$_oWidget->theme}/jquery-ui.css" );
 	//			PS::_rcf( PS::makePath( $_oWidget->baseUrl, 'css', $_oWidget->theme, 'ui.all.css' ) );
 				PS::_rcf( PS::makePath( $_oWidget->baseUrl, 'css', 'ui.pogostick.css' ) );
 			}

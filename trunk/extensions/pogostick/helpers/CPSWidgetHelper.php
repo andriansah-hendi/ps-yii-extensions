@@ -118,6 +118,11 @@ class CPSWidgetHelper extends CPSHelperBase
 	//* Member Variables
 	//********************************************************************************
 
+	protected static $_showRequiredLabel = true;
+	public static function getShowRequiredLabel() { return self::$_showRequiredLabel; }
+	public static function setShowRequiredLabel( $value ) { self::$_showRequiredLabel = $value; }
+	public static function getRequiredLabel() { return self::$_showRequiredLabel ? self::$afterRequiredLabel : null; }
+
 	/**
 	* An id counter for generating unique ids
 	* @var integer
@@ -1172,7 +1177,7 @@ CSS;
 		$arOptions[ 'id' ] = $arOptions['name'] = self::getIdPrefix( 'label' ) . $sName;
 		$_sSuffixToUse = PS::o( $arOptions, 'noSuffix', false, true ) ? '' : self::$m_sLabelSuffix;
 
-		return self::tag( 'label', $arOptions, ( ( $sLabel == null ) ? $sName : $sLabel ) . $_sSuffixToUse . self::$afterRequiredLabel );
+		return self::tag( 'label', $arOptions, ( ( $sLabel == null ) ? $sName : $sLabel ) . $_sSuffixToUse . self::getRequiredLabel() ) ;
 	}
 
 	/**
@@ -1255,7 +1260,7 @@ CSS;
 		
 		//	Make sure current form id is set if we have it...
 		$arHtmlOptions['formId'] = PS::o( $arHtmlOptions, 'formId', self::$m_sCurrentFormId );
-		if ( trim( self::$afterRequiredLabel ) ) $_sLegend = '<span class="ps-form-legend"><span class="required">' . self::$afterRequiredLabel . '</span> denotes required fields</span>';
+		if ( self::$_showRequiredLabel && trim( self::$afterRequiredLabel ) ) $_sLegend = '<span class="ps-form-legend"><span class="required">' . self::getRequiredLabel() . '</span> denotes required fields</span>';
 
 		return self::beginButtonBar( $arHtmlOptions ) . $_sLegend . self::submitButton( $sLabel, $arHtmlOptions ) . self::endButtonBar();
 	}

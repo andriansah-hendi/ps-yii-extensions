@@ -58,6 +58,7 @@ class CPSForm implements IPSBase
 
 		//	Return as string?
 		$_bReturnString = PS::o( $arOptions, 'returnString', false, true );
+		$_showLegend = PS::o( $arOptions, 'showLegend', true, true );
 		$_bShowDates = PS::o( $arOptions, 'showDates', true, true );
 		$_bValidate = PS::o( $arOptions, 'validate', false );
 		$_bErrorSummary = PS::o( $arOptions, 'errorSummary', true, true );
@@ -162,8 +163,12 @@ class CPSForm implements IPSBase
 			$_sOut .= $_oModel->showDates();
 			
 		//	Add legend
-		if ( ! $_bHaveButtonBar && trim( PS::$afterRequiredLabel ) )
-			$_sOut .= '<div class="ps-form-legend"><span class="required">' . PS::$afterRequiredLabel . '</span> denotes required fields</div>';
+		$_requiredLabel = PS::getRequiredLabel();
+		
+		if ( $_showLegend && $_requiredLabel )
+		{
+			$_sOut .= '<div class="ps-form-legend">Fields with ' . $_requiredLabel . ' are required</div>';
+		}
 
 		//	Ok, done building form...
 		$_sOut .= PS::endForm();
