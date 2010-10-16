@@ -1059,6 +1059,25 @@ class CPSHelperBase extends CHtml implements IPSBase
 	}
 
 	/**
+	 * Returns the details about the error that is currently being handled.
+	 * The error is returned in terms of an array, with the following information:
+	 * <ul>
+	 * <li>code - the HTTP status code (e.g. 403, 500)</li>
+	 * <li>type - the error type (e.g. 'CHttpException', 'PHP Error')</li>
+	 * <li>message - the error message</li>
+	 * <li>file - the name of the PHP script file where the error occurs</li>
+	 * <li>line - the line number of the code where the error occurs</li>
+	 * <li>trace - the call stack of the error</li>
+	 * <li>source - the context source code where the error occurs</li>
+	 * </ul>
+	 * @return array the error details. Null if there is no error.
+	 */
+	public static function _ge()
+	{
+		return self::_a()->getErrorHandler()->getError();
+	}
+
+	/**
 	 * Creates and returns a CDbCommand object from the specified SQL
 	 * 
 	 * @param string $sql
@@ -1085,6 +1104,31 @@ class CPSHelperBase extends CHtml implements IPSBase
 			return $_db->createCommand( $sql )->queryAll( $parameterList );
 
 		return null;
+	}
+
+	/**
+	 * Executes the given sql statement and returns the first column of all results in an array
+	 * @param string $sql
+	 * @param array $parameterList List of parameters for call
+	 * @param CDbConnection $dbToUse
+	 * @return array
+	 */
+	public static function _sqlAllScalar( $sql, $parameterList = null, $dbToUse = null )
+	{
+		$_resultList = null;
+		
+		if ( null !== ( $_db = PS::nvl( $dbToUse, self::$_thisApp->getDb() ) ) )
+		{
+			if ( null !== ( $_rowList = $_db->createCommand( $sql )->queryAll( $parameterList ) ) )
+			{
+				$_resultList = array();
+				
+				foreach ( $_rowList as $_row )
+					$_resultList[] = $_row[0];
+			}
+		}
+
+		return $_resultList;
 	}
 
 	//********************************************************************************

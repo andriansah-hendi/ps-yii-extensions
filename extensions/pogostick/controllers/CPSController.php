@@ -425,18 +425,6 @@ abstract class CPSController extends CController implements IPSBase
 	}
 
 	/**
-	 * @return CWebModule the module that this controller belongs to. It returns Yii::app() if the controller does not belong to any module
-	 * @since 1.0.6
-	 */
-	public function getModule()
-	{
-		if ( ! $_oModule = parent::getModule() )
-			$_oModule = Yii::app();
-
-		return $_oModule;
-	}
-
-	/**
 	 * Renders a view with a layout.
 	 *
 	 * This method first calls {@link renderPartial} to render the view (called content view).
@@ -594,6 +582,7 @@ abstract class CPSController extends CController implements IPSBase
 
 			if ( $oModel->save() )
 			{
+CPSLog::trace(__METHOD__,print_r($oModel->getErrors(),true)	);
 				if ( ! $bNoCommit && $oModel instanceof CPSModel && $oModel->hasTransaction() ) $oModel->commitTransaction();
 
 				Yii::app()->user->setFlash( 'success', $_sMessage );

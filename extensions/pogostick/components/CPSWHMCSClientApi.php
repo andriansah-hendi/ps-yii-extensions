@@ -103,6 +103,9 @@ class CPSWHMCSClientApi extends CPSWHMCSApi
 	 */
 	public function addClient( $arRequestData = array() )
 	{
+		if ( $arRequestData['country'] != 'US' && empty( $arRequestData['state'] ) )
+			$arRequestData['state'] = 'NONE';
+
 		return $this->makeApiCall( self::CLIENT_API, 'addclient', $arRequestData );
 	}
 
