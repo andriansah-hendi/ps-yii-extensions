@@ -443,7 +443,7 @@ ul.psPager li.ps-link-pager a.ps-button-icon-left {
 
 span.ps-link-pager-footer {
 	float: left;
-	font-size: 8pt;
+	font-size: 9px;
 	padding-top:15px;
 	padding-left: 10px;
 }
@@ -692,7 +692,7 @@ div.ps-edit-container div.yiiForm div.wide {
 }
 
 .ps-form-legend {
-	font-size: 10pt;
+	font-size: 13px;
 }
 
 /**

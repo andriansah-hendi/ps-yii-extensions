@@ -251,9 +251,23 @@ abstract class CPSController extends CController implements IPSBase
 	protected function getDisplayName() { return $this->_displayName; }
 
 	protected $_cleanTrail;
-	protected function setCleanTrail( $value ) { $this->_cleanTrail = $value; }
 	protected function getCleanTrail() { return $this->_cleanTrail; }
+	protected function setCleanTrail( $value ) { $this->_cleanTrail = $value; }
+	
+	/**
+	 * @var array Any values in this array will be extracted into each view before it's rendered. The value "currentUser" is added automatically.
+	 */
+	protected $_extraViewDataList;
+	protected function getExtraViewDataList() { return $this->_extraViewDataList; }
+	protected function setExtraViewDataList( $value ) { $this->_extraViewDataList = $value; }
 
+	/**
+	 * @var string The prefix to prepend to variables extracted into the view from {@link $_extraViewDataList}. Defaults to '_' (single underscore).
+	 */
+	protected $_extraViewDataPrefix = '_';
+	protected function getExtraViewDataPrefix() { return $this->_extraViewDataPrefix; }
+	protected function setExtraViewDataPrefix( $value ) { $this->_extraViewDataPrefix = $value; }
+	
 	//********************************************************************************
 	//* Public Methods
 	//********************************************************************************
@@ -276,6 +290,14 @@ abstract class CPSController extends CController implements IPSBase
 		//	Pull any search criteria we've stored...
 		if ( $this->getModelName() ) $this->m_arCurrentSearchCriteria = Yii::app()->user->getState( $this->m_sSearchStateId );
 
+		//	Ensure conformity
+		if ( ! is_array( $this->_extraViewDataList ) )
+			$this->_extraViewDataList = array();
+		
+		//	Add "currentUser" value to extra view data
+		if ( null == PS::o( $this->_extraViewDataList, $this->_extraViewDataPrefix . 'currentUser' ) )
+			$this->_extraViewDataList[ $this->_extraViewDataPrefix . 'currentUser' ] = PS::_gcu();
+		
 		//	And some defaults...
 		$this->_cleanTrail = $this->_displayName;
 		$this->defaultAction = 'index';
@@ -507,11 +529,7 @@ abstract class CPSController extends CController implements IPSBase
 			);
 		}
 
-		//	Add the current user automagically
-		if ( null === $data ) $data = array();
-		$data['_currentUser'] = PS::_gcu();
-
-		$_output = $this->renderFile( $_viewFile, $data, true );
+		$_output = $this->renderFile( $_viewFile, array_merge( is_array( $data ) ? $data : array(), $this->_extraViewDataList ), true );
 
 		if ( $processOutput )
 			$_output = $this->processOutput( $_output );

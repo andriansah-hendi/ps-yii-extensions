@@ -38,6 +38,11 @@ class CPSFacebook extends CPSApiComponent
 	const	VERSION = '2.1.1.1';
 	const	USER_AGENT = 'pYe-facebook-php-2.1.1.1';
 
+	/**
+	 * Cache constants
+	 */
+	const	PHOTO_CACHE = '_photoListCache';
+	
 	//********************************************************************************
 	//* Statics
 	//********************************************************************************
@@ -135,7 +140,7 @@ class CPSFacebook extends CPSApiComponent
 		'users.isverified' => 1,
 		'video.getuploadlimits' => 1,
 	);
-
+	
 	//********************************************************************************
 	//* Member Variables
 	//********************************************************************************
@@ -241,6 +246,13 @@ class CPSFacebook extends CPSApiComponent
 	public function setRedirectToLoginUrl( $newValue ) { $this->_redirectToLoginUrl = $newValue; return $this; }
 
 	/**
+	 * @var array The list of user photos
+	 */
+	public static $_photoList = null;
+	public static function getPhotoList() { return self::$_photoList; }
+	public static function setPhotoList( $value ) { self::$_photoList = $value; }
+
+	/**
 	 * @var array The active user session, if one is available.
 	 */
 	protected $_session;
@@ -259,7 +271,7 @@ class CPSFacebook extends CPSApiComponent
 	 * - domain: (optional) domain for the cookie
 	 *
 	 * @param array $config the application configuration
-	 * @throws FacebookApiException
+	 * @throws CPSFacebookApiException
 	 */
 	public function __construct( $config = array() )
 	{
@@ -274,6 +286,23 @@ class CPSFacebook extends CPSApiComponent
 		$this->_enableCookieSupport = PS::o( $config, 'cookie', false );
 		$this->_baseDomain = PS::o( $config, 'domain', '' );
 		$this->_fileUploadSupport = PS::o( $config, 'fileUploadSupport', false );
+	}
+	
+	/**
+	 * Initialize
+	 */
+	public function init()
+	{
+		parent::init();
+		self::$_photoList = PS::_gs( self::PHOTO_CACHE );
+	}
+	
+	/**
+	 * Put it in the cache..
+	 */
+	public function __destruct()
+	{
+		PS::_ss( self::PHOTO_CACHE, self::$_photoList );
 	}
 
 	/**
@@ -464,7 +493,104 @@ class CPSFacebook extends CPSApiComponent
 
 		return call_user_func_array( array( &$this, '_graph' ), $_args );
 	}
+	
+	/**
+	 * Fills the album cache 
+	 * @param string The album ID to return, null for all
+	 */
+	public function getAlbums( $id = null )
+	{
+		set_time_limit( 0 );
+		ignore_user_abort();
+		
+		if ( ! self::$_photoList )
+		{		
+			self::$_photoList = array();
+			
+			try
+			{
+				$_result = $this->api( '/me/albums' );
+				if ( null != ( self::$_photoList = PS::o( $_result, 'data' ) ) )
+				{
+					$_result = array();
 
+					foreach ( self::$_photoList as $_album )
+					{
+						$_result[$_album['id']] = $_album;
+						$_result[$_album['id']]['photos'] = $this->getPhotos( $_album['id'] );
+					}
+
+					PS::_ss( self::PHOTO_CACHE, self::$_photoList = $_result );
+				}
+			}
+			catch ( Exception $_ex )
+			{
+			}
+		}
+		
+		return ( null == $id ? self::$_photoList : PS::o( self::$_photoList, 'id' ) );
+	}
+	
+	/**
+	 * Retrieves photos or a photo
+	 * @param string The album ID
+	 * @param string The photo ID or null for all photos in the album
+	 */
+	public function getPhotos( $aid, $id = null, $limit = null )
+	{
+		set_time_limit( 0 );
+		ignore_user_abort();
+		
+		static $_recursed = false;
+		
+		if ( null == $aid )
+			return null;
+		
+		if ( null == self::$_photoList )
+			$this->getAlbums();
+			
+		if ( isset( self::$_photoList, self::$_photoList[$aid], self::$_photoList[$aid]['photos'] ) )
+		{
+			$_photoList = self::$_photoList[$aid]['photos'];
+			if ( ! empty( $id ) ) return PS::o( $_photoList, $id );
+		}
+
+		//	Not there, grab photos and cache...
+		$_parameterList = array();
+		if ( null != $limit ) $_parameterList['limit'] = $limit;
+
+		$_url = '/' . $aid . '/photos';
+		$_resultList = array();
+		if ( null == $limit ) self::$_photoList[$aid]['photos'] = array();
+
+		while ( true )
+		{
+			try
+			{
+				$_tempList = $this->api( $_url, $_parameterList );
+			}
+			catch ( Exception $_ex )
+			{
+				break;
+			}
+
+			if ( $_tempList )
+			{
+				foreach ( PS::o( $_tempList, 'data' ) as $_photo )
+					$_resultList[$_photo['id']] = $_photo;
+
+				if ( null != $limit || null === ( $_url = PS::oo( $_tempList, 'paging', 'next' ) ) )
+					break;
+			}
+			else
+				break;
+		}
+
+		if ( null == $limit ) self::$_photoList[$aid]['photos'] = $_resultList;
+		
+		return $_resultList;
+	}
+	
 	//********************************************************************************
 	//* Private Methods
 	//********************************************************************************
@@ -483,7 +609,7 @@ class CPSFacebook extends CPSApiComponent
 	 *
 	 * @param array $paramList method call object
 	 * @return the decoded response object
-	 * @throws FacebookApiException
+	 * @throws CPSFacebookApiException
 	 */
 	protected function _restserver( $paramList )
 	{
@@ -495,7 +621,7 @@ class CPSFacebook extends CPSApiComponent
 
 		//	Results are returned, errors are thrown
 		if ( PS::o( $_result, 'error_code' ) )
-			throw new FacebookApiException( $_result );
+			throw new CPSFacebookApiException( $_result );
 
 		return $_result;
 	}
@@ -507,7 +633,7 @@ class CPSFacebook extends CPSApiComponent
 	 * @param string $method the http method (default 'GET')
 	 * @param array $paramList the query/post data
 	 * @return the decoded response object
-	 * @throws FacebookApiException
+	 * @throws CPSFacebookApiException
 	 */
 	protected function _graph( $path, $method = 'GET', $paramList = array() )
 	{
@@ -526,7 +652,7 @@ class CPSFacebook extends CPSApiComponent
 		//	Results are returned, errors are thrown
 		if ( PS::o( $_result, 'error' ) )
 		{
-			$_ex = new FacebookApiException( $_result );
+			$_ex = new CPSFacebookApiException( $_result );
 
 			if ( $_ex->getType() === 'OAuthException' )
 				$this->setSession( null );
@@ -543,7 +669,7 @@ class CPSFacebook extends CPSApiComponent
 	 * @param string $path the path (required)
 	 * @param array $paramList the query/post data
 	 * @return the decoded response object
-	 * @throws FacebookApiException
+	 * @throws CPSFacebookApiException
 	 */
 	protected function _oauthRequest( $url, $paramList )
 	{
@@ -602,7 +728,7 @@ class CPSFacebook extends CPSApiComponent
 
 		if ( false === $_result )
 		{
-			$_ex = new FacebookApiException(
+			$_ex = new CPSFacebookApiException(
 				array(
 					'error_code' => curl_errno( $curl ),
 					'error' => array(
@@ -810,9 +936,11 @@ class CPSFacebook extends CPSApiComponent
 	{
 		$_url = self::$_DOMAIN_MAP[$name];
 
-		if ( null !== $path )
+		if ( null != $path )
 		{
-			if ( $path[0] === '/' ) $path = substr( $path, 1 );
+			if ( $path[0] == '/' ) 
+				$path = substr( $path, 1 );
+			
 			$_url .= $path;
 		}
 

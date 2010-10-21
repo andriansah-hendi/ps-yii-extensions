@@ -30,7 +30,7 @@ class CPSWidget extends CInputWidget implements IPSComponent
 	* The internal name of the component.
 	* @var string
 	*/
-	protected $m_sInternalName;
+	protected $_internalName;
 
 	/**
 	 * Tracks if we have been initialized yet.
@@ -97,7 +97,7 @@ class CPSWidget extends CInputWidget implements IPSComponent
 			//	Now call parent's init...
 			parent::init();
 
-			if ( empty( $this->name ) ) $this->name = $this->m_sInternalName;
+			if ( empty( $this->name ) ) $this->name = $this->_internalName;
 
 			//	Call our behaviors init() method if they exist
 			foreach ( $this->m_arBehaviorCache as $_sName )
@@ -240,13 +240,13 @@ class CPSWidget extends CInputWidget implements IPSComponent
 	 * Get our internal name
 	 * @returns string
 	 */
-	public function getInternalName() { return $this->m_sInternalName; }
+	public function getInternalName() { return $this->_internalName; }
 
 	/**
 	 * Set our internal name
 	 * @param string $sName
 	 */
-	public function setInternalName( $sValue ) { $this->m_sInternalName = $sValue; }
+	public function setInternalName( $sValue ) { $this->_internalName = $sValue; }
 
 	//********************************************************************************
 	//* Magic Methods

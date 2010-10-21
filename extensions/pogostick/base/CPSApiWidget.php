@@ -35,7 +35,7 @@ abstract class CPSApiWidget extends CPSWidget
 		parent::preinit();
 
 		//	Attach our api behavior
-		$this->attachBehavior( $this->m_sInternalName, 'pogostick.behaviors.CPSApiBehavior' );
+		$this->attachBehavior( $this->_internalName, 'pogostick.behaviors.CPSApiBehavior' );
 		
 		//	Attach our events
 		$this->attachEventHandler( 'onBeforeApiCall', array( $this, 'beforeApiCall' ) );
