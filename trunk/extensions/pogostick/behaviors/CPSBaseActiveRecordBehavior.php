@@ -29,7 +29,7 @@ class CPSBaseActiveRecordBehavior extends CActiveRecordBehavior implements IPSBe
 	* My name
 	* @var string
 	*/
-	protected $m_sInternalName;
+	protected $_internalName;
 
 	/**
 	 * Constructor
@@ -66,12 +66,12 @@ class CPSBaseActiveRecordBehavior extends CActiveRecordBehavior implements IPSBe
 	* Get the internal name of our component
 	* @returns string
 	*/
-	public function getInternalName() { return $this->m_sInternalName; }
+	public function getInternalName() { return $this->_internalName; }
 
 	/**
 	* Set the internal name of this component
 	* @param string
 	*/
-	public function setInternalName( $sValue ) { $this->m_sInternalName = $sValue; }
+	public function setInternalName( $sValue ) { $this->_internalName = $sValue; }
 
 }

@@ -43,7 +43,7 @@ class CPSApiComponent extends CPSComponent
 		parent::preinit();
 
 		//	Attach our default behavior
-		$this->attachBehavior( $this->m_sInternalName, 'pogostick.behaviors.CPSApiBehavior' );
+		$this->attachBehavior( $this->_internalName, 'pogostick.behaviors.CPSApiBehavior' );
 		
 		//	Attach our events...
 		$this->attachEventHandler( 'onBeforeApiCall', array( $this, 'beforeApiCall' ) );

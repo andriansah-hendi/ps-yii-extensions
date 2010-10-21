@@ -33,7 +33,7 @@ abstract class CPSConsoleCommand extends CPSComponent
 	/**
 	* Our version
 	*/
-	const	VERSION = '1.0.6';
+	const	VERSION = '1.1.0';
 	
 	//********************************************************************************
 	//* Member Variables
@@ -44,15 +44,21 @@ abstract class CPSConsoleCommand extends CPSComponent
 	* 
 	* @var string
 	*/
-	protected $m_sName;
-	public function getName() { return $this->m_sName; }
+	protected $_name;
+	public function getName() { return $this->_name; }
 	/**
 	* The command runner
 	* 
 	* @var CConsoleCommandRunner
 	*/
-	protected $m_oRunner;
-	public function getCommandRunner() { return $this->m_oRunner; }
+	protected $_commandRunner;
+	public function getCommandRunner() { return $this->_commandRunner; }
+
+	/**
+	 * @var array The specific options for this command
+	 */
+	protected $_optionList = array();
+	public function getOptionList() { return $this->_optionList; }
 
 	//********************************************************************************
 	//* Abstract Methods
@@ -62,26 +68,27 @@ abstract class CPSConsoleCommand extends CPSComponent
 	* Executes the command.
 	* @param array command line parameters for this command.
 	*/
-	public abstract function run( $arArguments );
+	public abstract function run( $argumentList );
 
 	//********************************************************************************
 	//* Public Methods
 	//********************************************************************************
 
 	/**
-	* Constructor
-	* 
-	* @param string $sName name of the command
-	* @param CConsoleCommandRunner $oRunner the command runner
-	*/
-	public function __construct( $sName, $oRunner )
+	 * Constructor
+	 *
+	 * @param string $commandName name of the command
+	 * @param CConsoleCommandRunner $commandRunner the command runner
+	 * @param array $optionList The options for this command
+	 */
+	public function __construct( $commandName, $commandRunner, $optionList = array() )
 	{
 		//	Phone home
-		parent::__construct();
+		parent::__construct( $optionList );
 		
 		//	Note settings
-		$this->m_sName = $sName;
-		$this->m_oRunner = $oRunner;
+		$this->_name = $commandName;
+		$this->_commandRunner = $commandRunner;
 		
 		//	Initialize!
 		$this->init();
@@ -109,7 +116,7 @@ abstract class CPSConsoleCommand extends CPSComponent
 	*/
 	public function getHelp()
 	{
-		return 'Usage: ' . $this->m_oRunner->getScriptName() . ' ' . $this->m_sName;
+		return 'Usage: ' . $this->_commandRunner->getScriptName() . ' ' . $this->_name;
 	}
 
 	/**
@@ -152,7 +159,7 @@ abstract class CPSConsoleCommand extends CPSComponent
 		echo "Results" . PHP_EOL;
 		echo "============================================================" . PHP_EOL;
 		
-		foreach ( $arFileList as $_sName => $_arFile )
+		foreach ( $arFileList as $_name => $_arFile )
 		{
 			$_sSource = strtr( $_arFile['source'], '/\\', DIRECTORY_SEPARATOR );
 			$_sTarget = strtr( $_arFile['target'], '/\\', DIRECTORY_SEPARATOR );
@@ -174,19 +181,19 @@ abstract class CPSConsoleCommand extends CPSComponent
 			{
 				if ( ! $this->force && $_sContent === file_get_contents( $_sTarget ) )
 				{
-					$arFileList[ $_sName ][ '_status' ] = 0;
-					$this->boldEchoString( $_sName, 'Unchanged' );
+					$arFileList[ $_name ][ '_status' ] = 0;
+					$this->boldEchoString( $_name, 'Unchanged' );
 					continue;
 				}
 				
 				if ( $this->force || $_bOverwriteAll )
 				{
-					$arFileList[ $_sName ][ '_status' ] = 1;
-					$this->boldEchoString( $_sName, ( $this->force ? 'Force ' : '' ) . 'Overwrite' );
+					$arFileList[ $_name ][ '_status' ] = 1;
+					$this->boldEchoString( $_name, ( $this->force ? 'Force ' : '' ) . 'Overwrite' );
 				}
 				else
 				{
-					$this->boldEchoString( $_sName, 'Existing' );
+					$this->boldEchoString( $_name, 'Existing' );
 					$this->echoString( "[\033[1my\033[0mes|\033[1mn\033[0mo|\033[1ma\033[0mll|\033[1mq\033[0muit] ", '--> Overwrite? ', false, ' ', false, 8 );
 					
 					switch ( substr( strtolower( trim( fgets( STDIN ) ) ), 0, 1 ) )
@@ -198,22 +205,22 @@ abstract class CPSConsoleCommand extends CPSComponent
 							$_bOverwriteAll = true;
 
 						case 'y':
-							$arFileList[ $_sName ][ '_status' ] = 1;
-							$this->boldEchoString( $_sName, 'Overwriting' );
+							$arFileList[ $_name ][ '_status' ] = 1;
+							$this->boldEchoString( $_name, 'Overwriting' );
 							break;
 						
 						case 'n':
-							$arFileList[ $_sName ][ '_status' ] = 0;
-							$this->boldEchoString( $_sName, 'Skipping' );
+							$arFileList[ $_name ][ '_status' ] = 0;
+							$this->boldEchoString( $_name, 'Skipping' );
 							break;
 					}
 				}
 			}
 			else
 			{
-				$arFileList[ $_sName ][ '_status' ] = 1;
+				$arFileList[ $_name ][ '_status' ] = 1;
 				$this->ensureDirectory( dirname( $_sTarget ) );
-				$this->boldEchoString( $_sName, 'Generating' );
+				$this->boldEchoString( $_name, 'Generating' );
 			}
 			
 			@file_put_contents( $_sTarget, $_sContent );
@@ -272,13 +279,13 @@ abstract class CPSConsoleCommand extends CPSComponent
 
 			$_sSourcePath = $sSourceDir . DIRECTORY_SEPARATOR . $_sFile;
 			$_sTargetPath = $sTargetDir . DIRECTORY_SEPARATOR . $_sFile;
-			$_sName = $sBaseDir === '' ? $_sFile : $sBaseDir . DIRECTORY_SEPARATOR . $_sFile;
+			$_name = $sBaseDir === '' ? $_sFile : $sBaseDir . DIRECTORY_SEPARATOR . $_sFile;
 
 			if ( is_dir( $_sSourcePath ) ) 
-				$_arList = array_merge( $_arList, $this->buildFileList( $_sSourcePath, $_sTargetPath, $_sName ) );
+				$_arList = array_merge( $_arList, $this->buildFileList( $_sSourcePath, $_sTargetPath, $_name ) );
 			else                                      
 			{
-				$_arList[ $_sName ] = array(
+				$_arList[ $_name ] = array(
 					'source' => $_sSourcePath,
 					'target' => $_sTargetPath,
 					'callback' => array( $this, 'generateFile' ),
@@ -461,7 +468,7 @@ abstract class CPSConsoleCommand extends CPSComponent
 		{
 			echo "\033[1mError\033[0m: an active '{$this->databaseName}' connection is required." . PHP_EOL;
 			echo "If you already added '{$this->databaseName}' component in application configuration," . PHP_EOL;
-			echo "please quit and re-enter the yiic shell." . PHP_EOL;
+			echo "please quit and re-run your command." . PHP_EOL;
 			return false;
 		}
 
@@ -623,10 +630,10 @@ abstract class CPSConsoleCommand extends CPSComponent
 	/**
 	* Display command header and parameters
 	* 
-	* @param string $sName
+	* @param string $commandName
 	* @param array $arExtra
 	*/
-	protected function displayParameters( $sName, $arExtra = array() )
+	protected function displayParameters( $commandName, $arExtra = array() )
 	{
 		$_arOptions = array_merge( $arExtra, $this->makeOptions( true, PS::OF_ASSOC_ARRAY, true ) );
 		$_iColWidth = $this->colWidth;
@@ -638,7 +645,7 @@ abstract class CPSConsoleCommand extends CPSComponent
 		$this->colWidth = $_iColWidth;
 
 		echo PHP_EOL;
-		echo $this->bold( "Pogostick Yii Extensions {$sName} v" . self::VERSION ) . PHP_EOL;
+		echo $this->bold( "Pogostick Yii Extensions {$commandName} v" . self::VERSION ) . PHP_EOL;
 		echo PHP_EOL;
 
 		echo "Working Parameters" . PHP_EOL;

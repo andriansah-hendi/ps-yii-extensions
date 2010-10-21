@@ -33,15 +33,15 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 	* The internal name of the component.
 	* @var string
 	*/
-	protected $m_sInternalName;
+	protected $_internalName;
 
 	/**
 	 * Tracks the status of debug mode for component
 	 * @var boolean Enable/disable debug mode
 	 */
-	protected $m_bDebugMode = false;
-	public function getDebugMode() { return $this->m_bDebugMode; }
-	public function setDebugMode( $bValue ) { $this->m_bDebugMode = $bValue; }
+	protected $_debugMode = false;
+	public function getDebugMode() { return $this->_debugMode; }
+	public function setDebugMode( $bValue ) { $this->_debugMode = $bValue; }
 
 	//********************************************************************************
 	//* Member Variables
@@ -69,16 +69,8 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 	public function __construct( $config = array() )
 	{
 		//	Set any properties via standard config array
-		foreach ( $config as $_key => $_value)
-		{
-			//	Don't do anything that would trigger an exception...
-			if ( $this->hasProperty( $_key ) )
-				$this->{$_key} = $_value;
-			else if ( method_exists( $this, 'set' . $_key ) )
-				$this->{'set' . $_key} = $_value;
-			else if ( property_exists( $this, '_' . $_key ) )
-				$this->{'_' . $_key} = $_value;
-		}
+		if ( is_array( $config ) && ! empty( $config ) )
+			$this->_loadConfiguration( $config );
 
 		//	Preinitialize, called before afterConstruct
 		$this->preinit();
@@ -156,13 +148,13 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 	 * Get our internal name
 	 * @returns string
 	 */
-	public function getInternalName() { return $this->m_sInternalName; }
+	public function getInternalName() { return $this->_internalName; }
 
 	/**
 	 * Set our internal name
 	 * @param string $sName
 	 */
-	public function setInternalName( $sValue ) { $this->m_sInternalName = $sValue; }
+	public function setInternalName( $sValue ) { $this->_internalName = $sValue; }
 
 	//********************************************************************************
 	//* Magic Methods
@@ -322,8 +314,47 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 	 */
 	public function _debug( $sMessage, $sCategory = null, $sRoute = null )
 	{
-		if ( $this->m_bDebugMode )
+		if ( $this->_debugMode )
 			echo $sMessage . '<BR />';
 	}
 
+	//********************************************************************************
+	//* Private Methods
+	//********************************************************************************
+
+	/**
+	 * Loads an array into properties if they exist.
+	 * @param array $optionList
+	 */
+	protected function _loadConfiguration( $optionList = array(), $overwriteExisting = true )
+	{
+		//	Make a copy for posterity
+		if ( property_exists( $this, '_optionList' ) )
+		{
+			if ( $overwriteExisting || empty( $this->_optionList ) )
+				$this->_optionList = $optionList;
+			else
+				$this->_optionList = array_merge( $this->_optionList, $optionList );
+		}
+
+		try
+		{
+			foreach ( $optionList as $_option => $_value )
+			{
+				try
+				{
+					//	See if __set has a better time with this...
+					$this->{$_option} = $_value;
+				}
+				catch ( Exception $_ex )
+				{
+					//	Completely ignore errors...
+				}
+			}
+		}
+		catch ( Exception $_ex )
+		{
+			CPSLog::error( __METHOD__, 'Error while loading configuration options: ' . $_ex->getMessage() );
+		}
+	}
 }

@@ -29,7 +29,7 @@ class CPSComponentBehavior extends CBehavior implements IPSOptionContainer, IPSB
 	* The internal name of the component.
 	* @var string
 	*/
-	protected $m_sInternalName;
+	protected $_internalName;
 
 	//********************************************************************************
 	//* Member Variables
@@ -78,8 +78,9 @@ class CPSComponentBehavior extends CBehavior implements IPSOptionContainer, IPSB
 		//	Add our options...
 		$this->addOptions( self::getBaseOptions() );
 
-		//	Set the external library path
-		$this->extLibUrl = Yii::app()->getAssetManager()->publish( Yii::getPathOfAlias( 'pogostick.external' ), true );
+		//	Set the external library pathn
+		if ( ! PS::isCLI() )
+			$this->extLibUrl = Yii::app()->getAssetManager()->publish( Yii::getPathOfAlias( 'pogostick.external' ), true );
 	}
 
 	/**
@@ -181,13 +182,13 @@ class CPSComponentBehavior extends CBehavior implements IPSOptionContainer, IPSB
 	 * Get our internal name
 	 * @returns string
 	 */
-	public function getInternalName() { return $this->m_sInternalName; }
+	public function getInternalName() { return $this->_internalName; }
 
 	/**
 	 * Set our internal name
 	 * @param string $sName
 	 */
-	public function setInternalName( $sValue ) { $this->m_sInternalName = $sValue; }
+	public function setInternalName( $sValue ) { $this->_internalName = $sValue; }
 
 	/**
 	* Adds an option to the collection.

@@ -88,6 +88,13 @@ class CPSHelperBase extends CHtml implements IPSBase
 	protected static $_thisUser = null;
 
 	/**
+	* Cache the application parameters for speed
+	* @static CAttributeCollection
+	*/
+	protected static $_appParameters = null;
+	public static function getParams() { self::$_appParameters; }
+
+	/**
 	 * An array of class names to search in for missing methods
 	 * @static array
 	 */
@@ -107,9 +114,12 @@ class CPSHelperBase extends CHtml implements IPSBase
 	{
 		//	Intialize my variables...
 		self::$_thisApp = Yii::app();
-		self::$_clientScript = self::$_thisApp->getClientScript();
-		self::$_thisUser = self::$_thisApp->getUser();
-		self::$_thisRequest = self::$_thisApp->getRequest();
+		
+		//	May or may not be available...
+		try { self::$_clientScript = self::$_thisApp->getClientScript(); } catch ( Exception $_ex ) {}
+		try { self::$_thisUser = self::$_thisApp->getUser(); } catch ( Exception $_ex ) {}
+		try { self::$_thisRequest = self::$_thisApp->getRequest(); } catch ( Exception $_ex ) {}
+		try { self::$_appParameters = self::$_thisApp->params; } catch ( Exception $_ex ) {}
 	}
 
 	/**
@@ -955,14 +965,18 @@ class CPSHelperBase extends CHtml implements IPSBase
 	public static function _ig() { return self::_gu()->isGuest; }
 
 	/**
-	 * Returns the current user. Equivalent of {@link CWebApplication::getUser}
-	 * @see CWebApplication::getUser
-	 * @return CUserIdentity
+	 * Returns application parameters or default value if not found
+	 * @see CModule::getParams
+	 * @see CModule::setParams
+	 * @return mixed
 	 */
-	public static function getParam( $paramName ) { return self::_gp( $paramName ); }
-	public static function _gp( $paramName )
+	public static function getParam( $paramName, $defaultValue = null ) { return self::_gp( $paramName, $defaultValue ); }
+	public static function _gp( $paramName, $defaultValue = null )
 	{
-		return self::$_thisApp->params[ $paramName ];
+		if ( self::$_appParameters && self::$_appParameters->contains( $paramName ) )
+			return self::$_appParameters->itemAt( $paramName );
+
+		return $defaultValue;
 	}
 
 	/**
@@ -1129,6 +1143,15 @@ class CPSHelperBase extends CHtml implements IPSBase
 		}
 
 		return $_resultList;
+	}
+
+	/**
+	 * Determine if PHP is running CLI mode or not
+	 * @return boolean True if currently running in CLI
+	 */
+	public static function isCLI()
+	{
+		return ( 'cli' == php_sapi_name() && empty( $_SERVER['REMOTE_ADDR'] ) );
 	}
 
 	//********************************************************************************

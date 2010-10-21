@@ -114,6 +114,10 @@ class CPSFacebookAppController extends CPSController
 	protected $_redirectToLoginUrl = true;
 	public function getRedirectToLoginUrl() { return $this->_redirectToLoginUrl; }
 	public function setRedirectToLoginUrl( $value ) { $this->_redirectToLoginUrl = $value; return $this; }
+	
+	protected $_autoLoadPictures = true;
+	public function getAutoLoadPictures() { return $this->_autoLoadPictures; }
+	public function setAutoLoadPictures( $value ) { $this->_autoLoadPictures = $value; return $this; }
 
 	//********************************************************************************
 	//* Public Methods
@@ -350,6 +354,13 @@ class CPSFacebookAppController extends CPSController
 				$this->_firstName = PS::o( $this->_me, 'first_name' );
 				$this->_loadUser();
 
+				if ( $this->_autoLoadPictures )
+				{
+					$_photoList = CPSFacebook::getPhotoList();
+					if ( empty( $_photoList ) )
+						PS::_rs( '_psAutoLoadPictures', '$(function(){$.get("/app/photos",function(){});});' );
+				}
+				
 				return true;
 			}
 			catch ( FacebookApiException $_ex )
