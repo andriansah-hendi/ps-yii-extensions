@@ -21,7 +21,19 @@
  */
 class CPSLog implements IPSBase
 {
+	//********************************************************************************
+	//* Private Members
+	//********************************************************************************
+
+	/**
+	 * @var boolean If true, all applicable log entries will be echoed to the screen
+	 */
 	public static $echoData = false;
+	
+	/**
+	 * @var string Prepended to each log entry before writing.
+	 */
+	public static $prefix = null;
 	
 	//********************************************************************************
 	//* Public Methods
@@ -38,11 +50,11 @@ class CPSLog implements IPSBase
 	 */
 	protected static function log( $sCategory, $sMessage, $sLevel = 'info', $arParams = array(), $sSource = null, $sLanguage = null )
 	{
-		$_logEntry = Yii::t( $sCategory, $sMessage, $arParams, $sSource, $sLanguage );
+		$_logEntry = self::$prefix . Yii::t( $sCategory, $sMessage, $arParams, $sSource, $sLanguage );
 
 		if ( self::$echoData )
 		{
-			echo date( 'Y-m-d h:i:s' ) . '[' . $sLevel . '] ' . '[' . $sCategory . '] ' . $_logEntry . '<br />';
+			echo date( 'Y.m.d h.i.s' ) . '[' . strtoupper( $sLevel[0] ) . '] ' . '[' . sprintf( '%-40s', $sCategory ) . '] ' . $_logEntry . '<br />';
 			flush();
 		}
 

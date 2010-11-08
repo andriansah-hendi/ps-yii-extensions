@@ -118,6 +118,9 @@ class CPSFacebookAppController extends CPSController
 	protected $_autoLoadPictures = true;
 	public function getAutoLoadPictures() { return $this->_autoLoadPictures; }
 	public function setAutoLoadPictures( $value ) { $this->_autoLoadPictures = $value; return $this; }
+	
+	protected $_isConnected = false;
+	public function getIsConnected() { return $this->_isConnected; }
 
 	//********************************************************************************
 	//* Public Methods
@@ -130,7 +133,7 @@ class CPSFacebookAppController extends CPSController
 	{
 		parent::init();
 
-		 //	Set proper ini settings for FBC
+		//	Set proper ini settings for FBC
         ini_set( 'zend.ze1_compatibility_mode', 0 );
 
         //	Handle an rss feed
@@ -148,11 +151,44 @@ class CPSFacebookAppController extends CPSController
 		//	Set up events...
 		$this->onFacebookLogin = array( $this, 'facebookLogin' );
 
-		//	Set up the session for the page
-		if ( ! PS::_gs( 'standalone' ) )
-			$this->_initializeFacebook();
+		if ( ! Yii::app()->getRequest()->getIsAjaxRequest() )
+		{
+			//	Set up the session for the page
+			if ( ! PS::_gs( 'standalone' ) )
+				$this->_initializeFacebook();
+		}
 	}
 
+	/**
+	* The filters for this controller
+	*
+	* @returns array Action filters
+	*/
+	public function filters()
+	{
+		if ( $_SERVER['HTTP_HOST'] == 'localhost' ) return array();
+
+		//	Perform access control for CRUD operations
+		return array(
+			'accessControl',
+		);
+	}
+
+	/**
+	* The base access rules for our CRUD controller
+	*
+	* @returns array Access control rules
+	*/
+	public function accessRules()
+    {
+        return array(
+            array( 'allow',
+                'actions' => array( '*' ),
+                'users' => array( '@' ),
+            ),
+        );
+    }
+	
 	//********************************************************************************
 	//* Public Actions
 	//********************************************************************************
@@ -180,9 +216,9 @@ class CPSFacebookAppController extends CPSController
 	public function actionInviteComplete()
 	{
 		//	$_POST['ids'] is an array of invited friends...
-		$this->_user->invite_count_nbr += count( PS::o( $_POST, 'ids', array() ) );
+		$this->_user->invite_count_nbr += count( PS::o( $_REQUEST, 'ids', array() ) );
 		$this->_user->update( array('invite_count_nbr') );
-		$this->redirect( PS::_gp( 'appUrl' ) . '/?noSplash' );
+		$this->redirect( PS::_gp( 'appUrl' ) );
 	}
 
 	/**
@@ -248,8 +284,6 @@ class CPSFacebookAppController extends CPSController
 	 */
 	public function facebookLogin( CEvent $event )
 	{
-		$this->_getAllFriends();
-		$this->_getAppFriends();
 		return true;
 	}
 
@@ -286,6 +320,8 @@ class CPSFacebookAppController extends CPSController
 	 */
 	protected function _getAppFriends()
 	{
+		CPSLog::trace( __METHOD__, 'Getting app friends...' );
+		
 		$this->_appFriendList = PS::_gs( self::APP_FRIEND_CACHE );
 
 		try
@@ -294,6 +330,8 @@ class CPSFacebookAppController extends CPSController
 			{
 				$_fql = "select uid from user where is_app_user = '1' and uid in ( select uid2 from friend where uid1 = '{$this->_fbUserId}' ) order by name";
 				$_list = $this->_facebookApi->api( array( 'method' => 'fql.query', 'query' => $_fql ) );
+				
+				CPSLog::trace( __METHOD__, '  - App Friend List Retrieved: ' . print_r( $_list, true ) );
 
 				//	Make into a list of uids...
 				foreach ( $_list as $_friend )
@@ -310,6 +348,7 @@ class CPSFacebookAppController extends CPSController
 			CPSLog::error( __METHOD__, 'Exception: ' . $_ex->getMessage() );
 		}
 		
+		CPSLog::trace( __METHOD__, '  - App Friend List: ' . print_r( $this->_appFriendList, true ) );
 		return $this->_appFriendList;
 	}
 
@@ -319,8 +358,15 @@ class CPSFacebookAppController extends CPSController
 	protected function _initializeFacebook()
 	{
 		//	Create the api object
-		$this->_facebookApi = PS::_a()->getComponent( 'facebook' );
-
+		try
+		{
+			$this->_facebookApi = Yii::app()->getComponent( 'facebook' );
+		}
+		catch ( Exception $_ex )
+		{
+			throw $_ex;
+		}
+		
 		//	Get the login url
 		$this->_loginUrl = $this->_facebookApi->getLoginUrl(
 			array(
@@ -329,9 +375,9 @@ class CPSFacebookAppController extends CPSController
 				'req_perms' => $this->_facebookApi->getAppPermissions(),
 			)
 		);
-
+		
 		//	Now, is it a good session?
-		if ( $this->_session = $this->_facebookApi->getSession() )
+		if ( null !== ( $this->_session = $this->_facebookApi->getSession() ) )
 		{
 			if ( PS::o( $_REQUEST, 'installed' ) == '1' )
 			{
@@ -340,6 +386,7 @@ class CPSFacebookAppController extends CPSController
 
 			try
 			{
+				//	Log into system...
 				$this->_fbUserId = $this->_session['uid'];
 				$this->_accessToken = $this->_session['access_token'];
 				PS::_ss( 'accessToken', $this->_accessToken );
@@ -350,35 +397,64 @@ class CPSFacebookAppController extends CPSController
 					$this->_me = $this->_facebookApi->api( '/me' );
 					PS::_ss( self::ME_CACHE, $this->_me );
 				}
+					
+				if ( ! $this->_me )
+					throw new Exception( 'Not really logged in...' );
 
+				if ( ! PS::_ig() )
+				{
+					CPSLog::trace( __METHOD__, 'User is already authenticated' );
+				}
+				else
+				{
+					if ( ! CPSFacebookUser::authenticateUser( $this ) )
+						throw new Exception( 'Invalid session' );
+				}
+				
 				$this->_firstName = PS::o( $this->_me, 'first_name' );
 				$this->_loadUser();
 
 				if ( $this->_autoLoadPictures )
 				{
-					$_photoList = CPSFacebook::getPhotoList();
+					$_photoList = $this->getFacebookApi()->getAlbums();
+
 					if ( empty( $_photoList ) )
 						PS::_rs( '_psAutoLoadPictures', '$(function(){$.get("/app/photos",function(){});});' );
 				}
 				
-				return true;
+				return $this->_isConnected = true;
 			}
-			catch ( FacebookApiException $_ex )
+			catch ( Exception $_ex )
 			{
 				CPSLog::error( __METHOD__, 'FB Exception: ' . $_ex->getMessage() );
-				return false;
+				//	Fall through to login url...
 			}
 		}
 		else
 		{
-			CPSLog::info( __METHOD__, 'No session found for this user.' );
+			CPSLog::info( __METHOD__, 'Logging out user, no session found.' );
+			PS::_gu()->logout();
 		}
 
+		CPSLog::trace( __METHOD__, 'Logout current user...' );
+		
+		//	Logout user...
+		Yii::app()->user->logout();
+		
+		PS::_gr()->getCookies()->remove( 'fbs_' . $this->_facebookApi->getAppId() );
+		PS::_gr()->getCookies()->remove( 'pYe_fb_' . $this->_facebookApi->getAppId() );
+		
 		//	If we get here, then we need to reload...
 		if ( $this->_redirectToLoginUrl )
+		{
+			CPSLog::trace( __METHOD__, 'Facebook login redirect: ' . $this->_loginUrl );
 			echo '<script type="text/javascript">window.top.location.href = "' . $this->_loginUrl . '";</script>';
+			flush();
+			die();
+		}
 		else
 		{
+			CPSLog::trace( __METHOD__, 'redirect to' . $this->_loginUrl );
 			echo $this->_loginUrl;
 			flush();
 		}
@@ -392,8 +468,6 @@ class CPSFacebookAppController extends CPSController
 	protected function _loadUser()
 	{
 		$_user = null;
-		
-		
 
 		//	Is this a new app user?
 		if ( ! empty( $this->_fbUserId ) )
@@ -437,7 +511,7 @@ class CPSFacebookAppController extends CPSController
 
 			//	Set our current user...
 			PS::_ss( 'currentUser', $this->_user = $_user );
-
+			
 			//	Raise the facebook login event
 			$this->onFacebookLogin( new CEvent( $_user ) );
 

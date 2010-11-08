@@ -39,13 +39,13 @@ class CPSComponentBehavior extends CBehavior implements IPSOptionContainer, IPSB
 	 * Our options
 	 * @var CPSOptionCollection
 	 */
-	protected $m_oOptions;
+	protected $_optionList;
 
 	/**
 	 * Tracks if we have been initialized yet.
 	 * @var boolean
 	 */
-	protected $m_bInitialized = false;
+	protected $_initialized = false;
 
 	//********************************************************************************
 	//* Yii Overrides
@@ -73,7 +73,7 @@ class CPSComponentBehavior extends CBehavior implements IPSOptionContainer, IPSB
 		PS::createInternalName( $this );
 
 		//	Create our option collection
-		$this->m_oOptions = new CPSOptionCollection();
+		$this->_optionList = new CPSOptionCollection();
 
 		//	Add our options...
 		$this->addOptions( self::getBaseOptions() );
@@ -88,10 +88,10 @@ class CPSComponentBehavior extends CBehavior implements IPSOptionContainer, IPSB
 	*/
 	public function init()
 	{
-		if ( ! $this->m_bInitialized )
+		if ( ! $this->_initialized )
 		{
 			//	We are now...
-			$this->m_bInitialized = true;
+			$this->_initialized = true;
 		}
 	}
 
@@ -102,7 +102,7 @@ class CPSComponentBehavior extends CBehavior implements IPSOptionContainer, IPSB
 	*/
 	public function getPublicOptions()
 	{
-		return $this->m_oOptions->getOptions( true );
+		return $this->_optionList->getOptions( true );
 	}
 
 	/**
@@ -113,18 +113,18 @@ class CPSComponentBehavior extends CBehavior implements IPSOptionContainer, IPSB
 	 */
 	public function getValue( $sKey, $oDefault = null )
 	{
-		return $this->m_oOptions->getValue( $sKey, $oDefault );
+		return $this->_optionList->getValue( $sKey, $oDefault );
 	}
 
 	/**
 	 * Sets an options value
 	 * @param string $sKey
-	 * @param mixed $oValue
+	 * @param mixed $value
 	 * @param boolean $bAddIfMissing If option is not found, it is added
 	 */
-	public function setValue( $sKey, $oValue = null, $bAddIfMissing = true )
+	public function setValue( $sKey, $value = null, $bAddIfMissing = true )
 	{
-		$this->m_oOptions->setValue( $sKey, $oValue, $bAddIfMissing );
+		$this->_optionList->setValue( $sKey, $value, $bAddIfMissing );
 	}
 
 	/**
@@ -155,20 +155,20 @@ class CPSComponentBehavior extends CBehavior implements IPSOptionContainer, IPSB
 	/**
 	 * Merges an array of options into the component options.
 	 * You can pass in an array of (key=>value) pairs or an array of {@link CPSOption}s
-	 * @param array $arOptions
+	 * @param array $optionList
 	 * @returns mixed
 	 */
-	public function mergeOptions( $arOptions = array() )
+	public function mergeOptions( $optionList = array() )
 	{
-		foreach ( $arOptions as $_sKey => $_oValue )
+		foreach ( $optionList as $_key => $_value )
 		{
-			if ( $_oValue instanceof CPSOption )
+			if ( $_value instanceof CPSOption )
 			{
-				$_sKey = $_oValue->getName();
-				$_oValue = $_oValue->getValue();
+				$_key = $_value->getName();
+				$_value = $_value->getValue();
 			}
 
-			$this->setOption( $_sKey, $_oValue );
+			$this->setOption( $_key, $_value );
 		}
 
 		return $this->getOwner();
@@ -197,15 +197,15 @@ class CPSComponentBehavior extends CBehavior implements IPSOptionContainer, IPSB
 	* @param bool $bNoSort If set to false, the option array will not be sorted after the addition
 	* @see unsetOption
 	*/
-	public function addOption( $sKey, $oValue = null, $oPattern = null ) { $this->m_oOptions->addOption( $sKey, $oValue, $oPattern ); }
+	public function addOption( $sKey, $value = null, $oPattern = null ) { $this->_optionList->addOption( $sKey, $value, $oPattern ); }
 
 	/**
 	* Add options in bulk
-	* @param array $arOptions
+	* @param array $optionList
 	* @see setOptions
 	* @see getOptions
 	*/
-	public function addOptions( array $arOptions ) { $this->m_oOptions->addOptions( $arOptions ); }
+	public function addOptions( array $optionList ) { $this->_optionList->addOptions( $optionList ); }
 
 	/**
 	* Retrieves an option value
@@ -213,7 +213,7 @@ class CPSComponentBehavior extends CBehavior implements IPSOptionContainer, IPSB
 	* @return mixed
 	* @see getOptions
 	*/
-	public function getOption( $sKey, $oDefault = null, $bUnset = false ) { return $this->m_oOptions->getOption( $sKey, $oDefault, $bUnset ); }
+	public function getOption( $sKey, $oDefault = null, $bUnset = false ) { return $this->_optionList->getOption( $sKey, $oDefault, $bUnset ); }
 
 	/**
 	 * Returns an array of options
@@ -221,42 +221,42 @@ class CPSComponentBehavior extends CBehavior implements IPSOptionContainer, IPSB
 	 * @param array $arOnlyThese
 	 * @return array
 	 */
-	public function getOptions( $bPublicOnly = false, $arOnlyThese = array() ) { return $this->m_oOptions->getOptions( $bPublicOnly, $arOnlyThese ); }
-	public function getRawOptions( $bPublicOnly = false, $arOnlyThese = array() ) { return $this->m_oOptions->toArray( $bPublicOnly, $arOnlyThese ); }
-	public function &getOptionsObject() { return $this->m_oOptions; }
+	public function getOptions( $bPublicOnly = false, $arOnlyThese = array() ) { return $this->_optionList->getOptions( $bPublicOnly, $arOnlyThese ); }
+	public function getRawOptions( $bPublicOnly = false, $arOnlyThese = array() ) { return $this->_optionList->toArray( $bPublicOnly, $arOnlyThese ); }
+	public function &getOptionsObject() { return $this->_optionList; }
 
 	/**
 	* Sets an option
 	*
 	* @param string $sKey
-	* @param mixed $oValue
+	* @param mixed $value
 	* @see getOption
 	*/
-	public function setOption( $sKey, $oValue ) { $this->m_oOptions->setValue( $sKey, $oValue ); }
+	public function setOption( $sKey, $value ) { $this->_optionList->setValue( $sKey, $value ); }
 
 	/**
 	* Set options in bulk
 	*
-	* @param array $arOptions An array containing option_key => value pairs
+	* @param array $optionList An array containing option_key => value pairs
 	* @param boolean If true, empties array before setting options.
 	* @see getOptions
 	*/
-	public function setOptions( array $arOptions, $bClearFirst = false ) { $this->m_oOptions->setOptions( $arOptions, $bClearFirst ); }
+	public function setOptions( array $optionList, $bClearFirst = false ) { $this->_optionList->setOptions( $optionList, $bClearFirst ); }
 
 	/**
 	* Unsets a single option
 	*
 	* @param string $sKey
-	* @param mixed $oValue
+	* @param mixed $value
 	* @see setOption
 	* @see getOption
 	*/
-	public function unsetOption( $sKey ) { $this->m_oOptions->unsetOption( $sKey ); }
+	public function unsetOption( $sKey ) { $this->_optionList->unsetOption( $sKey ); }
 
 	/**
 	* Resets the collection to empty
 	*/
-	public function clear() { $this->m_oOptions->clear(); }
+	public function clear() { $this->_optionList->clear(); }
 
 	/**
 	* Checks if an option exists in the options array...
@@ -266,8 +266,34 @@ class CPSComponentBehavior extends CBehavior implements IPSOptionContainer, IPSB
 	* @see setOption
 	* @see setOptions
 	*/
-	public function contains( $sKey ) { return $this->m_oOptions->contains( $sKey ); }
+	public function contains( $sKey ) { return $this->_optionList->contains( $sKey ); }
 	public function hasOption( $sKey ) { return $this->contains( $sKey ); }
+
+	/**
+	 * Determines whether a property can be read.
+	 * A property can be read if the class has a getter method
+	 * for the property name. Note, property name is case-insensitive.
+	 * @param string the property name
+	 * @return boolean whether the property can be read
+	 * @see canSetProperty
+	 */
+	public function canGetProperty( $name )
+	{
+		return parent::canGetProperty( $name ) || $this->contains( $name );
+	}
+
+	/**
+	 * Determines whether a property can be read.
+	 * A property can be read if the class has a getter method
+	 * for the property name. Note, property name is case-insensitive.
+	 * @param string the property name
+	 * @return boolean whether the property can be read
+	 * @see canSetProperty
+	 */
+	public function canSetProperty( $name )
+	{
+		return parent::canGetProperty( $name ) || $this->contains( $name );
+	}
 
 	//********************************************************************************
 	//* Magic Methods
@@ -283,8 +309,8 @@ class CPSComponentBehavior extends CBehavior implements IPSOptionContainer, IPSB
 	public function __get( $sName )
 	{
 		//	Check my options first...
-		if ( $this->m_oOptions->contains( $sName ) )
-			return $this->m_oOptions->getValue( $sName );
+		if ( $this->_optionList->contains( $sName ) )
+			return $this->_optionList->getValue( $sName );
 
 		//	Try daddy...
 		return parent::__get( $sName );
@@ -293,18 +319,18 @@ class CPSComponentBehavior extends CBehavior implements IPSOptionContainer, IPSB
 	/**
 	 * Sets value of a component option or property.
 	 * @param string $sName the property, option or event name
-	 * @param mixed $oValue the property value or callback
+	 * @param mixed $value the property value or callback
 	 * @throws CException if the property/event is not defined or the property is read only.
 	 * @see __get
 	 */
-	public function __set( $sName, $oValue )
+	public function __set( $sName, $value )
 	{
 		//	Check my options first...
-		if ( $this->m_oOptions->contains( $sName ) )
-			return $this->m_oOptions->setValue( $sName, $oValue );
+		if ( $this->_optionList->contains( $sName ) )
+			return $this->_optionList->setValue( $sName, $value );
 
 		//	Let parent take a stab. He'll check getter/setters and Behavior methods
-		return parent::__set( $sName, $oValue );
+		return parent::__set( $sName, $value );
 	}
 
 	/**
@@ -314,8 +340,8 @@ class CPSComponentBehavior extends CBehavior implements IPSOptionContainer, IPSB
 	public function __isset( $sName )
 	{
 		//	Mine first...
-		if ( $this->m_oOptions->contains( $sName ) )
-			return null !== $this->m_oOptions->getValue( $sName );
+		if ( $this->_optionList->contains( $sName ) )
+			return null !== $this->_optionList->getValue( $sName );
 
 		return parent::__isset( $sName );
 	}
@@ -327,8 +353,8 @@ class CPSComponentBehavior extends CBehavior implements IPSOptionContainer, IPSB
 	public function __unset( $sName )
 	{
 		//	Check my options first...
-		if ( $this->m_oOptions->contains( $sName ) )
-			$this->m_oOptions->setValue( $sName );
+		if ( $this->_optionList->contains( $sName ) )
+			$this->_optionList->setValue( $sName );
 		else
 			//	Try dad
 			parent::__unset( $sName );

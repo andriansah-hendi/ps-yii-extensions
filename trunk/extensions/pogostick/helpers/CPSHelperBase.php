@@ -369,12 +369,12 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 *
 	 * @param string $url The URL to call
 	 * @param string $sQueryString The query string to attach
-	 * @param string $sMethod The HTTP method to use. Can be 'GET' or 'SET'
+	 * @param string $method The HTTP method to use. Can be 'GET' or 'SET'
 	 * @param mixed $sNewAgent The custom user method to use. Defaults to 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; .NET CLR 2.0.50727; .NET CLR 3.0.04506; InfoPath.3)'
 	 * @param integer $iTimeOut The number of seconds to wait for a response. Defaults to 60 seconds
 	 * @return mixed The data returned from the HTTP request or null for no data
 	 */
-	public static function makeHttpRequest( $url, $sQueryString = null, $sMethod = 'GET', $sNewAgent = null, $iTimeOut = 60 )
+	public static function makeHttpRequest( $url, $sQueryString = null, $method = 'GET', $sNewAgent = null, $iTimeOut = 60 )
 	{
 		//	Our user-agent string
 		$_sAgent = PS::nvl( $sNewAgent, 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; .NET CLR 2.0.50727; .NET CLR 3.0.04506; InfoPath.3)' );
@@ -401,10 +401,10 @@ class CPSHelperBase extends CHtml implements IPSBase
 			curl_setopt( $_oCurl, CURLOPT_USERAGENT, $_sAgent );
 			curl_setopt( $_oCurl, CURLOPT_TIMEOUT, 60 );
 			curl_setopt( $_oCurl, CURLOPT_FOLLOWLOCATION, true );
-			curl_setopt( $_oCurl, CURLOPT_URL, $url . ( 'GET' == $sMethod ? ( ! empty( $_payload ) ? "?" . trim( $_payload, '&' ) : '' ) : '' ) );
+			curl_setopt( $_oCurl, CURLOPT_URL, $url . ( 'GET' == $method ? ( ! empty( $_payload ) ? "?" . trim( $_payload, '&' ) : '' ) : '' ) );
 
 			//	If this is a post, we have to put the post data in another field...
-			if ( 'POST' == $sMethod )
+			if ( 'POST' == $method )
 			{
 				curl_setopt( $_oCurl, CURLOPT_URL, $url );
 				curl_setopt( $_oCurl, CURLOPT_POST, true );
@@ -953,9 +953,9 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 * @param string the token separating name-value pairs in the URL.
 	 * @return string the constructed URL
 	 */
-	public static function _cu( $sRoute, $arParams = array(), $sAmpersand = '&' )
+	public static function _cu( $route, $options = array(), $ampersand = '&' )
 	{
-		return self::$_thisApp->createUrl( $sRoute, $arParams, $sAmpersand );
+		return self::$_thisApp->createUrl( $route, $options, $ampersand );
 	}
 
 	/**
@@ -1045,22 +1045,22 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 * @throws CException if the asset to be published does not exist.
 	 * @see CAssetManager::publish
 	 */
-	public static function _publish( $sPath , $bHashByName = false, $iLevel = -1 )
+	public static function _publish( $path , $hashByName = false, $level = -1 )
 	{
-		return self::$_thisApp->getAssetManager()->publish( $sPath, $bHashByName, $iLevel );
+		return self::$_thisApp->getAssetManager()->publish( $path, $hashByName, $level );
 	}
 
 	/**
 	 * Performs a redirect. See {@link CHttpRequest::redirect}
 	 *
 	 * @param string $url
-	 * @param boolean $bTerminate
-	 * @param int $iStatusCode
+	 * @param boolean $terminate
+	 * @param int $statusCode
 	 * @see CHttpRequest::redirect
 	 */
-	public static function redirect( $url, $bTerminate = true, $iStatusCode = 302 )
+	public static function redirect( $url, $terminate = true, $statusCode = 302 )
 	{
-		self::$_thisRequest->redirect( $url, $bTerminate, $iStatusCode );
+		self::$_thisRequest->redirect( $url, $terminate, $statusCode );
 	}
 
 	/**
@@ -1079,8 +1079,21 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 */
 	public static function _gs( $stateName, $defaultValue = null )
 	{
-		$_value = self::_gu()->getState( $stateName, $defaultValue );
-		return unserialize( $_value );
+		return unserialize( self::_gu()->getState( $stateName, serialize( $defaultValue ) ) );
+	}
+	
+	/**
+	 * Alternative to {@link CWebUser::getState} that takes an array of key parts and assembles them into a hashed key
+	 * @param array Array of key parts
+	 * @param mixed default value
+	 * @return mixed the value of the variable. If it doesn't exist in the session, the provided default value will be returned
+	 * @see _ss
+	 * @see _gs
+	 * @see CWebUser::setState
+	 */
+	public static function _ghs( $stateKeyParts, $defaultValue = null )
+	{
+		return self::_gs( CPSHash::hash( implode( '.', $stateKeyParts ) ), $defaultValue );
 	}
 
 	/**
@@ -1100,10 +1113,21 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 */
 	public static function _ss( $stateName, $stateValue, $defaultValue = null )
 	{
-		$_value = serialize( $stateValue );
-		$_defaultValue = serialize( $defaultValue );
+		return self::_gu()->setState( $stateName, serialize( $stateValue ), serialize( $defaultValue ) );
+	}
 
-		return self::_gu()->setState( $stateName, $_value, $_defaultValue );
+	/**
+	 * Alternative to {@link CWebUser::setState} that takes an array of key parts and assembles them into a hashed key
+	 * @param array array of key parts
+	 * @param mixed variable value
+	 * @param mixed default value
+	 * @see _ss
+	 * @see _gs
+	 * @see CWebUser::setState
+	 */
+	public static function _shs( $stateKeyParts, $stateValue, $defaultValue = null )
+	{
+		return self::_ss( CPSHash::hash( implode( '.', $stateKeyParts ) ), $stateValue, $defaultValue );
 	}
 
 	/**
@@ -1198,16 +1222,16 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 *
 	 * Only available in PHP 5.3+
 	 *
-	 * @param string $sMethod
-	 * @param array $arParams
+	 * @param string $method
+	 * @param array $options
 	 * @return mixed
 	 */
-	public static function __callStatic( $sMethod, $arParams )
+	public static function __callStatic( $method, $options )
 	{
 		foreach ( self::$_classPath as $_class )
 		{
-			if ( method_exists( $_class, $sMethod ) )
-				return call_user_func_array( $_class . '::' . $sMethod, $arParams );
+			if ( method_exists( $_class, $method ) )
+				return call_user_func_array( $_class . '::' . $method, $options );
 		}
 	}
 
