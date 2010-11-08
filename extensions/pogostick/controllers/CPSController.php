@@ -412,15 +412,15 @@ abstract class CPSController extends CController implements IPSBase
 	*/
 	public function actionError()
 	{
-		if ( ! $_arError = Yii::app()->errorHandler->error )
+		if ( ! $_error = Yii::app()->errorHandler->error )
 		{
 			if ( $this->isAjaxRequest )
-				echo $_arError['message'];
+				echo $_error['message'];
 			else
 				throw new CHttpException( 404, 'Page not found.' );
 		}
 
-		$this->render( 'error', array( 'error' => $_arError ) );
+		$this->render( 'error', array( 'error' => $_error, 'mesasge' => $_error['message'], 'code' => $_error['code'] ) );
 	}
 
 	/**
@@ -538,6 +538,17 @@ abstract class CPSController extends CController implements IPSBase
 			return $_output;
 
 		echo $_output;
+	}
+
+	/**
+	 * Sets up the breadcrumb and menus
+	 * @param array $breadcrumbList
+	 * @param array $menuItemList
+	 */
+	public function setViewNavigation( $breadcrumbList = array(), $menuItemList = array() )
+	{
+		$this->breadcrumbs = $breadcrumbList;
+		$this->menu = $menuItemList;
 	}
 
 	//********************************************************************************

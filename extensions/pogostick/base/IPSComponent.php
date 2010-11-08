@@ -44,6 +44,6 @@ interface IPSComponent extends IPSBase
 	* Set the internal name of this component
 	* @param string
 	*/
-	function setInternalName( $sValue );
+	function setInternalName( $value );
 
 }

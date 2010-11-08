@@ -1792,10 +1792,13 @@ HTML;
 
 					if ( $_sId && $_sName && $_sModel )
 					{
-						if ( $_arModels = $_sModel::model()->findAll( array( 'select' => $_sId . ',' . $_sName, 'condition' => $_condition ) ) )
+						if ( $_model = call_user_func( array( $_sModel, 'model' ) ) )
 						{
-							foreach ( $_arModel as $_oModel )
-								$_ardata[ $_oModel->getAttribute( $_sId ) ] = $_oModel->getAttribute( $_sName );
+							if ( $_arModels = $_model->findAll( array( 'select' => $_sId . ',' . $_sName, 'condition' => $_condition ) ) )
+							{
+								foreach ( $_arModel as $_oModel )
+									$_ardata[ $_oModel->getAttribute( $_sId ) ] = $_oModel->getAttribute( $_sName );
+							}
 						}
 					}
 					break;

@@ -35,8 +35,8 @@ class CPSFacebook extends CPSApiComponent
 	/**
 	 * Version of this class
 	 */
-	const	VERSION = '2.1.1.1';
-	const	USER_AGENT = 'pYe-facebook-php-2.1.1.1';
+	const	VERSION = '2.1.2';
+	const	USER_AGENT = 'pYe-facebook-php-2.1.2';
 
 	/**
 	 * Cache constants
@@ -51,7 +51,7 @@ class CPSFacebook extends CPSApiComponent
 	 * @staticvar array Default options for curl.
 	 */
 	public static $_CURL_OPTS = array(
-		CURLOPT_CONNECTTIMEOUT => 60,
+		CURLOPT_CONNECTTIMEOUT => 10,
 		CURLOPT_RETURNTRANSFER => true,
 		CURLOPT_TIMEOUT => 60,
 		CURLOPT_USERAGENT => self::USER_AGENT,
@@ -210,7 +210,7 @@ class CPSFacebook extends CPSApiComponent
 		if ( ! $this->_signedRequest )
 		{
 			if ( null !== ( $_request = PS::o( $_REQUEST, 'signed_request' ) ) )
-				$this->_signedRequest = $this->parseSignedRequest( $_request );
+				$this->_signedRequest = $this->_parseSignedRequest( $_request );
 		}
 
 		return $this->_signedRequest;
@@ -302,7 +302,8 @@ class CPSFacebook extends CPSApiComponent
 	 */
 	public function __destruct()
 	{
-		PS::_ss( self::PHOTO_CACHE, self::$_photoList );
+		if ( ! empty( self::$_photoList ) )
+			PS::_ss( self::PHOTO_CACHE, self::$_photoList );
 	}
 
 	/**
@@ -418,7 +419,7 @@ class CPSFacebook extends CPSApiComponent
 			'login.php',
 			array_merge( array(
 				'api_key' => $this->_appId,
-				'cancel_url' => $_currentUrl,
+				'cancel_url' => 'http://www.facebook.com',
 				'display' => 'page',
 				'fbconnect' => 1,
 				'next' => $_currentUrl,
@@ -500,11 +501,20 @@ class CPSFacebook extends CPSApiComponent
 	 */
 	public function getAlbums( $id = null )
 	{
-		set_time_limit( 0 );
-		ignore_user_abort();
+		static $_inProgress = false;
+
+		if ( null !== ( $_user = User::model()->find( ':pform_user_id_text = pform_user_id_text', array( ':pform_user_id_text' => $this->_session['uid'] ) ) ) )
+		{
+			CPSLog::trace( __METHOD__, 'Getting photos from user table cache...' );
+			self::$_photoList = json_decode( $_user->photo_cache_text, true );
+		}
+
+		if ( $_inProgress ) return self::$_photoList;
 		
-		if ( ! self::$_photoList )
+		if ( empty( self::$_photoList ) )
 		{		
+			CPSLog::trace( __METHOD__, 'Reloading photo cache...' );
+			$_inProgress = true;
 			self::$_photoList = array();
 			
 			try
@@ -514,21 +524,36 @@ class CPSFacebook extends CPSApiComponent
 				{
 					$_result = array();
 
-					foreach ( self::$_photoList as $_album )
+					foreach ( self::$_photoList as $_key => $_album )
 					{
-						$_result[$_album['id']] = $_album;
-						$_result[$_album['id']]['photos'] = $this->getPhotos( $_album['id'] );
+						self::$_photoList[$_key]['photos'] = $this->getPhotos( $_album['id'] );
+						
+						if ( ! empty( self::$_photoList[$_key]['photos'] ) )
+						{
+							foreach ( self::$_photoList[$_key]['photos'] as $_photo )
+							{
+								if ( isset( $_photo['picture'] ) )
+								{
+									self::$_photoList[$_key]['picture'] = $_photo['picture'];
+									break;
+								}
+							}
+						}
 					}
-
-					PS::_ss( self::PHOTO_CACHE, self::$_photoList = $_result );
+					
+					CPSLog::trace( __METHOD__, 'Saving photos to user table cache...' );
+					$_user->photo_cache_text = json_encode( self::$_photoList );
+					$_user->update( array( 'photo_cache_text' ) );
 				}
 			}
 			catch ( Exception $_ex )
 			{
+				CPSLog::error( __METHOD__, 'Exception: ' . $_ex->getMessage() );
 			}
 		}
-		
-		return ( null == $id ? self::$_photoList : PS::o( self::$_photoList, 'id' ) );
+
+		$_inProgress = false;
+		return self::$_photoList;
 	}
 	
 	/**
@@ -538,9 +563,6 @@ class CPSFacebook extends CPSApiComponent
 	 */
 	public function getPhotos( $aid, $id = null, $limit = null )
 	{
-		set_time_limit( 0 );
-		ignore_user_abort();
-		
 		static $_recursed = false;
 		
 		if ( null == $aid )
@@ -561,7 +583,6 @@ class CPSFacebook extends CPSApiComponent
 
 		$_url = '/' . $aid . '/photos';
 		$_resultList = array();
-		if ( null == $limit ) self::$_photoList[$aid]['photos'] = array();
 
 		while ( true )
 		{
@@ -576,9 +597,8 @@ class CPSFacebook extends CPSApiComponent
 
 			if ( $_tempList )
 			{
-				foreach ( PS::o( $_tempList, 'data' ) as $_photo )
-					$_resultList[$_photo['id']] = $_photo;
-
+				$_resultList = array_merge( $_resultList, PS::o( $_tempList, 'data', array() ) );
+					
 				if ( null != $limit || null === ( $_url = PS::oo( $_tempList, 'paging', 'next' ) ) )
 					break;
 			}
@@ -586,8 +606,6 @@ class CPSFacebook extends CPSApiComponent
 				break;
 		}
 
-		if ( null == $limit ) self::$_photoList[$aid]['photos'] = $_resultList;
-		
 		return $_resultList;
 	}
 	
@@ -648,17 +666,22 @@ class CPSFacebook extends CPSApiComponent
 
 		$_result = $this->_oauthRequest( $this->_getUrl( 'graph', $path ), $paramList );
 		$_result = json_decode( $_result, true );
-
+		
 		//	Results are returned, errors are thrown
 		if ( PS::o( $_result, 'error' ) )
 		{
 			$_ex = new CPSFacebookApiException( $_result );
-
-			if ( $_ex->getType() === 'OAuthException' )
-				$this->setSession( null );
-
+			
+			switch ( $_ex->getType() )
+			{
+				case 'OAuthException':			//	OAuth 2.0 Draft 00 style
+				case 'invalid_token':			//	OAuth 2.0 Draft 10 style
+					$this->setSession( null );
+					break;
+			}
+			
 			throw $_ex;
-		}
+		}		
 
 		return $_result;
 	}
@@ -786,7 +809,7 @@ class CPSFacebook extends CPSApiComponent
 			// disable error log if we are running in a CLI environment
 			// @codeCoverageIgnoreStart
 			if ( php_sapi_name() != 'cli' )
-				error_log( 'Could not set cookie. Headers already sent.' );
+				CPSLog::error( __METHOD__, 'Could not set cookie. Headers already sent.' );
 			// @codeCoverageIgnoreEnd
 
 		// ignore for code coverage as we will never be able to setcookie in a CLI
@@ -827,7 +850,7 @@ class CPSFacebook extends CPSApiComponent
 				//	Disable error log if we are running in a CLI environment
 				//	@codeCoverageIgnoreStart
 				if ( php_sapi_name() != 'cli' )
-					error_log( 'Got invalid session signature in cookie.' );
+					CPSLog::error( __METHOD__, 'Got invalid session signature in cookie.' );
 				// @codeCoverageIgnoreEnd
 				$session = null;
 			}
@@ -887,20 +910,22 @@ class CPSFacebook extends CPSApiComponent
 			//	Disable error log if we are running in a CLI environment
 			//	@codeCoverageIgnoreStart
 			if ( php_sapi_name() != 'cli' )
-				error_log( 'Unknown algorithm. Expected HMAC-SHA256' );
+				CPSLog::error( __METHOD__, 'Unknown algorithm. Expected HMAC-SHA256' );
 			// @codeCoverageIgnoreEnd
 			return null;
 		}
 
 		//	Check signature
-		$_expectedSignature = CPSHash::hash_hmac( 'sha256', $_payload, $this->_apiSecretKey, true );
+		$_expectedSignature = hash_hmac( 'sha256', $_payload, $this->_apiSecretKey, true );
 
+		CPSLog::trace( __METHOD__, 'Sig:[' . $_signature . '] expect:[' . $_expectedSignature . ']' );
+		
 		if ( $_signature !== $_expectedSignature )
 		{
 			//	Disable error log if we are running in a CLI environment
 			//	@codeCoverageIgnoreStart
 			if ( php_sapi_name() != 'cli' )
-				error_log( 'Bad Signed JSON signature!' );
+				CPSLog::error( __METHOD__, 'Bad Signed JSON signature!' );
 			// @codeCoverageIgnoreEnd
 			return null;
 		}
@@ -1052,13 +1077,6 @@ class CPSFacebookApiException extends CPSException
 	protected $_result;
 	public function getResult() { return $this->_result; }
 
-	/**
-	 * Returns the associated type for the error. This will default to
-	 * 'Exception' when a type is not available.
-	 * @return string
-	 */
-	public function getType() { return isset( $this->_result['error'] ) && isset( $this->_result['error']['type'] ) ? $this->_result['error']['type'] : 'Exception'; }
-
 	//********************************************************************************
 	//* Public Methods
 	//********************************************************************************
@@ -1070,10 +1088,57 @@ class CPSFacebookApiException extends CPSException
 	public function __construct( $result )
 	{
 		$this->_result = $result;
-		$_code = PS::o( $result, 'error_code', 0 );
-		$_message = PS::oo( $result, 'error', 'message', PS::o( $result, 'error_msg' ) );
-
+		$_code = PS::o( $_result, 'error_code', 0 );
+		
+		if ( isset( $result['error_description'] ) )
+		{
+			//	OAuth 2.0 Draft 10 style
+			$_message = $result['error_description'];
+		}
+		else if ( isset( $result['error'] ) && is_array( $result['error'] ) )
+		{
+			// OAuth 2.0 Draft 00 style
+			$_message = $result['error']['message'];
+		}
+		else if ( isset( $result['error_msg'] ) )
+		{
+			// Rest server style
+			$_message = $result['error_msg'];
+		}
+		else
+		{
+			$_message = 'Unknown Error. Check getResult()';
+		}
+		
 		parent::__construct( $_message, $_code );
+	}
+
+	/**
+	 * Returns the associated type for the error. This will default to
+	 * 'Exception' when a type is not available.
+	 * @return string
+	 */
+	public function getType() 
+	{	
+		if ( isset( $this->_result['error'] ) )
+		{
+			$_error = $this->_result['error'];
+			if ( is_string( $_error ) ) 
+			{
+				// OAuth 2.0 Draft 10 style
+				return $_error;
+			}
+			else if ( is_array( $_error ) )
+			{
+				// OAuth 2.0 Draft 00 style
+				if ( isset( $_error['type'] ) )
+				{
+					return $_error['type'];
+				}
+			}
+		}
+		
+		return 'Exception';	
 	}
 
 	/**

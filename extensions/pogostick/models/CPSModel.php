@@ -24,16 +24,21 @@
 class CPSModel extends CActiveRecord implements IPSBase
 {
 	//********************************************************************************
-	//* Members
+	//* Private Members
 	//********************************************************************************
 
+	/**
+	 * @var string Default sort order for data providers
+	 */
+	protected $_defaultSort;
+	public function getDefaultSort() { return $this->_defaultSort; }
+	public function setDefaultSort($value) { $this->_defaultSort = $value; }
 	/**
 	* Our schema, cached for speed
 	* @var array
 	*/
 	protected $m_arSchema;
 	public function getSchema() { return $this->m_arSchema ? $this->m_arSchema : $this->m_arSchema = $this->getMetaData()->columns; }
-
 	/**
 	 * The associated database table name prefix.
 	 * If Yii version is greater than 1.0, the dbConnection's table prefix for this model will be set.
@@ -321,6 +326,9 @@ class CPSModel extends CActiveRecord implements IPSBase
 			if ( $_column->type == 'string' )
 				$_criteria->compare( $_column->name, $this->{$_column->name}, true );
 		}
+
+		if ( ! $_criteria->order && $this->_defaultSort )
+			$_criteria->order = $this->_defaultSort;
 
 		return new CActiveDataProvider( get_class( $this ), array( 'criteria' => $_criteria ) );
 	}

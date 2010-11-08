@@ -170,28 +170,31 @@ abstract class CPSCRUDController extends CPSController
 	//********************************************************************************
 
 	/**
-	* Default login
-	*
-	*/
+	 * Displays the login page
+	 */
 	public function actionLogin()
 	{
-		if ( ! Yii::app()->user->isGuest )
-			return $this->redirect( Yii::app()->user->returnUrl );
+		$_model = new $this->_loginFormClass;
 
-		$_sClass = $this->getLoginFormClass();
-		$_oLogin = new $_sClass();
-
-		if ( isset( $_POST[ $_sClass ] ) )
+		//	If it is ajax validation request
+		if ( isset( $_POST['ajax'] ) && 'login-form' === $_POST['ajax'] )
 		{
-			$_oLogin->attributes = $_POST[ $_sClass ];
+			echo CActiveForm::validate( $_model );
+			Yii::app()->end();
+		}
 
-			//	Validate user input and redirect to previous page if valid
-			if ( $_oLogin->validate() )
-				return $this->redirect( Yii::app()->user->returnUrl );
+		//	Collect user input data
+		if ( isset( $_POST['LoginForm'] ) )
+		{
+			$_model->attributes = $_POST['LoginForm'];
+
+			//	Validate user input and redirect to the previous page if valid
+			if ( $_model->validate() && $_model->login() )
+				$this->redirect( PS::_gu()->returnUrl );
 		}
 
 		//	Display the login form
-		$this->render( 'login', array( 'form' => $_oLogin ) );
+		$this->render( 'login', array( 'form' => $_oLogin, 'model' => $_oLogin ) );
 	}
 
 	/**
@@ -200,8 +203,8 @@ abstract class CPSCRUDController extends CPSController
 	*/
 	public function actionLogout()
 	{
-		Yii::app()->user->logout();
-		$this->redirect( Yii::app()->user->loginUrl );
+		PS::_gu()->logout();
+		$this->redirect( PS::_gu()->loginUrl );
 	}
 
 	/**
@@ -213,7 +216,7 @@ abstract class CPSCRUDController extends CPSController
 	public function actionCreate( $options = array() )
 	{
 		$_model = new $this->m_sModelName;
-		if ( Yii::app()->request->isPostRequest ) $this->saveModel( $_model, $_POST, 'update' );
+		if ( PS::_gr()->isPostRequest ) $this->saveModel( $_model, $_POST, 'update' );
 		$this->genericAction( 'create', $_model, $options );
 	}
 
@@ -224,7 +227,7 @@ abstract class CPSCRUDController extends CPSController
 	public function actionUpdate( $options = array() )
 	{
 		$_model = $this->loadModel();
-		if ( Yii::app()->request->isPostRequest )
+		if ( PS::_gr()->isPostRequest )
 		{
 			$this->saveModel( $_model, $_POST, 'update' );
 		}
@@ -249,7 +252,7 @@ abstract class CPSCRUDController extends CPSController
 	*/
 	public function actionDelete( $sRedirectAction = 'admin' )
 	{
-		if ( Yii::app()->request->isPostRequest )
+		if ( PS::_gr()->isPostRequest )
 		{
 			if ( $this->loadModel() )
 			{
