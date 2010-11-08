@@ -140,10 +140,7 @@ class CPSForm implements IPSBase
 						}
 
 						//	Make the field
-						if ( version_compare( PHP_VERSION, '5.3.0', '>=' ) )
-							$_sOut .= call_user_func_array( array( 'PS', $_sMethod ), $_arValue );
-						else
-							$_sOut .= call_user_func_array( 'PS::' . $_sMethod, $_arValue );
+						$_sOut .= call_user_func_array( array( 'PS', $_sMethod ), $_arValue );
 						
 						//	CKEditor needs special handing for validate...
 						if ( $_bValidate && $_sType == PS::CKEDITOR )

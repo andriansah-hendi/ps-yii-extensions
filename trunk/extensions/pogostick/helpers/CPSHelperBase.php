@@ -88,6 +88,12 @@ class CPSHelperBase extends CHtml implements IPSBase
 	protected static $_thisUser = null;
 
 	/**
+	* Cache the current controller for speed
+	* @static CController
+	*/
+	protected static $_thisController = null;
+
+	/**
 	* Cache the application parameters for speed
 	* @static CAttributeCollection
 	*/
@@ -670,6 +676,30 @@ class CPSHelperBase extends CHtml implements IPSBase
 	}
 
 	/**
+	 * Convenience method returns the current app name
+	 * @see CWebApplication::name
+	 * @see CHtml::encode
+	 * @returns string
+	 */
+	public static function getAppName( $notEncoded = false ) { return self::_gan( $notEncoded ); }
+	public static function _gan( $notEncoded = false )
+	{
+		return $notEncoded ? self::_a()->name : self::encode( self::_a()->name );
+	}
+
+	/**
+	 * Convienice method returns the current page title
+	 * @see CController::pageTitle
+	 * @see CHtml::encode
+	 * @returns string
+	 */
+	public static function getPageTitle( $notEncoded = false ) { return self::_gpt( $notEncoded ); }
+	public static function _gpt( $notEncoded = false )
+	{
+		return $notEncoded ? self::_gc()->getPageTitle() : self::encode( self::_gc()->getPageTitle() );
+	}
+
+	/**
 	 * Convienice methond Returns the base url of the current app
 	 * @see CWebApplication::getBaseUrl
 	 * @see CHttpRequest::getBaseUrl
@@ -986,7 +1016,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 	public static function getController() { return self::_gc(); }
 	public static function _gc()
 	{
-		return self::$_thisApp->getController();
+		return ( null === self::$_thisController ? self::$_thisController = self::$_thisApp->getController() : self::$_thisController );
 	}
 
 	/**
@@ -1049,7 +1079,8 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 */
 	public static function _gs( $stateName, $defaultValue = null )
 	{
-		return self::_gu()->getState( $stateName, $defaultValue );
+		$_value = self::_gu()->getState( $stateName, $defaultValue );
+		return unserialize( $_value );
 	}
 
 	/**
@@ -1069,7 +1100,10 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 */
 	public static function _ss( $stateName, $stateValue, $defaultValue = null )
 	{
-		return self::_gu()->setState( $stateName, $stateValue, $defaultValue );
+		$_value = serialize( $stateValue );
+		$_defaultValue = serialize( $defaultValue );
+
+		return self::_gu()->setState( $stateName, $_value, $_defaultValue );
 	}
 
 	/**

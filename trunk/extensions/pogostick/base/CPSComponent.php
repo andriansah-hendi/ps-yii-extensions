@@ -22,6 +22,7 @@
  * @filesource
  *
  * @property-read string $internalName The internal name of the component.
+ * @property boolean $debugMode Enable trace-level debugging
  */
 class CPSComponent extends CApplicationComponent implements IPSComponent
 {
@@ -34,6 +35,8 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 	* @var string
 	*/
 	protected $_internalName;
+	public function getInternalName() { return $this->_internalName; }
+	public function setInternalName( $value ) { $this->_internalName = $value; }
 
 	/**
 	 * Tracks the status of debug mode for component
@@ -41,23 +44,23 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 	 */
 	protected $_debugMode = false;
 	public function getDebugMode() { return $this->_debugMode; }
-	public function setDebugMode( $bValue ) { $this->_debugMode = $bValue; }
+	public function setDebugMode( $value ) { $this->_debugMode = $value; }
 
 	//********************************************************************************
 	//* Member Variables
 	//********************************************************************************
 
 	/**
-	 * Tracks if we have been initialized yet.
+	 * Tracks if this component has been initialized yet.
 	 * @var boolean
 	 */
-	protected $m_bInitialized = false;
+	protected $_initialized = false;
 
 	/**
 	 * Our behaviors. Cached for speed here...
 	 * @var array
 	 */
-	protected $m_arBehaviorCache = array();
+	protected $_behaviorList = array();
 
 	//********************************************************************************
 	//* Yii Overrides
@@ -94,17 +97,17 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 	*/
 	public function init()
 	{
-		if ( ! $this->m_bInitialized )
+		if ( ! $this->_initialized )
 		{
 			//	Now call parent's init...
 			parent::init();
 
 			//	Call our behaviors init()
-			foreach ( $this->m_arBehaviorCache as $_sName )
-				$this->asa( $_sName )->init();
+			foreach ( $this->_behaviorList as $_name )
+				$this->asa( $_name )->init();
 
 			//	We are now...
-			$this->m_bInitialized = true;
+			$this->_initialized = true;
 		}
 	}
 
@@ -114,47 +117,77 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 	 * configuration. After that, the Behavior object will be initialized
 	 * by calling its {@link IPSBehavior::attach} method.
 	 *
-	 * @param string $sName the Behavior's name. It should uniquely identify this Behavior.
-	 * @param mixed $oBehavior the Behavior configuration. This is passed as the first parameter to {@link YiiBase::createComponent} to create the Behavior object.
+	 * @param string $name the Behavior's name. It should uniquely identify this Behavior.
+	 * @param mixed $behavior the Behavior configuration. This is passed as the first parameter to {@link YiiBase::createComponent} to create the Behavior object.
 	 * @return IPSBehavior the Behavior object
 	 */
-	public function attachBehavior( $sName, $oBehavior )
+	public function attachBehavior( $name, $behavior )
 	{
-		//	Attach the Behavior at the parent and add options here...
-		if ( $_oObject = parent::attachBehavior( $sName, $oBehavior ) )
-		{
-			//	Add to our cache...
-			$this->m_arBehaviorCache[] = $sName;
-		}
+		//	Attach the Behavior at the parent and add options here, then cache
+		if ( null !== ( $_component = parent::attachBehavior( $name, $behavior ) ) )
+			$this->_behaviorList[] = $name;
 
-		return $_oObject;
+		return $_component;
 	}
 
 	/**
 	 * Alias for setOptions
-	 * @param array $arConfig
+	 * @param array $optionList
 	 * @see setOptions
 	 */
-	public function configure( $arConfig = array() )
+	public function configure( $optionList = array() )
 	{
-		$this->setOptions( $arConfig );
+		$this->setOptions( $optionList );
 	}
 
-	//********************************************************************************
-	//* Interface Requirements
-	//********************************************************************************
+	/**
+	 * Determines whether a property can be read.
+	 * A property can be read if the class has a getter method
+	 * for the property name. Note, property name is case-insensitive.
+	 * @param string the property name
+	 * @return boolean whether the property can be read
+	 * @see canSetProperty
+	 */
+	public function canGetProperty( $name )
+	{
+		parent::canGetProperty( $name ) || $this->hasProperty( $name );
+	}
+	
+	/**
+	 * Determines whether a property can be set.
+	 * A property can be written if the class has a setter method
+	 * for the property name. Note, property name is case-insensitive.
+	 * @param string the property name
+	 * @return boolean whether the property can be written
+	 * @see canGetProperty
+	 */
+	public function canSetProperty( $name )
+	{
+		parent::canSetProperty( $name ) || $this->hasProperty( $name );
+	}
 
 	/**
-	 * Get our internal name
-	 * @returns string
+	 * Determines whether a property is defined.
+	 * A property is defined if there is a getter or setter method
+	 * defined in the class. Note, property names are case-insensitive.
+	 * @param string the property name
+	 * @return boolean whether the property is defined
+	 * @see canGetProperty
+	 * @see canSetProperty
 	 */
-	public function getInternalName() { return $this->_internalName; }
+	public function hasProperty( $name )
+	{
+		if ( parent::hasProperty( $name ) )
+			return true;
 
-	/**
-	 * Set our internal name
-	 * @param string $sName
-	 */
-	public function setInternalName( $sValue ) { $this->_internalName = $sValue; }
+		foreach ( $this->_behaviorList as $_behaviorName )
+		{
+			if ( ( $_behavior = $this->asa( $_behaviorName ) ) instanceof IPSOptionContainer && $_behavior->contains( $name ) && $_behavior->getEnabled() )
+				return true;
+		}
+		
+		return false;
+	}
 
 	//********************************************************************************
 	//* Magic Methods
@@ -176,7 +209,7 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 		catch ( CException $_ex )
 		{
 			//	Didn't work. Try our behavior cache...
-			foreach ( $this->m_arBehaviorCache as $_behaviorName )
+			foreach ( $this->_behaviorList as $_behaviorName )
 			{
 				if ( ( $_behavior = $this->asa( $_behaviorName ) ) instanceof IPSOptionContainer && $_behavior->contains( $name ) )
 					return $_behavior->getValue( $name );
@@ -189,7 +222,7 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 
 	/**
 	 * Sets value of a component option or property.
-	 * @param string $sName the property, option or event name
+	 * @param string $name the property, option or event name
 	 * @param mixed $oValue the property value or callback
 	 * @throws CException if the property/event is not defined or the property is read only.
 	 * @see __get
@@ -203,7 +236,7 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 		catch ( CException $_ex )
 		{
 			//	Didn't work. Try our behavior cache...
-			foreach ( $this->m_arBehaviorCache as $_behaviorName )
+			foreach ( $this->_behaviorList as $_behaviorName )
 			{
 				if ( ( $_behavior = $this->asa( $_behaviorName ) ) instanceof IPSOptionContainer && $_behavior->contains( $name ) )
 					return $_behavior->setValue( $name, $value );
@@ -216,89 +249,89 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 
 	/**
 	 * Test to see if an option is set.
-	 * @param string $sName
+	 * @param string $name
 	 */
-	public function __isset( $sName )
+	public function __isset( $name )
 	{
 		//	Then behaviors
-		foreach ( $this->m_arBehaviorCache as $_sBehavior )
+		foreach ( $this->_behaviorList as $_behavior )
 		{
-			if ( ( $_oBehave = $this->asa( $_sBehavior ) ) instanceof IPSOptionContainer && $_oBehave->contains( $sName ) )
-				return $_oBehave->getValue( $sName ) !== null;
+			if ( ( $_component = $this->asa( $_behavior ) ) instanceof IPSOptionContainer && $_component->contains( $name ) )
+				return $_component->getValue( $name ) !== null;
 		}
 
-		return parent::__isset( $sName );
+		return parent::__isset( $name );
 	}
 
 	/**
 	 * Unset an option
-	 * @param string $sName
+	 * @param string $name
 	 */
-	public function __unset( $sName )
+	public function __unset( $name )
 	{
 		//	Then behaviors
-		foreach ( $this->m_arBehaviorCache as $_sBehavior )
+		foreach ( $this->_behaviorList as $_behavior )
 		{
-			if ( ( $_oBehave = $this->asa( $_sBehavior ) ) instanceof IPSOptionContainer && $_oBehave->contains( $sName ) )
+			if ( ( $_component = $this->asa( $_behavior ) ) instanceof IPSOptionContainer && $_component->contains( $name ) )
 			{
-				$_oBehave->unsetOption( $sName );
+				$_component->unsetOption( $name );
 				return;
 			}
 		}
 
 		//	Try dad
-		parent::__unset( $sName );
+		parent::__unset( $name );
 	}
 
 	/**
 	 * Calls the named method which is not a class method.
 	 * Do not call this method. This is a PHP magic method that we override
-	 * @param string $sName The method name
-	 * @param array $arParams The method parameters
+	 * @param string $name The method name
+	 * @param array $parameterList The method parameters
 	 * @throws CPSOptionException if the property/event is not defined or the property is read only.
 	 * @see __call
 	 * @return mixed The method return value
 	 */
-	public function __call( $sName, $arParams )
+	public function __call( $name, $parameterList )
 	{
 		$_oEvent = null;
 
 		try
 		{
 			//	Look for behavior methods
-			foreach ( $this->m_arBehaviorCache as $_sBehavior )
+			foreach ( $this->_behaviorList as $_behavior )
 			{
-				if ( $_oBehave = $this->asa( $_sBehavior ) )
+				if ( $_component = $this->asa( $_behavior ) )
 				{
-					if ( method_exists( $_oBehave, $sName ) )
-						return call_user_func_array( array( $_oBehave, $sName ), $arParams );
+					if ( method_exists( $_component, $name ) )
+						return call_user_func_array( array( $_component, $name ), $parameterList );
 				}
 			}
 		}
 		catch ( CPSOptionException $_ex ) { /* Ignore and pass through */ }
 
 		//	Pass on to dad
-		return parent::__call( $sName, $arParams );
+		return parent::__call( $name, $parameterList );
 	}
 
 	/**
 	 * Checks if a component has an attached behavior
-	 * @param string $sClass
+	 * @param string $class
 	 * @returns boolean
 	 */
-	public function hasBehavior( $sClass )
+	public function hasBehavior( $class )
 	{
 		//	Look for behavior methods
-		foreach ( $this->m_arBehaviorCache as $_sBehavior )
+		foreach ( $this->_behaviorList as $_behavior )
 		{
-			if ( null !== ( $_oBehave = $this->asa( $_sBehavior ) ) )
+			if ( null !== ( $_component = $this->asa( $_behavior ) ) )
 			{
-				if ( $_oBehav instanceof $sClass )
+				if ( $_component instanceof $class )
 				return true;
 			}
 
 			//	Check for nicknames...
-			if ( $sClass == $_sBehavior )
+			if ( $class == $_behavior )
 				return true;
 		}
 
@@ -308,14 +341,14 @@ class CPSComponent extends CApplicationComponent implements IPSComponent
 
 	/**
 	 * Outputs a debug string if in debug mode.
-	 * @param <type> $sMessage The message
-	 * @param <type> $sCategory The category/method of the output
-	 * @param <type> $sRoute The destination of output. Can be 'echo', 'trace|info|error|debug|etc...', 'http', 'firephp'
+	 * @param <type> $message The message
+	 * @param <type> $category The category/method of the output
+	 * @param <type> $route The destination of output. Can be 'echo', 'trace|info|error|debug|etc...', 'http', 'firephp'
 	 */
-	public function _debug( $sMessage, $sCategory = null, $sRoute = null )
+	public function _debug( $message, $category = null, $route = null )
 	{
 		if ( $this->_debugMode )
-			echo $sMessage . '<BR />';
+			echo $message . '<BR />';
 	}
 
 	//********************************************************************************
