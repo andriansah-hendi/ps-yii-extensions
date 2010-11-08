@@ -412,15 +412,15 @@ abstract class CPSController extends CController implements IPSBase
 	*/
 	public function actionError()
 	{
-		if ( ! $_error = Yii::app()->errorHandler->error )
+		if ( ! $_arError = Yii::app()->errorHandler->error )
 		{
 			if ( $this->isAjaxRequest )
-				echo $_error['message'];
+				echo $_arError['message'];
 			else
 				throw new CHttpException( 404, 'Page not found.' );
 		}
 
-		$this->render( 'error', array( 'error' => $_error, 'mesasge' => $_error['message'], 'code' => $_error['code'] ) );
+		$this->render( 'error', array( 'error' => $_arError ) );
 	}
 
 	/**
@@ -549,6 +549,46 @@ abstract class CPSController extends CController implements IPSBase
 	{
 		$this->breadcrumbs = $breadcrumbList;
 		$this->menu = $menuItemList;
+	}
+
+	/**
+	 * Creates a standard form options array and loads page niceties
+	 * @param CModel $model
+	 * @param array $optionList
+	 * @return array
+	 */
+	public function setStandardFormOptions( $model, $optionList = array() )
+	{
+		$this->setPageTitle( PS::o( $optionList, 'pageTitle', PS::_gan() ) );
+		$this->_breadcrumbs = PS::o( $optionList, 'breadcrumbs' );
+
+		CPSjqUIWrapper::loadScripts();
+		PS::setFormFieldContainerClass( 'row' );
+		
+		$_formOptions = array(
+			'id' => PS::o( $optionList, 'id', 'ps-edit-form' ),
+			'showDates' => PS::o( $optionList, 'showDates', false ),
+			'method' => PS::o( $optionList, 'method', 'POST' ),
+
+			'uiStyle' => PS::o( $optionList, 'uiStyle', PS::JQUI ),
+			'formClass' => PS::o( $optionList, 'formClass', 'form' ),
+			'formModel' => $model,
+			'errorCss' => PS::o( $optionList, 'errorCss', 'error' ),
+
+			//	We want error summary...
+			'errorSummary' => PS::o( $optionList, 'errorSummary', true ),
+
+			'validate' => PS::o( $optionList, 'validate', true ),
+
+			'validateOptions' => PS::o( $optionList, 'validateOptions', 
+				array(
+					'ignoreTitle' => true,
+					'errorClass' => 'ps-validate-error',
+				)
+			),
+		);
+
+		return $_formOptions;
 	}
 
 	//********************************************************************************

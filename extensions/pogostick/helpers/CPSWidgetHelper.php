@@ -408,6 +408,7 @@ class CPSWidgetHelper extends CPSHelperBase
 					$_arLabelOptions['label'] = false;
 				else
 					$_arLabelOptions['label'] = PS::nvl( $_sLabel, PS::nvl( $oModel->getAttributeLabel( $sColName ), $sColName ) ) . $_sSuffixToUse;
+				
 				$_output = ( $eFieldType == PS::TEXT_DISPLAY ? self::activeLabel( $oModel, $sColName, $_arLabelOptions ) : self::activeLabelEx( $oModel, $sColName, $_arLabelOptions ) );
 			}
 
@@ -419,14 +420,8 @@ class CPSWidgetHelper extends CPSHelperBase
 			$_output .= ( null !== $_sContent ) ? $_sContent : self::activeField( $eFieldType, $oModel, $sColName, $arOptions, $_arWidgetOptions, $_arData );
 			$_output .= $_sHtml;
 
-			//	Construct the div...
-			$_arDivOpts = array_merge(
-				$_arDivOpts,
-				array(
-					'id' => self::$m_sFormFieldContainerPrefix . '_' . $arOptions['id'],
-					'class' => trim( self::$m_sFormFieldContainerClass . ' ' . $_sDivClass ),
-				)
-			);
+			$_arDivOpts['id'] = self::$m_sFormFieldContainerPrefix . '_' . PS::nvl( PS::o( $_arDivOpts, 'id' ), $arOptions['id'] );
+			$_arDivOpts['class'] = PS::addClass( $_sDivClass, PS::$m_sFormFieldContainerClass . ' ' . PS::o( $_arDivOpts, 'class' ) );
 		}
 
 		//	Any hints?
@@ -504,9 +499,9 @@ class CPSWidgetHelper extends CPSHelperBase
 		{
 			//	Get any additional params for validation
 			$_sClass = PS::o( $arHtmlOptions, '_validate', null, true );
-			if ( $oModel->isAttributeRequired( $sColName ) ) PS::addClass( $_sClass, 'required' );
-			$_sClass = ' ' . PS::o( $arHtmlOptions, 'class', null );
-			$arHtmlOptions['class'] = trim( $_sClass );
+			$_isRequired = ( false !== stripos( PS::o( $arHtmlOptions, 'class' ), 'required' ) );
+			if ( ! $_isRequired && $oModel->isAttributeRequired( $sColName ) ) PS::addClass( $_sClass, 'required' );
+			$arHtmlOptions['class'] = trim( PS::addClass( $_sClass, PS::o( $arHtmlOptions, 'class' ) ) );
 		}
 
 		//	Get our value...
@@ -1830,6 +1825,29 @@ HTML;
 	public static function getExternalLibraryPath()
 	{
 		return Yii::app()->getAssetManager()->getPublishedPath( Yii::getPathOfAlias( 'pogostick.external' ), true );
+	}
+
+	/**
+	 * Generates a label tag for a model attribute.
+	 * This is an enhanced version of {@link activeLabel}. It will render additional
+	 * CSS class and mark when the attribute is required.
+	 * In particular, it calls {@link CModel::isAttributeRequired} to determine
+	 * if the attribute is required.
+	 * If so, it will add a CSS class {@link CHtml::requiredCss} to the label,
+	 * and decorate the label with {@link CHtml::beforeRequiredLabel} and
+	 * {@link CHtml::afterRequiredLabel}.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array additional HTML attributes.
+	 * @return string the generated label tag
+	 * @since 1.0.2
+	 */
+	public static function activeLabelEx( $model, $attribute, $htmlOptions = array() )
+	{
+		$realAttribute = $attribute;
+		self::resolveName( $model, $attribute ); // strip off square brackets if any
+		if ( ! $htmlOptions['required'] ) $htmlOptions['required'] = $model->isAttributeRequired( $attribute );
+		return self::activeLabel( $model, $realAttribute, $htmlOptions );
 	}
 
 }
