@@ -1079,7 +1079,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 */
 	public static function _gs( $stateName, $defaultValue = null )
 	{
-		return unserialize( self::_gu()->getState( $stateName, serialize( $defaultValue ) ) );
+		return self::_unserialize( self::_gu()->getState( $stateName, self::_serialize( $defaultValue ) ) );
 	}
 	
 	/**
@@ -1113,7 +1113,7 @@ class CPSHelperBase extends CHtml implements IPSBase
 	 */
 	public static function _ss( $stateName, $stateValue, $defaultValue = null )
 	{
-		return self::_gu()->setState( $stateName, serialize( $stateValue ), serialize( $defaultValue ) );
+		return self::_gu()->setState( $stateName, self::_serialize( $stateValue ), self::_serialize( $defaultValue ) );
 	}
 
 	/**
@@ -1235,6 +1235,31 @@ class CPSHelperBase extends CHtml implements IPSBase
 		}
 	}
 
+	/**
+	 * Serializer that can handle SimpleXmlElement objects
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	protected function _serialize( $value )
+	{
+		if ( $value instanceof SimpleXMLElement )
+			return $value->asXML();
+
+		return serialize( $value );
+	}
+
+	/**
+	 * Unserializer that can handle SimpleXmlElement objects
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	protected function _unserialize( $value )
+	{
+		if ( $value instanceof SimpleXMLElement )
+			return simplexml_load_string( $value );
+
+		return unserialize( $value );
+	}
 }
 
 /**
