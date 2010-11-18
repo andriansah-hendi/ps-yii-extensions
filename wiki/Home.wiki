@@ -2,12 +2,11 @@
 
 = *GONE FISHING!* =
 
-== *Please note: As of Novemeber 17, 2010, I am moving this repo to [http://github.com/lucifurious github].* ==
+== Please note: As of Novemeber 17, 2010, I am moving this repo to [http://github.com/lucifurious github]. ==
 
 == I really like their interface and repo management alot better. Please update your bookmarks if you have any. And I'll be releasing new code soon. ==
 
-
-*
+== I won't be updating this repository any further ==
 
 === Introduction ===
 
