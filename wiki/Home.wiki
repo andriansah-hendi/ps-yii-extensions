@@ -1,12 +1,15 @@
 #sidebar TableOfContents
 
-= Introduction =
+= *GONE FISHING!* =
+*Please note that I have moved this repo to [http://github.com/lucifurious github]. I really like their interface and repo management alot better. Please update your bookmarks if you have any. And I'll be releasing new code soon.*
+
+=== Introduction ===
 
 Welcome and thank you for visiting the *Pogostick Yii Extensions library* home page!
 
 This wiki will serve as additional documentation and other minutae.
 
-= Details =
+=== Details ===
 
 Where would you like to go?
   * [README]
