@@ -1,7 +1,13 @@
 #sidebar TableOfContents
 
 = *GONE FISHING!* =
-*Please note that I have moved this repo to [http://github.com/lucifurious github]. I really like their interface and repo management alot better. Please update your bookmarks if you have any. And I'll be releasing new code soon.*
+*
+Please note: As of Novemeber 17, 2010, I am moving this repo to [http://github.com/lucifurious github]. 
+
+I really like their interface and repo management alot better. Please update your bookmarks if you have any. And I'll be releasing new code soon.
+
+
+*
 
 === Introduction ===
 
